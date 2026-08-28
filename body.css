@@ -1,0 +1,94 @@
+/* HUSLLYFE — Body-engine styles: the training log and the derived meters.
+   Kept out of app.css because nothing else uses them. */
+
+/* ---------- derived vs manual readout cards ---------- */
+.metric-card.derived{display:flex;flex-direction:column}
+.readout label .src-tag{
+  font-size:7.5px;letter-spacing:.1em;color:#6d7276;border:1px solid var(--line);
+  padding:1px 4px;margin-left:4px;vertical-align:middle;
+}
+.readout label .src-tag.manual{color:#7d6a3a;border-color:#3a3320}
+.metric-card.derived .meter{height:4px;background:#22262a;margin-top:2px;overflow:hidden}
+.metric-card.derived .meter span{
+  display:block;height:100%;width:0%;background:var(--score-color,var(--accent));
+  transition:width .45s cubic-bezier(.2,.8,.2,1);
+}
+.metric-card.derived .derived-note{
+  display:block;margin-top:7px;font-size:9px;color:#6d7276;
+  letter-spacing:.04em;line-height:1.35;
+}
+
+/* ---------- log entry form ---------- */
+.log-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.log-form .field.full{grid-column:1/-1}
+.log-form select{
+  width:100%;background:#0a0b0c;color:var(--text);border:1px solid var(--line);
+  padding:12px 13px;font:inherit;outline:none;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,#7d8286 50%),linear-gradient(135deg,#7d8286 50%,transparent 50%);
+  background-position:calc(100% - 18px) 51%,calc(100% - 13px) 51%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+}
+.log-form select:focus,.log-form input:focus{border-color:#555}
+.log-form button[type=submit]{margin-top:2px}
+
+/* ---------- summary strip ---------- */
+.log-summary{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  margin-top:22px;padding:13px 14px;background:#0b0d0e;border:1px solid var(--line);
+  font-size:11px;color:#8b9094;text-transform:uppercase;letter-spacing:.1em;
+}
+.log-summary b{color:var(--gold);font-size:13px}
+.log-summary .log-empty-head{color:#b9bdc0}
+
+/* ---------- logged sessions ---------- */
+.log-list{margin-top:10px;display:grid;gap:7px;max-height:330px;overflow-y:auto}
+.log-row{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px 13px;background:#0b0d0e;border:1px solid var(--line);
+  border-left:2px solid #3a3e42;
+}
+.log-row.kind-cardio{border-left-color:var(--accent)}
+.log-row.kind-strength{border-left-color:var(--gold)}
+.log-row.kind-other{border-left-color:var(--green)}
+.log-left{display:flex;flex-direction:column;gap:3px;min-width:0}
+.log-type{font-size:13px;font-weight:700;color:#eee;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.log-meta{font-size:11px;color:#82878b}
+.log-remove{
+  background:none;border:none;color:#5c6165;cursor:pointer;font-size:12px;
+  padding:4px 6px;line-height:1;flex-shrink:0;
+}
+.log-remove:hover{color:var(--accent)}
+
+@media(max-width:520px){
+  .log-form{grid-template-columns:1fr}
+  .log-form .field.full{grid-column:auto}
+}
+
+/* Context under a derived meter: what you usually do, next to what the target
+   says. Deliberately not part of the grade — see bodyContext() in app.js. */
+.context-note{display:block;font-size:10px;color:#6a7075;margin-top:3px;line-height:1.5}
+.context-note.up{color:var(--score-high)}
+.context-note.down{color:var(--score-mid)}
+
+/* Training commitment: the denominator for Consistency. Absolute, but the
+   user sets it — see trainingCommitment() in app.js. */
+.commit-row{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:12px;color:#aaa}
+.commit-row input{width:62px;padding:7px 8px;text-align:center;font-size:13px}
+.commit-note{font-size:11px;color:#6a7075;line-height:1.55;margin:7px 0 0;max-width:440px}
+
+/* The derived note above is uppercase for the metric label rhythm; the trend
+   line underneath is a sentence and reads badly in caps. */
+.metric-card .context-note{text-transform:none;letter-spacing:0;font-size:10px}
+
+/* Strength Progress is computed on the Strength page now, not dragged here. */
+.metric-card .strength-link{display:inline-block;margin-top:8px;font-size:10px;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--gold);padding-bottom:1px}
+.metric-card .strength-link:hover{color:#fff;border-color:#fff}
+.metric-card.no-data .val{color:#5b6165}
+
+/* A manual slider that has never been touched. It sits mid-scale so there is
+   somewhere to drag from, but it is not a reading — the value beside it shows
+   "—" and bodyScore() redistributes its weight until the user moves it. */
+.metric-card input[type=range].unset { opacity: .45; }
+.metric-card input[type=range].unset::-webkit-slider-thumb { background: var(--score-none, #6a6d70); }
+.metric-card input[type=range].unset::-moz-range-thumb { background: var(--score-none, #6a6d70); }

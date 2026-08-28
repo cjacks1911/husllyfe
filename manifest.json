@@ -1,0 +1,42 @@
+{
+  "id": "/",
+  "name": "HUSLLYFE — Body / Wealth / Drive",
+  "short_name": "HUSLLYFE",
+  "description": "Instrument cluster for Body, Wealth and Drive. Everything stays on your device.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#08090a",
+  "theme_color": "#08090a",
+  "categories": ["health", "fitness", "finance", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "/favicon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "/press/02-gauges.png", "sizes": "1179x2556", "type": "image/png", "form_factor": "narrow",
+      "label": "Body, Wealth and Drive on one instrument cluster" },
+    { "src": "/press/03-trend-chart.png", "sizes": "1179x2556", "type": "image/png", "form_factor": "narrow",
+      "label": "One snapshot a day, so you can see the direction" },
+    { "src": "/press/04-next-actions.png", "sizes": "1179x2556", "type": "image/png", "form_factor": "narrow",
+      "label": "What moves the needle most, measured rather than guessed" },
+    { "src": "/press/05-wealth.png", "sizes": "1179x2556", "type": "image/png", "form_factor": "narrow",
+      "label": "Wealth is scored on saving behaviour, not on your balance" },
+    { "src": "/press/08-garage.png", "sizes": "1179x2556", "type": "image/png", "form_factor": "narrow",
+      "label": "Every service logged, with the next one already due" }
+  ],
+  "shortcuts": [
+    { "name": "Log a session", "short_name": "Body", "url": "/body.html",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Log a lift", "short_name": "Strength", "url": "/strength.html",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Log a service", "short_name": "Garage", "url": "/garage.html",
+      "icons": [{ "src": "/favicon.png", "sizes": "192x192", "type": "image/png" }] }
+  ]
+}

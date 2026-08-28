@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Body Engine</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="Log training, measure consistency, and see exactly what moves the Body score.">
+<meta property="og:title" content="HUSLLYFE — Body Engine">
+<meta property="og:description" content="Log training, measure consistency, and see exactly what moves the Body score.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="body.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html" class="active" aria-current="page">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1526407297627-d845b359a55b?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / Body</div>
+    <h1>Body Engine</h1>
+    <p>Discipline you can measure. Training, recovery, strength, consistency and the daily decisions that turn intention into a physical result — 40% of your HUSLLYFE score.</p>
+  </div>
+</div>
+
+<main>
+<section id="training-engine" style="border-top:none">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Body Engine</div><h2>Train. Recover.<br>Measure.</h2></div><p>Log a session and the BODY gauge recalculates. Consistency, cardio and strength days come straight from your training log; strength progress and recovery stay yours to set.</p></div>
+    <div class="training-grid">
+      <div class="panel">
+        <div class="kicker">Training Command Center</div>
+        <div class="body-score"><div class="mini-ring" id="miniRing"><b id="bodyScoreNum">—</b></div><div><h3>BODY SCORE</h3><p class="provisional-note" id="provisionalNote" style="display:none">Provisional — estimated from the training frequency you gave at setup. Log a few sessions and this becomes measured.</p><p class="muted">Your selected goal reweights the five inputs below. Three are measured from your log, two you set.</p><div class="goal-pills" id="goalPills">
+          <button class="goal-pill" data-goal="strength">Strength</button>
+          <button class="goal-pill" data-goal="longevity">Longevity</button>
+          <button class="goal-pill" data-goal="fatloss">Fat Loss</button>
+          <button class="goal-pill" data-goal="cardio">Cardio</button>
+        </div>
+        <label class="commit-row" for="weeklyDays">
+          <span>I train</span>
+          <input id="weeklyDays" type="number" min="1" max="7" step="1">
+          <span>days a week</span>
+        </label>
+        <p class="commit-note">Consistency is scored against this, not against a fixed seven-day week and not against your own drifting average. Set it honestly — it is the bar you are asking to be held to.</p>
+        </div></div>
+        <div class="readout" id="bodyReadout">
+          <div class="metric-card derived">
+            <label>Consistency <span class="src-tag">Logged</span></label>
+            <span class="val" id="valConsistency">0</span>
+            <div class="meter"><span id="barConsistency"></span></div>
+            <small class="derived-note" id="noteConsistency">—</small><small class="context-note" id="ctxConsistency"></small>
+          </div>
+          <div class="metric-card derived" id="cardStrength">
+            <label>Strength Progress <span class="src-tag">Computed</span></label>
+            <span class="val" id="valStrength">—</span>
+            <div class="meter"><span id="barStrength"></span></div>
+            <small class="derived-note" id="noteStrength">—</small>
+            <a class="strength-link" href="strength.html">Log lifts →</a>
+          </div>
+          <div class="metric-card"><label for="rangeRecovery">Recovery <span class="src-tag manual">Manual</span></label><span class="val" id="valRecovery">—</span><input type="range" min="0" max="100" id="rangeRecovery" data-key="recovery"></div>
+          <div class="metric-card derived">
+            <label>Cardio <span class="src-tag">Logged</span></label>
+            <span class="val" id="valCardio">0</span>
+            <div class="meter"><span id="barCardio"></span></div>
+            <small class="derived-note" id="noteCardio">—</small><small class="context-note" id="ctxCardio"></small>
+          </div>
+          <div class="metric-card derived">
+            <label>Strength Days <span class="src-tag">Logged</span></label>
+            <span class="val" id="valStrengthDays">0</span>
+            <div class="meter"><span id="barStrengthDays"></span></div>
+            <small class="derived-note" id="noteStrengthDays">—</small><small class="context-note" id="ctxStrengthDays"></small>
+          </div>
+        </div>
+        <div class="today-status"><div><small style="color:#777;text-transform:uppercase;letter-spacing:.12em">Today's Status</small><br><b id="todayStatus">—</b></div><div style="text-align:right;color:#999" id="todayNote">Set your recovery on the slider above.</div></div>
+        <div class="formula" id="bodyFormula">BODY SCORE =<br>(Consistency × 0.25) +<br>(Strength Progress × 0.30) +<br>(Recovery × 0.15) +<br>(Cardio × 0.10) +<br>(Strength Days × 0.20)</div>
+        <div class="privacy"><b>YOUR DATA, YOUR DEVICE.</b><br>Every session stays in this browser — nothing is uploaded and no account is required. HUSLLYFE visualizes progress; it does not make medical diagnoses or replace professional advice.</div>
+      </div>
+      <div class="panel">
+        <div class="kicker">Training Log</div><h3>Log What You Did.</h3>
+        <p class="muted">Nothing to connect and nothing to sync. Every session you add recalculates consistency, cardio and strength days on the left.</p>
+        <form class="log-form" id="logForm">
+          <div class="field full">
+            <label for="logType">Session</label>
+            <select id="logType"></select>
+          </div>
+          <div class="field">
+            <label for="logDate">Date</label>
+            <input type="date" id="logDate" required>
+          </div>
+          <div class="field">
+            <label for="logDuration">Minutes</label>
+            <!-- step must be 1: with min="1" the step sequence anchors at 1,
+                 so step="5" would only accept 1, 6, 11 … and reject 30 or 45. -->
+            <input type="number" id="logDuration" min="1" max="1440" step="1" value="45" inputmode="numeric" required>
+          </div>
+          <div class="field full">
+            <label for="logIntensity">Intensity</label>
+            <select id="logIntensity"></select>
+          </div>
+          <div class="field full">
+            <button class="btn primary" type="submit" style="width:100%">Add Session</button>
+          </div>
+        </form>
+        <div class="log-summary" id="logSummary"></div>
+        <div class="log-list" id="logList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="training-data">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">The Session Model</div><h2>Log it once.<br>Measure it everywhere.</h2></div><p>Every entry is stored in one shape, so the same maths runs whether you logged a lift, a run or a walk.</p></div>
+    <div class="cards">
+      <article class="card"><span class="number">WORKOUT</span><h3>Training Sessions</h3><p>Session type, date, duration and intensity. Four fields, because a log you can fill in ten seconds is a log you will actually keep.</p><div class="metric">01</div></article>
+      <article class="card"><span class="number">RECOVERY</span><h3>Your Own Read</h3><p>How recovered you actually feel. No wearable guesses at it for you — you set it, and it drives today's status.</p><div class="metric">02</div></article>
+      <article class="card"><span class="number">STRENGTH</span><h3>Progression</h3><p>Two different questions, deliberately. Strength Days asks whether you turned up — logged sessions against the guideline's 2 a week. Strength Progress is your judgement call on whether you are actually getting stronger.</p><div class="metric">03</div></article>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="kicker">Training Session Model</div>
+      <table class="training-table">
+        <thead><tr><th>Field</th><th>Examples</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Type</td><td>Strength, Run, Cycle, Walk, Swim, Row, HIIT, Sport, Mobility</td><td>Logged</td></tr>
+          <tr><td>Date</td><td>2026-08-19</td><td>Logged</td></tr>
+          <tr><td>Duration</td><td>48 min</td><td>Logged</td></tr>
+          <tr><td>Intensity</td><td>Easy ×0.75 / Moderate ×1.0 / Hard ×1.5</td><td>Logged</td></tr>
+          <tr><td>Recovery</td><td>79</td><td>Manual slider</td></tr>
+          <tr><td>Strength Progress</td><td>+8% vs baseline</td><td>Manual slider</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="training-algorithm" class="math-section">
+  <div class="wrap">
+    <div class="disclosure collapsed" id="trainingMath">
+      <button type="button" class="disclosure-toggle" id="trainingMathToggle" data-auto aria-expanded="false" aria-controls="trainingMathBody">
+        <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">Training Algorithm</span></span>
+        <span class="dt-hint" data-open-text="Hide the calculation">Show how the score is calculated</span>
+      </button>
+      <div class="disclosure-body" id="trainingMathBody">
+    <div class="section-head"><div><h2>The gauge should<br>reward consistency.</h2></div><p>Transparent by design — every number below traces back to a session you logged or a slider you set. The goal you pick reweights them.</p></div>
+    <div class="stats">
+      <div class="stat"><b>25%</b><small>Training consistency</small></div>
+      <div class="stat"><b>30%</b><small>Strength progression</small></div>
+      <div class="stat"><b>15%</b><small>Recovery</small></div>
+      <div class="stat"><b>10%</b><small>Cardiovascular conditioning</small></div>
+      <div class="stat"><b>20%</b><small>Strength days</small></div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="formula">Adherence window = 28 days &nbsp;|&nbsp; Cardio load window = 14 days<br>Aerobic target = 150 min/wk &nbsp;|&nbsp; Strength target = 2 days/wk<br><br>CONSISTENCY&nbsp;&nbsp; = days trained / (your days-per-week × 4) × 100<br>STRENGTH DAYS = days with a strength session / 8 × 100<br>CARDIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = (cardio min × intensity / 2 weeks) / 150 × 100<br>STRENGTH PROG = computed on the Strength page —<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50 + (average gain over your starting maxes × 2.5)<br>RECOVERY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = manual — how recovered you actually feel<br><br>Consistency is graded against the commitment YOU set, not a fixed<br>seven-day week and not your own drifting average. Cardio and<br>Strength Days are the two halves of the WHO/CDC guideline and<br>count different things — minutes for one, days for the other — so<br>the same session cannot score twice.<br><br>All capped at 100. BODY SCORE = the five, weighted by goal.<br><br>An input with no data does not score zero and does not get a<br>default — its weight is redistributed across the inputs that do<br>have data, and the box above shows the weights actually in use.<br>The same is true one level up: the HUSLLYFE score starts from<br>BODY 40 / WEALTH 40 / DRIVE 20 and reweights across whichever<br>engines have something real to measure.</div>
+    </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+  var MANUAL  = ['recovery'];
+  var DERIVED = ['consistency','cardio','strengthDays'];
+
+  function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+  function el(id){ return document.getElementById(id); }
+
+  /** 'YYYY-MM-DD' -> 'Tue 19 Aug', parsed as local so the day never shifts. */
+  function prettyDate(key){
+    var p = key.split('-');
+    var d = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+    var today = H.todayKey();
+    if (key === today) return 'Today';
+    var y = new Date(Date.now()-86400000);
+    if (key === (y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0'))) return 'Yesterday';
+    return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+  }
+  function plural(n,w){ return n+' '+w+(n===1?'':'s'); }
+
+  // -- populate the two dropdowns from the shared module -------------------
+  function buildOptions(){
+    el('logType').innerHTML = H.SESSION_TYPES.map(function(t){
+      return '<option value="'+t.id+'">'+t.label+'</option>';
+    }).join('');
+    el('logIntensity').innerHTML = H.INTENSITIES.map(function(i){
+      return '<option value="'+i.id+'"'+(i.id==='moderate'?' selected':'')+'>'+i.label+' ×'+i.weight.toFixed(2).replace(/0$/,'')+'</option>';
+    }).join('');
+    el('logDate').value = H.todayKey();
+    el('logDate').max = H.todayKey();   // no logging a session you haven't done
+  }
+
+  function renderBody(){
+    var state = H.getState();
+    var inputs = H.bodyInputs();
+    var d = H.derivedBody();
+
+    DERIVED.forEach(function(k){
+      el('val'+cap(k)).textContent = inputs[k];
+      el('bar'+cap(k)).style.width = inputs[k] + '%';
+      H.paintScore('bar'+cap(k), inputs[k]);
+    });
+    el('weeklyDays').value = d.committedDays;
+
+    el('noteConsistency').textContent = d.sessionCount
+      ? d.activeDays + ' days trained · target ' + d.expectedDays + ' in ' + d.adherenceDays
+      : 'nothing logged yet';
+    el('noteCardio').textContent = d.cardioMinutes
+      ? d.weeklyCardio + ' weighted min/wk · target ' + d.weeklyTarget
+      : 'no cardio logged';
+    el('noteStrengthDays').textContent = d.sessionCount
+      ? d.strengthDayCount + ' lifting days · target ' + d.expectedStrengthDays + ' in ' + d.adherenceDays
+      : 'no strength sessions logged';
+
+    // Manual inputs start unset, not at a plausible-looking default. The
+    // slider parks mid-scale so it has somewhere to be dragged from, but the
+    // readout says "—" and bodyScore() redistributes the weight until the
+    // user has actually moved it.
+    MANUAL.forEach(function(k){
+      var unset = inputs[k] === null || inputs[k] === undefined;
+      el('range'+cap(k)).value = unset ? 50 : inputs[k];
+      el('range'+cap(k)).classList.toggle('unset', unset);
+      el('val'+cap(k)).textContent = unset ? '—' : inputs[k];
+    });
+
+    // Strength Progress is computed on the Strength page now. Null means no
+    // baseline-plus-lift yet, and bodyScore() reweights around it.
+    var sp = inputs.strength;
+    el('valStrength').textContent = sp === null ? '—' : sp;
+    el('barStrength').style.width = (sp === null ? 0 : sp) + '%';
+    H.paintScore('barStrength', sp);
+    el('cardStrength').classList.toggle('no-data', sp === null);
+    var gain = H.averageGainPct();
+    var stale = H.strengthStaleness();
+    el('noteStrength') .textContent = sp === null
+      ? 'no starting max recorded yet'
+      : (gain >= 0 ? '+' : '') + gain.toFixed(1) + '% average gain' +
+        (stale && stale.stale ? ' · ' + stale.days + ' days since a lift' : '');
+
+    // Direction, not level. "Up from 48" says something a static average does
+    // not, and it never becomes part of the grade.
+    var trend = H.bodyTrend();
+    DERIVED.forEach(function(k){
+      var slot = el('ctx'+cap(k));
+      var t = trend && trend[k];
+      if(!t){ slot.textContent=''; slot.className='context-note'; return; }
+      if(Math.abs(t.delta) < 4){
+        slot.textContent = 'Holding steady vs the previous ' + trend.windowDays + ' days';
+        slot.className = 'context-note';
+        return;
+      }
+      slot.textContent = (t.delta > 0 ? 'Up ' : 'Down ') + Math.abs(t.delta) +
+        ' — was ' + t.prev + ' the previous ' + trend.windowDays + ' days';
+      slot.className = 'context-note ' + (t.delta > 0 ? 'up' : 'down');
+    });
+
+    var score = H.bodyScore();
+    // Nothing logged yet means there is no body score to show.
+    H.paintDial('miniRing', (H.hasBodyData() || H.bodyIsProvisional()) ? score : null);
+    el('miniRing').classList.toggle('provisional', H.bodyIsProvisional());
+    var prov = el('provisionalNote');
+    if(prov) prov.style.display = H.bodyIsProvisional() ? 'block' : 'none';
+
+    document.querySelectorAll('.goal-pill').forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.goal === state.body.goal);
+    });
+
+    var w = H.GOAL_WEIGHTS[state.body.goal] || H.GOAL_WEIGHTS.strength;
+    var aw = H.bodyActiveWeights();
+    el('bodyFormula').innerHTML =
+      'BODY SCORE (' + (H.GOAL_LABELS[state.body.goal]||'Strength') + ' goal) =<br>' +
+      '(Consistency '   + inputs.consistency  + ' × ' + aw.consistency.toFixed(2)  + ') +<br>' +
+      (inputs.strength === null
+        ? '(Strength Prog — no data, weight redistributed)<br>'
+        : '(Strength Prog ' + inputs.strength + ' × ' + aw.strength.toFixed(2) + ') +<br>') +
+      (inputs.recovery === null
+        ? '(Recovery — not set, weight redistributed)<br>'
+        : '(Recovery ' + inputs.recovery + ' × ' + aw.recovery.toFixed(2) + ') +<br>') +
+      '(Cardio '        + inputs.cardio       + ' × ' + aw.cardio.toFixed(2)       + ') +<br>' +
+      '(Strength Days ' + inputs.strengthDays + ' × ' + aw.strengthDays.toFixed(2) + ')<br>' +
+      '= ' + score;
+
+    var r = inputs.recovery;
+    if (r === null) {
+      el('todayStatus').textContent = '—';
+      el('todayNote').textContent = 'Set your recovery on the slider above. Nothing here is inferred from your log — only you know how recovered you feel.';
+    } else {
+      el('todayStatus').textContent = r>=70 ? 'READY' : (r>=50 ? 'MODERATE' : 'REST');
+      el('todayNote').textContent = r>=70
+        ? 'Recovery and recent training load are within the current target range.'
+        : (r>=50 ? 'Recovery is trending down — an easier session today is reasonable.'
+                 : 'Recovery is low. Consider a rest day or light active recovery.');
+    }
+
+    renderLog(d);
+  }
+
+  function renderLog(d){
+    var rows = H.recentSessions();
+    var summary = el('logSummary');
+    var list = el('logList');
+
+    if(!rows.length){
+      summary.innerHTML = '<span class="log-empty-head">No sessions in the last 14 days.</span>' +
+        '<span>Consistency, cardio and strength days stay at 0 until you log one.</span>';
+      list.innerHTML = '';
+      return;
+    }
+    summary.innerHTML =
+      '<span><b>'+plural(rows.length,'session')+'</b> · <b>'+plural(d.activeDays,'day')+'</b> active · <b>'+d.totalMinutes+'</b> min</span>' +
+      '<span>last '+d.adherenceDays+' days</span>';
+
+    list.innerHTML = '';
+    rows.forEach(function(s){
+      var t = H.sessionType(s.type), i = H.intensity(s.intensity);
+      var row = document.createElement('div');
+      row.className = 'log-row kind-' + t.kind;
+      var left = document.createElement('div'); left.className='log-left';
+      var name = document.createElement('span'); name.className='log-type'; name.textContent = t.label;
+      var meta = document.createElement('span'); meta.className='log-meta';
+      meta.textContent = prettyDate(s.date) + ' · ' + s.duration + ' min · ' + i.label;
+      left.appendChild(name); left.appendChild(meta);
+      var del = document.createElement('button');
+      del.className='log-remove'; del.type='button';
+      del.setAttribute('aria-label','Remove '+t.label+' on '+s.date);
+      del.textContent='✕';
+      del.addEventListener('click', function(){
+        H.removeSession(s.id);
+        renderBody();
+        H.showToast('Session removed');
+      });
+      row.appendChild(left); row.appendChild(del);
+      list.appendChild(row);
+    });
+  }
+
+  function wireEvents(){
+    el('weeklyDays').addEventListener('change', function(){
+      var state=H.getState();
+      state.body.weeklyDays = Math.max(1, Math.min(7, Math.round(Number(this.value)||4)));
+      this.value = state.body.weeklyDays;
+      H.scheduleSave();
+      renderBody();
+      H.showToast('Consistency now scored against '+state.body.weeklyDays+' days a week');
+    });
+
+    MANUAL.forEach(function(key){
+      var elRange = el('range'+cap(key));
+      elRange.addEventListener('input', function(){
+        H.getState().body[key] = Number(elRange.value);
+        el('val'+cap(key)).textContent = elRange.value;
+        renderBody();
+        H.scheduleSave();
+      });
+    });
+
+    document.querySelectorAll('.goal-pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        H.getState().body.goal = btn.dataset.goal;
+        renderBody();
+        H.scheduleSave();
+      });
+    });
+
+    el('logForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var mins = Number(el('logDuration').value);
+      if(!(mins > 0)){ H.showToast('Enter how many minutes you trained'); el('logDuration').focus(); return; }
+      var date = el('logDate').value || H.todayKey();
+      if(date > H.todayKey()){ H.showToast('That date is in the future'); el('logDate').focus(); return; }
+
+      var added = H.addSession({
+        date: date,
+        type: el('logType').value,
+        duration: mins,
+        intensity: el('logIntensity').value
+      });
+      renderBody();
+      H.showToast(H.sessionType(added.type).label + ' logged — ' + added.duration + ' min');
+      el('logDuration').value = 45;
+      el('logDate').value = H.todayKey();
+    });
+  }
+
+  H.wireChrome();
+  buildOptions();
+  wireEvents();
+  H.loadState(function(){
+    H.renderBackupNag();
+    renderBody();
+    if(!H.hasAnyStorage){
+      H.showToast('No storage in this browser — sessions will not be remembered.');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Wealth Engine</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="Accounts, assets and the long, quiet game of compounding capital.">
+<meta property="og:title" content="HUSLLYFE — Wealth Engine">
+<meta property="og:description" content="Accounts, assets and the long, quiet game of compounding capital.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="wealth.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html" class="active" aria-current="page">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1689732888407-310424e3a372?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / Wealth</div>
+    <h1>Wealth Engine</h1>
+    <p>Capital you can compound. Every dollar either works for you or against you — this is where you track the ones that work. 40% of your HUSLLYFE score.</p>
+  </div>
+</div>
+
+<main>
+<section id="wealth-engine" style="border-top:none">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Wealth Engine</div><h2>Connect. Measure.<br>Compound.</h2></div>
+      <p>The Wealth Engine separates contributions from investment performance so the HUSLLYFE dashboard measures actual wealth creation rather than simply reporting an account balance. Edit any number — it's live.</p>
+    </div>
+
+    <div class="wealth-dashboard">
+      <div class="panel">
+        <div class="kicker">Wealth Command Center</div>
+        <h3>Total Invested Wealth</h3>
+        <div style="font-size:48px;font-weight:900;margin-top:8px" id="portfolioBig">$0</div>
+        <div class="ledger-caption">Computed live from the Investment Accounts ledger →</div>
+
+        <div class="wealth-score-head">
+          <div class="mini-ring" id="wealthMiniRing"><b id="calcWealthScore">—</b></div>
+          <div>
+            <h4>WEALTH SCORE</h4>
+            <p class="muted">Graded on what you decide — how much goes in, and whether it keeps going in. Not on what the market did.</p>
+            <p class="provisional-note" id="wealthProvisionalNote" style="display:none">Provisional — your savings rate is annualised from under a year of contributions. It becomes measured once the log covers twelve months.</p>
+          </div>
+        </div>
+
+        <label class="commit-row" for="inputIncome">
+          <span>I earn</span>
+          <input id="inputIncome" type="number" min="0" step="1000" placeholder="0">
+          <span>gross a year</span>
+        </label>
+        <label class="commit-row" for="inputCommit">
+          <span>I invest</span>
+          <input id="inputCommit" type="number" min="0" step="50" placeholder="0">
+          <span>a month, aiming to save</span>
+          <input id="inputSavingsTarget" type="number" min="15" max="60" step="1" class="narrow">
+          <span>% of gross</span>
+        </label>
+        <label class="commit-row" for="inputExpenses">
+          <span>I spend</span>
+          <input id="inputExpenses" type="number" min="0" step="100" placeholder="1500">
+          <span>a month, and want</span>
+          <input id="inputCashMonths" type="number" min="1" max="24" step="1" class="narrow">
+          <span>months of it in cash</span>
+        </label>
+        <p class="commit-note">Your income sets the scale. Your monthly figure is the bar you are asking to be held to. The savings target starts at the standard 15% of gross and you can raise it &mdash; not lower it, because 15% is a published guideline the way 150 min/wk is for cardio. Raise it and Savings Rate gets harder, which is the point: a flat 15% pegs at 100 forever once you earn well. The third sizes your emergency fund, so cash up to it is never charged as idle money — left blank it falls back to the $1,500/month floor described at the foot of this page. All three are yours to change, and each meter is shown separately so you can tell "aiming too low" apart from "not hitting the aim".</p>
+
+        <div class="readout" id="wealthReadout">
+          <div class="metric-card derived">
+            <label>Savings Rate <span class="src-tag">Logged</span></label>
+            <span class="val" id="valSavingsRate">—</span>
+            <div class="meter"><span id="barSavingsRate"></span></div>
+            <small class="derived-note" id="noteSavingsRate">—</small>
+          </div>
+          <div class="metric-card derived">
+            <label>Contribution Consistency <span class="src-tag">Logged</span></label>
+            <span class="val" id="valConsistency">—</span>
+            <div class="meter"><span id="barConsistency"></span></div>
+            <small class="derived-note" id="noteConsistency">—</small>
+          </div>
+          <div class="metric-card derived">
+            <label>Invested Share <span class="src-tag">Ledger</span></label>
+            <span class="val" id="valInvestedShare">—</span>
+            <div class="meter"><span id="barInvestedShare"></span></div>
+            <small class="derived-note" id="noteInvestedShare">—</small>
+            <small class="context-note" id="ctxInvestedShare"></small>
+          </div>
+          <div class="metric-card derived">
+            <label>Cost Drag <span class="src-tag">Ledger</span></label>
+            <span class="val" id="valCostDrag">—</span>
+            <div class="meter"><span id="barCostDrag"></span></div>
+            <small class="derived-note" id="noteCostDrag">—</small>
+          </div>
+        </div>
+
+        <div class="context-panel">
+          <div class="kicker">Context — reported, not graded</div>
+          <p class="muted" style="font-size:12px">Your return against a benchmark. Worth knowing, and almost entirely outside your control, so it does not enter the score — the same way Body shows direction under each meter without letting it into the grade.</p>
+          <div class="metric-grid">
+            <div class="metric-card editable"><small>Contributions (lifetime)</small><input type="number" id="inputContributions" min="0" step="100"></div>
+            <div class="metric-card"><small>Investment Gain</small><b id="calcGain">—</b></div>
+            <div class="metric-card"><small>Total Return</small><b id="calcTotalReturn">—</b></div>
+            <div class="metric-card editable"><small>Dividend Income</small><input type="number" id="inputDividend" min="0" step="10"></div>
+            <div class="metric-card editable"><small>Years Invested</small><input type="number" id="inputYears" min="1" max="60" step="1"></div>
+            <div class="metric-card editable"><small>How It Went In</small><select id="inputPattern"><option value="spread">Spread over the years</option><option value="lump">All at the start</option></select></div>
+            <div class="metric-card"><small>Annualized Return</small><b id="calcAnnualized">—</b></div>
+            <div class="metric-card editable"><small>Benchmark Return %</small><input type="number" id="inputBenchmark" min="0" max="30" step="0.5"></div>
+            <div class="metric-card"><small>vs Benchmark</small><b id="calcVsBenchmark">—</b></div>
+          </div>
+        </div>
+        <div class="formula" id="wealthFormula">WEALTH SCORE =<br>(Savings Rate × 0.35) + (Consistency × 0.30) +<br>(Invested Share × 0.20) + (Cost Drag × 0.15)</div>
+        <div class="privacy"><b>YOUR DATA, YOUR DEVICE.</b><br>Income, contributions and balances stay in this browser — nothing is uploaded, no account is required and nothing is connected to a bank or broker. HUSLLYFE visualizes progress; it is not financial advice.</div>
+      </div>
+
+      <div class="panel">
+        <div class="kicker">HUSLLYFE Score</div>
+        <div class="score-ring" id="scoreRing"><div><b id="overallScoreNum">—</b><span>Overall</span></div></div>
+        <div class="ratio"><div><small>Drive / Net Worth</small><br><b id="driveRatioNum">—</b></div><div style="text-align:right"><small>Target</small><br><b>≤15%</b></div></div>
+
+        <div class="ledger" style="margin-top:20px">
+          <div class="account"><span>Investment Accounts</span><b id="accountsTotal" style="color:var(--gold)">$0</b></div>
+          <p class="ledger-hint">Tap CASH on anything that is savings rather than invested. ER is the fund’s expense ratio — 0.04 for a total-market index fund, and every invested account needs one before Cost Drag will score.</p>
+          <div class="ledger-list" id="accountList"></div>
+          <div class="ledger-add">
+            <input type="text" id="newAccountName" placeholder="Account name (e.g. Roth IRA)" maxlength="40">
+            <input type="number" id="newAccountValue" placeholder="Value" min="0" step="100">
+            <button type="button" class="btn" id="addAccountBtn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="ledger" style="margin-top:14px">
+          <div class="account"><span>Manual Assets</span><b id="manualAssetsTotal" style="color:var(--gold)">$0</b></div>
+          <p class="ledger-hint">Tap CASH on savings and reserves. Illiquid assets — a house, a business — stay unflagged and sit outside Invested Share entirely.</p>
+          <div class="ledger-list" id="manualAssetList"></div>
+          <div class="ledger-add">
+            <input type="text" id="newAssetName" placeholder="Asset name (e.g. Real Estate)" maxlength="40">
+            <input type="number" id="newAssetValue" placeholder="Value" min="0" step="100">
+            <button type="button" class="btn" id="addAssetBtn">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contribution-section">
+      <div class="section-head">
+        <div><div class="kicker">Contribution Log</div><h2>What actually went in.</h2></div>
+        <p>The Wealth twin of the training log. A balance tells you where you ended up; this tells you whether you kept showing up. Log a deposit whenever you make one — payroll, transfer, bonus, anything.</p>
+      </div>
+      <div class="contribution-grid">
+        <div class="panel">
+          <div class="kicker">Log a Contribution</div>
+          <form class="log-form" id="depositForm">
+            <div class="field">
+              <label for="depositDate">Date</label>
+              <input type="date" id="depositDate" required>
+            </div>
+            <div class="field">
+              <label for="depositAmount">Amount</label>
+              <!-- step must be 1: with min="1" the step sequence anchors at 1,
+                   so step="50" would only accept 1, 51, 101 … and silently
+                   reject 2500 or 3200. The training log hit this exact bug. -->
+              <input type="number" id="depositAmount" min="1" step="1" placeholder="2500" inputmode="numeric" required>
+            </div>
+            <div class="field full">
+              <label for="depositNote">Note <span class="opt">optional</span></label>
+              <input type="text" id="depositNote" placeholder="401(k) match, bonus, transfer..." maxlength="120">
+            </div>
+            <div class="field full">
+              <button class="btn primary" type="submit" style="width:100%">Add Contribution</button>
+            </div>
+          </form>
+        </div>
+        <div class="panel">
+          <div class="log-summary" id="depositSummary"></div>
+          <div class="log-list" id="depositList"></div>
+          <p class="empty-note" id="depositEmptyNote">Nothing logged yet. With your income and commitment set above, that reads as a real 0 rather than a blank &mdash; you have contributed nothing so far.</p>
+        </div>
+      </div>
+
+      <div class="disclosure collapsed math-section" id="wealthMath" style="margin-top:38px">
+        <button type="button" class="disclosure-toggle" id="wealthMathToggle" data-auto aria-expanded="false" aria-controls="wealthMathBody">
+          <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">Wealth Algorithm</span></span>
+          <span class="dt-hint" data-open-text="Hide the calculation">Show how the score is calculated</span>
+        </button>
+        <div class="disclosure-body" id="wealthMathBody">
+          <div class="formula">Contribution window = 365 days &nbsp;|&nbsp; Savings target = 15% of gross, or higher if you set it<br>
+Expense-ratio target = 0.20% &nbsp;|&nbsp; Emergency fund = your spend × your months<br><br>
+SAVINGS RATE&nbsp;&nbsp;&nbsp;= (contributed in the window, annualised) / income / target × 100<br>
+CONSISTENCY&nbsp;&nbsp;&nbsp;&nbsp;= contributed / (monthly commitment × months logging) × 100<br>
+INVESTED SHARE = (1 − excess_cash / liquid) × 100<br>
+&nbsp;&nbsp;&nbsp;&nbsp;where liquid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= invested accounts + everything flagged CASH<br>
+&nbsp;&nbsp;&nbsp;&nbsp;and excess_cash = max(0, cash − monthly spend × months)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;monthly spend is floored at $1,500 — see the note in the footer<br>
+COST DRAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 100 at or under 0.20%, falling linearly to 0 at 1.20%<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on the VALUE-WEIGHTED expense ratio of your invested accounts<br><br>
+WEALTH SCORE = (Savings Rate × 0.35) + (Consistency × 0.30) +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Invested Share × 0.20) + (Cost Drag × 0.15)<br>
+All capped at 100. An input with no data does not score zero and does not<br>
+get a default — its weight is redistributed across the others.<br><br>
+GREY vs ZERO. A gauge goes grey only when the thing it measures AGAINST<br>
+is missing: no income, no commitment, no accounts. Once that bar exists<br>
+the gauge starts at 0 and counts up, exactly like Body's logged inputs.<br>
+An empty month is a real month in which nothing was contributed — not<br>
+an absence of information — and it is scored as one.<br><br>
+WHY NOT RETURNS. Until 21 Aug this engine scored return against an 8%<br>
+benchmark, so 50 meant "matched the market" and 90 meant "beat it by<br>
+four points a year, every year". Body and Drive grade something else:<br>
+did you keep the commitment you set, did you service the car — both<br>
+inside your control, both paying out in the 90s for ordinary good<br>
+behaviour. Averaging an effort score with an outcome score assumes 70<br>
+means the same thing in each. It did not. Someone training as promised,<br>
+running one sensible car and holding an index fund that returned exactly<br>
+the market average scored BODY 89 / WEALTH 50 / DRIVE 100 — and the<br>
+composite told him his money was the problem. Nothing about him needed<br>
+fixing. Returns are mostly not yours to decide. These four are.<br><br>
+THE TWO BARS. Savings Rate is measured against a share of gross;<br>
+Consistency against the monthly figure you committed to. Together they<br>
+separate "aiming too low" from "not hitting the aim", which one number<br>
+cannot do.<br><br>
+THE TARGET STARTS AT THE GUIDELINE and can be raised, never lowered.<br>
+15% of gross is a published standard, the same kind of thing as 150<br>
+minutes of cardio a week, and Body does not let you talk that one down<br>
+either. It became settable because a flat 15% goes deaf at the top:<br>
+somebody saving 25% of $400,000 and somebody saving 15% of $150,000<br>
+both peg at a permanent 100, so the heaviest input in this engine<br>
+stops moving for anyone who earns well. Raise your target and the<br>
+gauge has somewhere to go again.<br><br>
+THE DENOMINATOR counts months since your FIRST logged contribution,<br>
+capped at twelve — not a flat twelve. Body can use a fixed 28-day window<br>
+because a new user catches up inside a month; billing someone twelve<br>
+months of misses for a log they started in March is a different thing.<br>
+It does not soften when you slack: once a month has passed it stays in<br>
+the denominator, so a miss still costs you. It just does not charge you<br>
+for months before you began. Under a full year the rate is annualised<br>
+and labelled provisional.<br><br>
+CASH IS TWO FAILURES, ONE METER — so only one of them is graded here.<br>
+Cash beyond your emergency fund is money that decided not to work, and<br>
+Invested Share charges for it. Cash BELOW the fund is the opposite risk,<br>
+and folding it into the same number would make one meter mean two<br>
+contradictory things, so a shortfall is reported under the meter as<br>
+context instead. Illiquid holdings — a house, a business — are excluded<br>
+from both sides: the question is whether the money you could deploy is<br>
+deployed, and home equity is not deployable.<br><br>
+COST DRAG NEEDS EVERY ACCOUNT. A weighted average over only the accounts<br>
+you bothered to look up is the same hole the Garage had, where one<br>
+logged oil change certified a service schedule nobody had recorded: fill<br>
+in the cheap index fund, leave the expensive managed account blank, and<br>
+score a clean 100. Partial data yields no score at all, and the meter<br>
+names what is missing.<br><br>
+RETURN vs BENCHMARK is still computed and still shown, as context, never<br>
+as a grade — the same treatment Body gives direction under each meter.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="connections">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Data Connections</div><h2>One dashboard.<br>Every input.</h2></div>
+      <p>HUSLLYFE is designed around read-only financial connections first. Manual entry remains available for assets that cannot be linked automatically — and in this prototype, is the only way in.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><span class="number">BROKERAGE</span><h3>Secure account connection.</h3><p>Connect supported brokerage, IRA and retirement accounts through an aggregation provider. Import balances, holdings and transactions without giving HUSLLYFE trading authority.</p><div class="metric">API</div></article>
+      <article class="card"><span class="number">MANUAL ASSETS</span><h3>Capture what APIs miss.</h3><p>Add real estate, private businesses, cash, crypto, vehicles and other assets manually. Each asset can have a value, date and optional update schedule.</p><div class="metric">NET</div></article>
+      <article class="card"><span class="number">AUTOMATION</span><h3>Snapshot the proof.</h3><p>Create daily or periodic wealth snapshots so the dashboard can show contribution trends, investment performance, income and long-term compounding.</p><div class="metric">24/7</div></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="assumption-note">
+      <b>Assumption —</b> living expenses are treated as at least
+      <b>$1,500.00 a month</b>, and can never be $0.00. Nobody's are. A zero
+      would size your emergency fund at zero and read every dollar of cash you
+      hold as money sitting idle. The floor runs in the conservative direction:
+      a smaller assumed fund means more of your cash counts as excess, so this
+      assumption can only cost points on <b>Invested Share</b>, never hand them
+      out. Enter your own figure above and it replaces the floor entirely —
+      the meter marks the number "(assumed)" whenever the floor is what it used.
+    </p>
+  </div>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+
+  function el(id){ return document.getElementById(id); }
+  function prettyDate(key){
+    var p=key.split('-');
+    var dt=new Date(Number(p[0]),Number(p[1])-1,Number(p[2]));
+    if(key===H.todayKey()) return 'Today';
+    return dt.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+  }
+
+  function renderWealth(){
+    var state=H.getState();
+    var w=state.wealth, m=H.wealthMetrics(), c=H.contributionMetrics();
+    el('portfolioBig').textContent=H.money(m.portfolioValue);
+    if(document.activeElement!==el('inputContributions')) el('inputContributions').value=w.contributions;
+    if(document.activeElement!==el('inputDividend'))      el('inputDividend').value=w.dividend;
+    if(document.activeElement!==el('inputYears'))         el('inputYears').value=w.years;
+    if(document.activeElement!==el('inputBenchmark'))     el('inputBenchmark').value=w.benchmark;
+    if(document.activeElement!==el('inputIncome'))        el('inputIncome').value=w.income||'';
+    if(document.activeElement!==el('inputCommit'))        el('inputCommit').value=w.monthlyCommit||'';
+    if(document.activeElement!==el('inputExpenses'))      el('inputExpenses').value=w.monthlyExpenses||'';
+    if(document.activeElement!==el('inputCashMonths'))    el('inputCashMonths').value=w.cashMonths||6;
+    if(document.activeElement!==el('inputSavingsTarget')) el('inputSavingsTarget').value=Math.round(H.savingsTarget()*100);
+    el('inputPattern').value=H.contributionPattern();
+
+    // The two graded inputs. Null means no data: the meter goes grey and
+    // wealthScore() redistributes the weight rather than scoring a zero.
+    var inputs=H.wealthInputs();
+    var aw=H.wealthActiveWeights();
+    var score=H.wealthScore();
+
+    H.paintDial('wealthMiniRing', score);
+    el('wealthProvisionalNote').style.display =
+      (c.provisional && inputs.savingsRate !== null) ? 'block' : 'none';
+
+    [['savingsRate','SavingsRate'],['consistency','Consistency'],
+     ['investedShare','InvestedShare'],['costDrag','CostDrag']].forEach(function(pair){
+      var v=inputs[pair[0]];
+      el('val'+pair[1]).textContent = v===null ? '—' : v;
+      el('bar'+pair[1]).style.width = (v===null?0:v)+'%';
+      H.paintScore('bar'+pair[1], v);
+    });
+
+    el('noteSavingsRate').textContent = inputs.savingsRate===null
+      ? 'set your gross income above'
+      : (c.annualisedRate*100).toFixed(1)+'% of gross'+(c.provisional?' annualised':'')+
+        ' · target '+(c.target*100).toFixed(0)+'%'+(c.targetRaised?' (yours)':'');
+    el('noteConsistency').textContent = inputs.consistency===null
+      ? 'set a monthly commitment above'
+      : H.money(c.contributed)+' of '+H.money(c.committedInWindow)+' over '+c.monthsLogging+' month'+(c.monthsLogging===1?'':'s');
+
+    var sm=H.investedShareMetrics(), em=H.expenseRatioMetrics();
+    el('noteInvestedShare').textContent = inputs.investedShare===null
+      ? 'add an account or a cash balance to measure this'
+      : H.money(sm.invested)+' invested · '+H.money(sm.cash)+' cash · fund '+H.money(sm.targetCash)+
+        (sm.usingFloor ? ' (assumed)' : '');
+    // Too little buffer is the opposite failure and is reported, not graded —
+    // folding it into the same meter would make one number mean two things.
+    el('ctxInvestedShare').textContent = (inputs.investedShare!==null && sm.shortOfBuffer>0)
+      ? H.money(sm.shortOfBuffer)+' short of your emergency fund'
+      : (inputs.investedShare!==null && sm.excessCash>0 ? H.money(sm.excessCash)+' sitting idle beyond it' : '');
+
+    el('noteCostDrag').textContent = inputs.costDrag===null
+      ? (em.accounts===0 ? 'add an investment account to measure this'
+         : 'needs an ER on: '+em.missing.slice(0,3).join(', ')+(em.missing.length>3?' +'+(em.missing.length-3)+' more':''))
+      : em.ratio.toFixed(2)+'% weighted · target '+H.ER_TARGET.toFixed(2)+'% · '+H.money(Math.round(em.annualCost))+'/yr';
+
+    var LABELS = { savingsRate:'Savings Rate', consistency:'Consistency',
+                   investedShare:'Invested Share', costDrag:'Cost Drag' };
+    el('wealthFormula').innerHTML = score===null
+      ? 'WEALTH SCORE =<br>(Savings Rate × 0.35) + (Consistency × 0.30) +<br>' +
+        '(Invested Share × 0.20) + (Cost Drag × 0.15)<br><br>' +
+        'Not scored yet. Each gauge needs the thing it measures against:<br>' +
+        'Savings Rate needs your gross income, Consistency needs a monthly<br>' +
+        'commitment, Invested Share needs an account or a cash balance, and<br>' +
+        'Cost Drag needs an expense ratio on every invested account.<br><br>' +
+        'You do not need to have contributed anything yet — once the bar<br>' +
+        'exists, a month with nothing in it scores a real 0, the same way an<br>' +
+        'untrained week scores 0 on Body. Any one of the four starts the<br>' +
+        'score; until then the HUSLLYFE score redistributes Wealth’s 40%<br>' +
+        'across the engines that have data.'
+      : 'WEALTH SCORE =<br>' +
+        H.WEALTH_KEYS.map(function(k){
+          return inputs[k]===null
+            ? '(' + LABELS[k] + ' — no data, weight redistributed)'
+            : '(' + LABELS[k] + ' ' + inputs[k] + ' × ' + aw[k].toFixed(2) + ')';
+        }).join(' +<br>') +
+        '<br>= <b style="color:var(--gold)">'+score+'</b>';
+
+    // Return context. Reported, never graded.
+    var rc=H.returnContext();
+    el('calcGain').textContent        = rc ? (m.gain>=0?'+':'')+H.money(m.gain) : '—';
+    el('calcTotalReturn').textContent = rc ? H.pct(m.totalReturn) : '—';
+    el('calcAnnualized').textContent  = rc ? H.pct(m.annualized) : '—';
+    el('calcVsBenchmark').textContent = rc ? H.pct(rc.delta) : '—';
+
+    el('accountsTotal').textContent=H.money(H.accountsTotal());
+    el('manualAssetsTotal').textContent=H.money(H.manualAssetsTotal());
+
+    H.paintDial('scoreRing', H.overallScore());
+    var ratio=H.avgDriveRatio();
+    el('driveRatioNum').textContent = ratio===null ? '—' : Math.round(ratio*100)+'%';
+
+    renderDeposits(c);
+  }
+
+  function renderDeposits(c){
+    var rows=H.deposits();
+    var list=el('depositList'), summary=el('depositSummary');
+    el('depositEmptyNote').style.display = rows.length ? 'none' : 'block';
+    list.innerHTML='';
+    if(!rows.length){ summary.innerHTML=''; return; }
+
+    summary.innerHTML =
+      '<span><b>'+H.money(c.contributed)+'</b> in the last 12 months · <b>'+c.entries+'</b> contribution'+(c.entries===1?'':'s')+'</span>' +
+      '<span>'+(c.monthlyCommit>0 ? 'committed '+H.money(c.committedInWindow)+' over '+c.monthsLogging+' month'+(c.monthsLogging===1?'':'s') : 'no monthly commitment set')+'</span>';
+
+    rows.slice(0,40).forEach(function(r){
+      var row=document.createElement('div'); row.className='log-row';
+      var main=document.createElement('div');
+      main.innerHTML='<b>'+H.money(r.amount)+'</b><span class="log-meta">'+prettyDate(r.date)+(r.note?' · '+r.note.replace(/</g,'&lt;'):'')+'</span>';
+      var del=document.createElement('button');
+      del.type='button'; del.className='log-del'; del.textContent='Remove';
+      del.setAttribute('aria-label','Remove contribution of '+H.money(r.amount)+' on '+prettyDate(r.date));
+      del.addEventListener('click', function(){
+        H.removeDeposit(r.id);
+        renderWealth();
+        H.showToast('Contribution removed');
+      });
+      row.appendChild(main); row.appendChild(del);
+      list.appendChild(row);
+    });
+  }
+
+  function renderAccounts(){
+    var state=H.getState();
+    H.renderLedger('accountList', state.accounts||[], 'No investment accounts added yet.', function(){
+      H.scheduleSave();
+      renderWealth();
+    }, function(id){
+      state.accounts = state.accounts.filter(function(x){ return x.id!==id; });
+      H.scheduleSave();
+      renderAccounts();
+      renderWealth();
+      H.showToast('Account removed');
+    }, { cash: true, er: true });
+  }
+
+  function renderManualAssets(){
+    var state=H.getState();
+    H.renderLedger('manualAssetList', state.manualAssets||[], 'No manual assets added yet.', function(){
+      H.scheduleSave();
+      renderWealth();
+    }, function(id){
+      state.manualAssets = state.manualAssets.filter(function(x){ return x.id!==id; });
+      H.scheduleSave();
+      renderManualAssets();
+      renderWealth();
+      H.showToast('Asset removed');
+    }, { cash: true });
+  }
+
+  function wireEvents(){
+    [['inputContributions','contributions'],['inputDividend','dividend'],['inputYears','years'],
+     ['inputBenchmark','benchmark'],['inputIncome','income'],['inputCommit','monthlyCommit'],
+     ['inputExpenses','monthlyExpenses'],['inputCashMonths','cashMonths']].forEach(function(pair){
+      document.getElementById(pair[0]).addEventListener('input', function(e){
+        H.getState().wealth[pair[1]]=Number(e.target.value)||0;
+        renderWealth();
+        H.scheduleSave();
+      });
+    });
+
+    // Entered as a percent, stored as a fraction, floored at the guideline.
+    el('inputSavingsTarget').addEventListener('input', function(e){
+      var pct = Number(e.target.value);
+      H.getState().wealth.savingsTarget = pct > 0 ? pct/100 : H.SAVINGS_RATE_TARGET;
+      renderWealth();
+      H.scheduleSave();
+    });
+
+    // Whether the contributions arrived on day one or over the years. This is
+    // not cosmetic — it changes which rate is solved for, and the day-one
+    // assumption understates anyone who invests on a schedule.
+    document.getElementById('inputPattern').addEventListener('change', function(e){
+      H.getState().wealth.pattern = (e.target.value === 'lump') ? 'lump' : 'spread';
+      renderWealth();
+      H.scheduleSave();
+    });
+
+    document.getElementById('addAccountBtn').addEventListener('click', function(){
+      var nameInput=document.getElementById('newAccountName');
+      var valueInput=document.getElementById('newAccountValue');
+      var name=nameInput.value.trim();
+      var value=Number(valueInput.value);
+      if(!name){ H.showToast('Give the account a name first'); nameInput.focus(); return; }
+      if(!value || value<=0){ H.showToast('Enter a value greater than $0'); valueInput.focus(); return; }
+      H.getState().accounts.push({ id:Date.now(), name:name, value:value, cash:false, er:null });
+      H.scheduleSave();
+      renderAccounts();
+      renderWealth();
+      H.showToast('Account added');
+      nameInput.value=''; valueInput.value='';
+      nameInput.focus();
+    });
+    document.getElementById('newAccountValue').addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ e.preventDefault(); document.getElementById('addAccountBtn').click(); }
+    });
+    document.getElementById('newAccountName').addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ e.preventDefault(); document.getElementById('newAccountValue').focus(); }
+    });
+
+    document.getElementById('addAssetBtn').addEventListener('click', function(){
+      var nameInput=document.getElementById('newAssetName');
+      var valueInput=document.getElementById('newAssetValue');
+      var name=nameInput.value.trim();
+      var value=Number(valueInput.value);
+      if(!name){ H.showToast('Give the asset a name first'); nameInput.focus(); return; }
+      if(!value || value<=0){ H.showToast('Enter a value greater than $0'); valueInput.focus(); return; }
+      H.getState().manualAssets.push({ id:Date.now(), name:name, value:value, cash:false, er:null });
+      H.scheduleSave();
+      renderManualAssets();
+      renderWealth();
+      H.showToast('Asset added');
+      nameInput.value=''; valueInput.value='';
+      nameInput.focus();
+    });
+    document.getElementById('newAssetValue').addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ e.preventDefault(); document.getElementById('addAssetBtn').click(); }
+    });
+    document.getElementById('newAssetName').addEventListener('keydown', function(e){
+      if(e.key==='Enter'){ e.preventDefault(); document.getElementById('newAssetValue').focus(); }
+    });
+
+    el('depositDate').value = H.todayKey();
+    el('depositDate').max   = H.todayKey();   // no logging money you have not sent
+    el('depositForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var amount=Number(el('depositAmount').value);
+      if(!amount || amount<=0){ H.showToast('Enter an amount greater than $0'); el('depositAmount').focus(); return; }
+      H.addDeposit({ date: el('depositDate').value || H.todayKey(), amount: amount, note: el('depositNote').value });
+      el('depositAmount').value=''; el('depositNote').value='';
+      el('depositDate').value=H.todayKey();
+      renderWealth();
+      H.showToast('Contribution logged');
+      el('depositAmount').focus();
+    });
+  }
+
+  H.wireChrome();
+  wireEvents();
+  H.loadState(function(){
+    H.renderBackupNag();
+    renderWealth();
+    renderAccounts();
+    renderManualAssets();
+  });
+})();
+</script>
+
+</body>
+</html>

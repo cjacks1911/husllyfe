@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Dashboard</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="HUSLLYFE — instrument cluster for Body, Wealth and Drive. One system, three measurements.">
+<meta property="og:title" content="HUSLLYFE — Dashboard">
+<meta property="og:description" content="HUSLLYFE — instrument cluster for Body, Wealth and Drive. One system, three measurements.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html" class="active" aria-current="page">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<main>
+<section id="setupSection" class="setup-section" style="display:none">
+  <div class="wrap">
+    <div class="setup-card">
+      <div class="kicker">First run</div>
+      <h2>One question, and Body starts measuring.</h2>
+      <p class="muted">Nothing here leaves your browser, and everything is editable later. Wealth and Drive stay grey until you decide to fill them in — there is nothing to set up for them now, and no reason to hand a new app your net worth before it has done anything for you.</p>
+      <form id="setupForm" class="setup-form">
+        <div class="field full">
+          <label for="setupTraining">Days a week you train, roughly</label>
+          <input id="setupTraining" type="number" min="0" max="7" step="1" placeholder="4">
+          <small class="field-note">This is the bar you are asking to be held to. Log a session and Body goes live against it — no account, no connection, nothing to sync.</small>
+        </div>
+        <div class="field full setup-actions">
+          <button class="btn primary" type="submit">Start</button>
+          <button class="btn" type="button" id="setupDemo">Load a worked example</button>
+          <button type="button" class="setup-skip" id="setupSkip">Skip — I'll enter everything myself</button>
+        </div>
+      </form>
+      <p class="setup-later">Money and vehicles come later, on their own pages, whenever you want them. <a href="how-it-works.html">See what each engine measures →</a></p>
+    </div>
+  </div>
+</section>
+
+<div class="demo-ribbon" id="demoRibbon" style="display:none">
+  <span>You're looking at demo data — a sample log, one vehicle and its service history.</span>
+  <button type="button" id="demoClear">Clear it and start fresh</button>
+</div>
+
+<section class="hero" id="top">
+  <div class="wrap hero-copy">
+    <div class="kicker">Engineered Lyfestyle / Est. 2026</div>
+    <h1>BODY.<br>WEALTH.<br>DRIVE.</h1>
+    <p>One system, three measurements. <b>Build</b> the body. <b>Compound</b> the capital. <b>Drive</b> the machine that proves both are working.</p>
+    <div class="cta"><a class="btn primary" href="#engines">Enter the Engines</a><a class="btn" href="#system">Explore the System</a></div>
+  </div>
+  <div class="wrap hero-cluster">
+    <div class="cluster">
+      <div class="gauges" id="heroGauges" aria-live="polite">
+        <div class="score-ring" id="ringBody"><div><b id="numBody">—</b><span>Body</span></div></div>
+        <div class="score-ring" id="ringWealth"><div><b id="numWealth">—</b><span>Wealth</span></div></div>
+        <div class="score-ring" id="ringDrive"><div><b id="numDrive">—</b><span>Drive</span></div></div>
+      </div>
+      <div class="cluster-foot"><span>HUSLLYFE // SYSTEM STATUS</span><span id="systemStatus">STANDBY</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="visual-strip">
+  <div class="visual" style="background-image:url('https://images.unsplash.com/photo-1627018549036-9e88bf289218?fm=jpg&amp;q=70&amp;w=1600&amp;auto=format&amp;fit=crop')"><div class="visual-copy"><div class="kicker">DRIVE / THE RECEIPT</div><h3>Built before bought.</h3><p>The machine is the visible proof of discipline and capital working together.</p></div></div>
+  <div class="visual" style="background-image:url('https://images.unsplash.com/photo-1526407297627-d845b359a55b?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop')"><div class="visual-copy"><div class="kicker">BODY / THE ENGINE</div><h3>Earn the output.</h3><p>Consistency first. Performance follows.</p></div></div>
+</div>
+
+<section id="system">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">The Philosophy</div><h2>One system.<br>Three measurements.</h2></div><p>The car isn't the destination. It's the receipt. When the body is disciplined and capital is compounding, the machine becomes evidence of the system working.</p></div>
+    <div class="cards">
+      <article class="card"><span class="number">01 / BODY</span><h3>Discipline You Can Measure.</h3><p>Training, recovery, strength, consistency and the daily decisions that turn intention into a physical result.</p><div class="metric">01</div></article>
+      <article class="card"><span class="number">02 / WEALTH</span><h3>Capital You Can Compound.</h3><p>Investing, cash flow, ownership and long-term thinking. The goal isn't looking rich. It's building assets.</p><div class="metric">02</div></article>
+      <article class="card"><span class="number">03 / DRIVE</span><h3>The Machine Is the Receipt.</h3><p>Cars, engineering, taste and culture. Celebrate the machine—but never confuse the machine with the work behind it.</p><div class="metric">03</div></article>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Instrument Cluster</div><h2>Track your HUSLLYFE.</h2></div><p class="muted" style="max-width:500px">Live numbers, pulled from the Body, Wealth and Garage engines. Open any engine page below to change something — this updates everywhere.</p></div>
+    <div class="stats">
+      <div class="stat"><b id="statConsistency">—</b><small>Body consistency</small></div>
+      <div class="stat"><b id="statGrowth">—</b><small>Portfolio growth</small></div>
+      <div class="stat"><b id="statOverall">—</b><small>HUSLLYFE score</small></div>
+      <div class="stat"><b id="statFleet">—</b><small>Fleet value</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="trajectory">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">The Record</div><h2>Where you are going,<br>not just where you are.</h2></div>
+      <p class="muted" style="max-width:520px">One snapshot a day, kept on this device. A dial tells you today; this tells you whether today is part of a direction.</p>
+    </div>
+    <div class="trend-grid">
+      <div class="panel trend-panel">
+        <div class="trend-head">
+          <div class="trend-legend" id="trendLegend"></div>
+          <div class="trend-range" id="trendRange" role="group" aria-label="Chart range">
+            <button type="button" data-days="30" class="active">30d</button>
+            <button type="button" data-days="90">90d</button>
+            <button type="button" data-days="365">1y</button>
+            <button type="button" data-days="0">All</button>
+          </div>
+        </div>
+        <div id="trendChart"></div>
+        <p class="empty-note" id="trendEmpty">No history yet. Your first snapshot is taken as soon as any engine has something to measure, and one more is added each day you open this.</p>
+      </div>
+      <div class="panel">
+        <div class="kicker">Next</div>
+        <h3>What moves the needle most.</h3>
+        <p class="muted" style="font-size:12.5px">Every action below was measured, not guessed: each one is applied to a copy of your data, the score is recomputed, and the difference is what you see. "Up to" means the gain depends on a number you have not given yet.</p>
+        <div class="action-list" id="actionList"></div>
+        <p class="empty-note" id="actionEmpty" style="display:none">Nothing left worth suggesting — every engine has what it needs. Keep logging.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="engines">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Enter an Engine</div><h2>Four rooms.<br>One dashboard.</h2></div><p>Each engine is its own page with its own tools — sliders, ledgers, a garage, a manifesto. Everything feeds back into the same score.</p></div>
+    <div class="engine-cards">
+      <a class="engine-card" href="body.html" style="background-image:url('https://images.unsplash.com/photo-1526407297627-d845b359a55b?fm=jpg&amp;q=70&amp;w=800&amp;auto=format&amp;fit=crop')">
+        <div class="engine-card-body">
+          <div class="kicker">Body Engine</div>
+          <h3>Train. Recover.</h3>
+          <div class="ec-meta"><span class="ec-score" id="cardBodyScore">—</span><span class="ec-arrow">Enter →</span></div>
+        </div>
+      </a>
+      <a class="engine-card" href="wealth.html" style="background-image:url('https://images.unsplash.com/photo-1689732888407-310424e3a372?fm=jpg&amp;q=70&amp;w=800&amp;auto=format&amp;fit=crop')">
+        <div class="engine-card-body">
+          <div class="kicker">Wealth Engine</div>
+          <h3>Connect. Compound.</h3>
+          <div class="ec-meta"><span class="ec-score" id="cardWealthScore">—</span><span class="ec-arrow">Enter →</span></div>
+        </div>
+      </a>
+      <a class="engine-card" href="drive.html" style="background-image:url('https://images.unsplash.com/photo-1544567430-993e6cead679?fm=jpg&amp;q=70&amp;w=800&amp;auto=format&amp;fit=crop')">
+        <div class="engine-card-body">
+          <div class="kicker">Drive</div>
+          <h3>The Receipt.</h3>
+          <div class="ec-meta"><span class="ec-score" id="cardDriveScore">—</span><span class="ec-arrow">Enter →</span></div>
+        </div>
+      </a>
+      <a class="engine-card" href="garage.html" style="background-image:url('https://images.unsplash.com/photo-1767907571229-01cf4ba03590?fm=jpg&amp;q=70&amp;w=800&amp;auto=format&amp;fit=crop')">
+        <div class="engine-card-body">
+          <div class="kicker">Garage</div>
+          <h3>Add the Machine.</h3>
+          <div class="ec-meta"><span class="ec-score" id="cardGarageCount">0 vehicles</span><span class="ec-arrow">Enter →</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="score" class="math-section">
+  <div class="wrap">
+    <div class="disclosure collapsed" id="scoreMath">
+      <button type="button" class="disclosure-toggle" id="scoreMathToggle" data-auto aria-expanded="false" aria-controls="scoreMathBody">
+        <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">The HUSLLYFE Algorithm</span></span>
+        <span class="dt-hint" data-open-text="Hide the calculation">Show how the score is calculated</span>
+      </button>
+      <div class="disclosure-body" id="scoreMathBody">
+    <div class="section-head">
+      <div><h2>Measure what<br>actually matters.</h2></div>
+      <p>The score is intentionally transparent. Users should be able to see what moved the needle rather than receiving a mysterious AI number.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>40%</b><small>Body score</small></div>
+      <div class="stat"><b>40%</b><small>Wealth score</small></div>
+      <div class="stat"><b>20%</b><small>Drive score</small></div>
+      <div class="stat"><b id="statExampleScore">—</b><small>Your total score</small></div>
+    </div>
+    <div class="cards" style="margin-top:16px">
+      <article class="card"><span class="number">BODY SCORE</span><h3>40% of HUSLLYFE</h3><p>Training consistency, progressive improvement, recovery and user-defined health/fitness metrics. No medical conclusions are inferred.</p></article>
+      <article class="card"><span class="number">WEALTH SCORE</span><h3>40% of HUSLLYFE</h3><p>Return quality, investing consistency, contribution rate, diversification and progress toward the user's wealth goal.</p></article>
+      <article class="card"><span class="number">DRIVE SCORE</span><h3>20% of HUSLLYFE</h3><p>Vehicle ownership cost, vehicle-to-net-worth ratio, maintenance discipline and progress toward the user's automotive goals.</p></article>
+    </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visual-stories">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">HUSLLYFE Visual Stories</div><h2>Body. Wealth. Drive.<br>In motion.</h2></div><p>Editorial imagery gives the brand a premium magazine feel while keeping every story tied to the engineered-lyfestyle system.</p></div>
+    <div class="editorial-grid">
+      <a class="editorial-card linked" href="body.html"><div class="editorial-image" style="background-image:url('https://images.unsplash.com/photo-1672344048213-76b6e77304bd?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop')"></div><div class="copy"><span class="number">BODY</span><h3>Discipline is visible.</h3><p>Training content connects effort, consistency, recovery and measurable physical progress.</p></div></a>
+      <a class="editorial-card linked" href="drive.html"><div class="editorial-image" style="background-image:url('https://images.unsplash.com/photo-1710880137575-c99017c68d3b?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop')"></div><div class="copy"><span class="number">SYSTEM</span><h3>Everything has a gauge.</h3><p>Instrument-cluster imagery reinforces HUSLLYFE's core language: know the numbers and know what moves the needle.</p></div></a>
+      <a class="editorial-card linked" href="wealth.html"><div class="editorial-image" style="background-image:url('https://images.unsplash.com/photo-1689732888407-310424e3a372?fm=jpg&amp;q=70&amp;w=900&amp;auto=format&amp;fit=crop')"></div><div class="copy"><span class="number">WEALTH</span><h3>The market is the machine.</h3><p>Portfolio moves, market reads and the long, quiet game of compounding capital.</p></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">HUSLLYFE Journal</div><h2>Build the life.<br>Document the proof.</h2></div><p>Editorial content connects the three pillars: training protocols, investing frameworks, car ownership and the mindset tying them together.</p></div>
+    <div class="cards">
+      <a class="card" href="body.html" style="display:block"><span class="number">FITNESS</span><h3>Train With Intent.</h3><p>Programs, recovery, mobility and measurable progress for real-world longevity.</p></a>
+      <a class="card" href="wealth.html" style="display:block"><span class="number">MONEY</span><h3>Compound With Purpose.</h3><p>Investing concepts, ownership thinking and practical financial dashboards.</p></a>
+      <a class="card" href="drive.html" style="display:block"><span class="number">CARS</span><h3>Drive What You Built.</h3><p>Automotive reviews and ownership stories from the perspective of the person behind the wheel.</p></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+
+  function renderDashboard(){
+    var state = H.getState();
+    var bs=H.bodyScore(), ws=H.wealthScore(), ds=H.driveScore(), os=H.overallScore();
+
+    // Every engine stays neutral until it has something real to measure —
+    // Wealth included. It used to be exempt because the app seeded it with
+    // demo accounts, so a brand-new user's only scored engine was money they
+    // had never entered.
+    H.paintDial('ringBody',  (H.hasBodyData() || H.bodyIsProvisional()) ? bs : null);
+    document.getElementById('ringBody').classList.toggle('provisional', H.bodyIsProvisional());
+    H.paintDial('ringWealth', ws);
+    H.paintDial('ringDrive', ds);
+    document.getElementById('systemStatus').textContent =
+      os === null ? 'STANDBY' : (os>=70 ? 'READY' : (os>=50 ? 'MONITOR' : 'ATTENTION'));
+
+    var m=H.wealthMetrics();
+    // state.body.consistency was removed when consistency became derived from
+    // the training log; reading it left this tile blank.
+    document.getElementById('statConsistency').textContent =
+      H.hasBodyData() ? H.bodyInputs().consistency : '—';
+    document.getElementById('statGrowth').textContent =
+      H.hasWealthData() ? H.pct(m.totalReturn) : '—';
+    document.getElementById('statOverall').textContent = os === null ? '—' : os;
+    // Total value of everything in the Garage. This tile used to read
+    // "Drive index (RPM)" and was 5200 + driveScore × 32 — a decorative number
+    // sitting between three real ones.
+    document.getElementById('statFleet').textContent =
+      H.hasDriveData() ? H.money(H.fleetValue()) : '—';
+    document.getElementById('statExampleScore').textContent = os === null ? '—' : os;
+
+    // Same neutral treatment as the dials, so the cards can't disagree with them.
+    H.paintReadout('cardBodyScore',  H.hasBodyData()  ? bs : null);
+    H.paintReadout('cardWealthScore', ws);
+    H.paintReadout('cardDriveScore', ds);
+    document.getElementById('cardGarageCount').textContent = state.vehicles.length + ' vehicle' + (state.vehicles.length===1?'':'s');
+  }
+
+  /* ---- the record --------------------------------------------------
+     Four series, drawn as inline SVG. No chart library: this is four
+     polylines and a grid, and pulling in a dependency for that would cost
+     more than it saves on a page that must work offline. */
+  var SERIES=[{k:'o', label:'HUSLLYFE', color:'var(--gold)',       w:2.5},
+              {k:'b', label:'Body',     color:'#5cc274',           w:1.5},
+              {k:'w', label:'Wealth',   color:'#5b9dd9',           w:1.5},
+              {k:'dr',label:'Drive',    color:'var(--accent)',     w:1.5}];
+  var trendDays=30;
+
+  function renderTrend(){
+    var host=document.getElementById('trendChart');
+    var empty=document.getElementById('trendEmpty');
+    var legend=document.getElementById('trendLegend');
+    var all=H.scoreHistory();
+    var from = trendDays ? H.shiftDays(H.todayKey(), -trendDays) : '0000-00-00';
+    var rows=all.filter(function(r){ return r.d>=from; });
+
+    if(rows.length<2){
+      host.innerHTML=''; legend.innerHTML='';
+      empty.style.display='block';
+      empty.textContent = all.length
+        ? 'Only '+all.length+' snapshot'+(all.length===1?'':'s')+' so far. A line needs two — come back tomorrow.'
+        : 'No history yet. Your first snapshot is taken as soon as any engine has something to measure, and one more is added each day you open this.';
+      return;
+    }
+    empty.style.display='none';
+
+    var W=720, Hh=260, padL=34, padR=14, padT=14, padB=26;
+    var t0=new Date(rows[0].d).getTime(), t1=new Date(rows[rows.length-1].d).getTime();
+    var span=Math.max(1, t1-t0);
+    function X(dstr){ return padL + ((new Date(dstr).getTime()-t0)/span)*(W-padL-padR); }
+    function Y(v){ return padT + (1-(v/100))*(Hh-padT-padB); }
+
+    var svg='<svg viewBox="0 0 '+W+' '+Hh+'" class="trend-svg" role="img" aria-label="Score history">';
+    // Band shading, so the traffic-light scale is legible on the chart too.
+    svg+='<rect x="'+padL+'" y="'+Y(100)+'" width="'+(W-padL-padR)+'" height="'+(Y(90)-Y(100))+'" fill="#5cc274" opacity=".055"/>';
+    svg+='<rect x="'+padL+'" y="'+Y(89)+'" width="'+(W-padL-padR)+'" height="'+(Y(61)-Y(89))+'" fill="#dfae2a" opacity=".05"/>';
+    svg+='<rect x="'+padL+'" y="'+Y(60)+'" width="'+(W-padL-padR)+'" height="'+(Y(0)-Y(60))+'" fill="#d71920" opacity=".05"/>';
+    [0,25,50,75,100].forEach(function(v){
+      svg+='<line x1="'+padL+'" y1="'+Y(v)+'" x2="'+(W-padR)+'" y2="'+Y(v)+'" stroke="#22262a" stroke-width="1"/>';
+      svg+='<text x="'+(padL-7)+'" y="'+(Y(v)+3.5)+'" text-anchor="end" fill="#5f6469" font-size="9" font-family="ui-monospace,monospace">'+v+'</text>';
+    });
+
+    SERIES.forEach(function(sr){
+      // A null is a gap, not a zero: break the line rather than dive to the floor.
+      var runs=[], cur=[];
+      rows.forEach(function(r){
+        if(r[sr.k]===null||r[sr.k]===undefined){ if(cur.length){runs.push(cur);cur=[];} }
+        else cur.push(X(r.d).toFixed(1)+','+Y(r[sr.k]).toFixed(1));
+      });
+      if(cur.length) runs.push(cur);
+      runs.forEach(function(run){
+        if(run.length===1){
+          var xy=run[0].split(',');
+          svg+='<circle cx="'+xy[0]+'" cy="'+xy[1]+'" r="'+(sr.w+0.5)+'" fill="'+sr.color+'"/>';
+        } else {
+          svg+='<polyline points="'+run.join(' ')+'" fill="none" stroke="'+sr.color+'" stroke-width="'+sr.w+'" stroke-linejoin="round" stroke-linecap="round"/>';
+        }
+      });
+      var last=null;
+      for(var i=rows.length-1;i>=0;i--){ if(rows[i][sr.k]!=null){ last=rows[i]; break; } }
+      if(last) svg+='<circle cx="'+X(last.d).toFixed(1)+'" cy="'+Y(last[sr.k]).toFixed(1)+'" r="3.5" fill="'+sr.color+'" stroke="var(--bg)" stroke-width="1.5"/>';
+    });
+    svg+='<text x="'+padL+'" y="'+(Hh-7)+'" fill="#5f6469" font-size="9" font-family="ui-monospace,monospace">'+prettyShort(rows[0].d)+'</text>';
+    svg+='<text x="'+(W-padR)+'" y="'+(Hh-7)+'" text-anchor="end" fill="#5f6469" font-size="9" font-family="ui-monospace,monospace">'+prettyShort(rows[rows.length-1].d)+'</text>';
+    svg+='</svg>';
+    host.innerHTML=svg;
+
+    legend.innerHTML=SERIES.map(function(sr){
+      var t=H.historyTrend(sr.k, trendDays||3650);
+      var arrow = !t ? '' : (t.delta>0?'▲ +'+t.delta:(t.delta<0?'▼ '+t.delta:'– level'));
+      var cls = !t ? '' : (t.delta>0?' up':(t.delta<0?' down':''));
+      return '<span class="tl-item"><i style="background:'+sr.color+'"></i>'+sr.label+
+             '<b class="tl-delta'+cls+'">'+(arrow||'—')+'</b></span>';
+    }).join('');
+  }
+  function prettyShort(k){
+    var p=k.split('-'); var dt=new Date(+p[0],+p[1]-1,+p[2]);
+    return dt.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+  }
+
+  function renderActions(){
+    var host=document.getElementById('actionList');
+    var empty=document.getElementById('actionEmpty');
+    var acts=H.nextActions();
+    host.innerHTML='';
+    empty.style.display = acts.length ? 'none' : 'block';
+    acts.slice(0,5).forEach(function(a){
+      var row=document.createElement('a');
+      row.className='action-row'; row.href=a.page;
+      row.innerHTML='<span class="ac-gain'+(a.ceiling?' ceiling':'')+'">'+(a.ceiling?'up to ':'')+'+'+a.gain+'</span>'+
+        '<span class="ac-body"><b>'+H.esc(a.label)+'</b>'+(a.detail?'<span>'+H.esc(a.detail)+'</span>':'')+'</span>'+
+        '<span class="ac-go" aria-hidden="true">→</span>';
+      host.appendChild(row);
+    });
+  }
+
+  document.getElementById('trendRange').addEventListener('click', function(e){
+    var btn=e.target.closest('button'); if(!btn) return;
+    trendDays=Number(btn.dataset.days)||0;
+    this.querySelectorAll('button').forEach(function(b){ b.classList.toggle('active', b===btn); });
+    renderTrend();
+  });
+
+  function wireSetup(){
+    var section=document.getElementById('setupSection');
+    var ribbon=document.getElementById('demoRibbon');
+    section.style.display = H.needsSetup() ? 'block' : 'none';
+    ribbon.style.display  = H.isDemo() ? 'flex' : 'none';
+
+    document.getElementById('setupForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // Training only. The portfolio and vehicle questions used to live here
+      // and no longer do — see completeSetup().
+      H.completeSetup({
+        trainingDays: document.getElementById('setupTraining').value
+      }).then(function(){ location.reload(); });
+    });
+    document.getElementById('setupDemo').addEventListener('click', function(){
+      H.loadDemoData().then(function(){ location.reload(); });
+    });
+    document.getElementById('setupSkip').addEventListener('click', function(){
+      H.skipSetup().then(function(){ location.reload(); });
+    });
+    document.getElementById('demoClear').addEventListener('click', function(){
+      if(!confirm('Clear the demo data and start from an empty profile?')) return;
+      H.resetState().then(function(){ location.reload(); });
+    });
+  }
+
+  H.wireChrome();
+  H.loadState(function(){
+    H.renderBackupNag();
+    wireSetup();
+    renderDashboard();
+    // Take the day's snapshot after the dashboard has painted, so the record
+    // reflects the same numbers the user is looking at.
+    H.recordSnapshot();
+    renderTrend();
+    renderActions();
+    if(!H.hasAnyStorage){
+      H.showToast('No storage available in this browser — changes on other pages won\'t be remembered here.');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

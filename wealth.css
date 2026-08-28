@@ -1,0 +1,98 @@
+/* HUSLLYFE — Wealth-engine styles: the discipline meters and the
+   contribution log. Kept out of app.css because nothing else uses them.
+   Deliberately borrows the Body engine's vocabulary — the two pages now
+   grade the same kind of thing, so they should read the same way. */
+
+/* ---------- score head ---------- */
+.wealth-score-head{display:flex;align-items:center;gap:24px;margin-top:26px}
+.wealth-score-head h4{font-size:12px;letter-spacing:.16em;margin:0 0 6px}
+.wealth-score-head .muted{font-size:12px;line-height:1.6;margin:0;max-width:420px}
+
+/* ---------- the two commitments ---------- */
+.commit-row{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:12px;color:#aaa}
+.commit-row input{width:110px;padding:7px 8px;text-align:center;font-size:13px;background:#0a0b0c;color:var(--text);border:1px solid var(--line);outline:none;font-family:inherit}
+.commit-row input:focus{border-color:#555}
+.commit-note{font-size:11px;color:#6a7075;line-height:1.55;margin:9px 0 0;max-width:520px}
+
+/* ---------- derived meters (same shape as Body's) ---------- */
+#wealthReadout{grid-template-columns:1fr 1fr}
+.metric-card.derived{display:flex;flex-direction:column}
+.readout label .src-tag{
+  font-size:7.5px;letter-spacing:.1em;color:#6d7276;border:1px solid var(--line);
+  padding:1px 4px;margin-left:4px;vertical-align:middle;
+}
+.metric-card.derived .meter{height:4px;background:#22262a;margin-top:2px;overflow:hidden}
+.metric-card.derived .meter span{
+  display:block;height:100%;width:0%;background:var(--score-color,var(--accent));
+  transition:width .45s cubic-bezier(.2,.8,.2,1);
+}
+.metric-card.derived .derived-note{
+  display:block;margin-top:7px;font-size:9px;color:#6d7276;
+  letter-spacing:.04em;line-height:1.35;
+}
+
+/* ---------- context block: shown, never graded ---------- */
+.context-panel{
+  margin-top:26px;padding:18px;border:1px dashed var(--line);background:#08090a;
+}
+.context-panel .kicker{color:#6a7075}
+.context-panel .metric-grid{margin-top:14px}
+.context-panel .metric-card{background:#0a0b0c}
+
+/* ---------- contribution log ---------- */
+.contribution-section{margin-top:56px;padding-top:12px;border-top:1px solid var(--line)}
+.contribution-grid{display:grid;grid-template-columns:340px 1fr;gap:20px;margin-top:22px}
+.log-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.log-form .field.full{grid-column:1/-1}
+.log-form button[type=submit]{margin-top:2px}
+.opt{font-size:9px;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-left:6px}
+
+.log-summary{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:13px 14px;background:#0b0d0e;border:1px solid var(--line);
+  font-size:11px;color:#8b9094;text-transform:uppercase;letter-spacing:.1em;
+}
+.log-summary b{color:var(--gold);font-size:13px}
+
+.log-list{margin-top:10px;display:grid;gap:7px;max-height:420px;overflow-y:auto}
+.log-row{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px 13px;background:#0b0d0e;border:1px solid var(--line);
+  border-left:2px solid var(--gold);
+}
+.log-row b{font-size:14px;display:block}
+.log-meta{display:block;font-size:11px;color:#82878b;margin-top:3px}
+.log-del{
+  background:none;border:none;color:#5c6165;cursor:pointer;font-size:11px;
+  padding:4px 6px;line-height:1;flex-shrink:0;text-transform:uppercase;letter-spacing:.08em;
+}
+.log-del:hover{color:var(--accent)}
+
+@media(max-width:850px){
+  .contribution-grid{grid-template-columns:1fr}
+  .wealth-score-head{flex-direction:column;align-items:flex-start}
+  #wealthReadout{grid-template-columns:1fr}
+}
+
+/* ---------- ledger: cash toggle and expense ratio ---------- */
+.ledger-hint{font-size:10px;color:#6a7075;line-height:1.5;margin:8px 0 10px}
+.ledger-row.is-cash{border-left:2px solid var(--score-mid)}
+.ledger-cash{
+  background:none;border:1px solid var(--line);color:#5c6165;cursor:pointer;
+  font:inherit;font-size:8px;letter-spacing:.1em;padding:3px 6px;flex-shrink:0;
+}
+.ledger-cash:hover{color:#9a9fa3;border-color:#4a4f53}
+.ledger-cash.on{color:var(--score-mid);border-color:var(--score-mid)}
+/* app.css sets .ledger-right input[type=number]{width:100px} at (0,2,1);
+   this needs to out-specify it, not merely come later. */
+.ledger-right input[type=number].ledger-er{width:62px;flex-shrink:0;text-align:right;color:#b9bdc0;font-weight:600}
+.ledger-er::placeholder{color:#4e5357;font-size:10px}
+.commit-row input.narrow{width:56px}
+
+/* ---------- stated assumption, page footer ---------- */
+.assumption-note{
+  font-size:11px;line-height:1.7;color:#7a7f83;max-width:760px;
+  margin:0 0 20px;padding:14px 16px;
+  border-left:2px solid var(--score-mid);background:#0b0d0e;
+}
+.assumption-note b{color:#b9bdc0;font-weight:700}

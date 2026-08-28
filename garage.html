@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Garage</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="Your fleet, its running cost, and the maintenance you actually kept up with.">
+<meta property="og:title" content="HUSLLYFE — Garage">
+<meta property="og:description" content="Your fleet, its running cost, and the maintenance you actually kept up with.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="garage.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html" class="active" aria-current="page">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1767907571229-01cf4ba03590?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / Garage</div>
+    <h1>My Garage</h1>
+    <p>Create a vehicle profile with ownership details, current value, mileage and photos. Each vehicle feeds the DRIVE gauge and the vehicle-to-net-worth ratio on the Wealth Engine.</p>
+  </div>
+</div>
+
+<main>
+<section id="garage" style="border-top:none">
+  <div class="wrap">
+    <div class="disclosure" id="addCar">
+      <button type="button" class="disclosure-toggle" id="addCarToggle" aria-expanded="true" aria-controls="addCarBody">
+        <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">Add a Car</span></span>
+        <span class="dt-hint" id="addCarHint">Create a vehicle profile</span>
+      </button>
+      <div class="disclosure-body" id="addCarBody">
+    <div class="garage-grid">
+      <div class="panel">
+        <div class="kicker">Vehicle Profile</div>
+        <h3>Vehicle Details</h3>
+
+        <div class="vin-lookup">
+          <label for="vinInput">Have the VIN? <span class="opt">optional</span></label>
+          <div class="vin-row">
+            <input id="vinInput" type="text" maxlength="24" placeholder="17 characters, from the door jamb or registration" autocomplete="off" spellcheck="false">
+            <button type="button" class="btn" id="vinLookupBtn">Look up</button>
+          </div>
+          <small class="field-note" id="vinNote">Fills in year, make, model and engine from the free NHTSA vehicle database. Checked against the VIN check digit first, so a typo is caught before anything is sent. Nothing about you is transmitted &mdash; only the VIN.</small>
+        </div>
+
+        <form class="vehicle-form" id="vehicleForm">
+          <div class="field"><label for="vehicleYear">Year</label><input id="vehicleYear" type="number" min="1900" max="2100" placeholder="2021"></div>
+          <div class="field"><label for="vehicleMake">Make</label><input id="vehicleMake" type="text" placeholder="Porsche"></div>
+          <div class="field"><label for="vehicleModel">Model</label><input id="vehicleModel" type="text" placeholder="Panamera"></div>
+          <div class="field"><label for="vehicleTrim">Trim</label><input id="vehicleTrim" type="text" placeholder="4S"></div>
+          <div class="field"><label for="vehicleMileage">Mileage</label><input id="vehicleMileage" type="number" min="0" placeholder="52000"></div>
+          <div class="field"><label for="vehiclePurchaseMileage">Mileage When Bought <span class="opt">optional</span></label><input id="vehiclePurchaseMileage" type="number" min="0" placeholder="38000">
+            <small class="field-note">Unlocks true cost per mile, depreciation included.</small></div>
+          <div class="field"><label for="vehiclePurchase">Purchase Price</label><input id="vehiclePurchase" type="number" min="0" step="100" placeholder="58500"></div>
+          <div class="field"><label for="vehicleValue">Current Value</label><input id="vehicleValue" type="number" min="0" step="100" placeholder="51200"></div>
+          <div class="field"><label for="vehicleAnnualCost">Annual Ownership Cost</label><input id="vehicleAnnualCost" type="number" min="0" step="100" placeholder="6800"></div>
+          <div class="field full"><label for="vehicleNotes">Notes</label><textarea id="vehicleNotes" rows="3" placeholder="Maintenance, modifications, ownership goals, service history..."></textarea></div>
+
+          <div class="field full">
+            <label>Vehicle Photos</label>
+            <label class="upload-zone" for="vehiclePhotos"><b>Upload vehicle photos</b><span>Choose up to 4 JPG, PNG or WEBP images</span></label>
+            <input id="vehiclePhotos" type="file" accept="image/*" multiple hidden>
+            <div class="photo-grid" id="vehiclePhotoGrid">
+              <div class="photo-card"><span class="placeholder">Front</span></div>
+              <div class="photo-card"><span class="placeholder">Side</span></div>
+              <div class="photo-card"><span class="placeholder">Interior</span></div>
+            </div>
+          </div>
+
+          <div class="field full"><button class="btn primary add-vehicle" type="submit">Save Vehicle Profile</button></div>
+        </form>
+      </div>
+
+      <div class="vehicle-preview">
+        <div>
+          <div class="kicker">Garage Preview</div>
+          <h3 id="previewVehicleName">Your Vehicle</h3>
+          <p class="muted" id="previewVehicleTrim">Year / Make / Model / Trim</p>
+        </div>
+        <div>
+          <div class="vehicle-meta">
+            <div><small>Mileage</small><b id="previewMileage">—</b></div>
+            <div><small>Current Value</small><b id="previewValue">—</b></div>
+            <div><small>Purchase Price</small><b id="previewPurchase">—</b></div>
+            <div><small>Annual Cost</small><b id="previewAnnualCost">—</b></div>
+          </div>
+          <div class="panel" style="margin-top:14px;padding:18px">
+            <small style="color:#777;text-transform:uppercase;letter-spacing:.12em">Drive Score With This Car</small>
+            <div style="display:flex;justify-content:space-between;align-items:end;margin-top:8px"><b style="font-size:34px" id="previewDriveScore">—</b><span class="muted">Live estimate</span></div>
+            <div class="drive-scorebar"><span id="previewDriveBar" style="width:60%"></span></div>
+            <p class="muted" style="font-size:12px;margin-bottom:0">What DRIVE becomes once this car joins the fleet. Affordability is charged on your <b>total</b> vehicle value against net worth (portfolio + manual assets, from the <a href="wealth.html" style="color:var(--gold);border-bottom:1px solid var(--gold)">Wealth Engine</a>), so a second car adds to the same ratio rather than diluting it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="reminder-panel" id="reminderPanel">
+      <div class="rp-head">
+        <div>
+          <div class="kicker">Reminders</div>
+          <h3 id="rpHeadline">Nothing is due.</h3>
+        </div>
+        <div class="rp-actions">
+          <button class="btn" type="button" id="rpEnable">Turn on reminders</button>
+          <button class="btn ghost" type="button" id="rpTest" style="display:none">Send a test</button>
+          <button class="btn ghost" type="button" id="rpOff" style="display:none">Turn off</button>
+        </div>
+      </div>
+      <div class="rp-list" id="rpList"></div>
+      <p class="rp-note" id="rpNote"></p>
+    </div>
+
+    <div class="garage-list">
+      <h3>Your Garage <span class="live-tag" id="garageCount">0 vehicles</span></h3>
+      <div class="storage-meter" id="storageMeter">
+        <span id="storageMeterText">Storage: 0.0 MB / 5 MB</span>
+        <span class="track"><span class="bar" id="storageMeterBar"></span></span>
+      </div>
+      <div class="vehicle-cards" id="vehicleCards"></div>
+      <p class="empty-note" id="emptyGarageNote">No vehicles saved yet — add one above and it'll show up here, persisted for next time you open this page.</p>
+      <p class="muted" id="tapHint" style="font-size:12px;margin-top:14px;display:none">Tap a vehicle above to log or review its maintenance history.</p>
+    </div>
+
+    <div class="maintenance-panel" id="maintenancePanel" style="display:none">
+      <div class="section-head">
+        <div><div class="kicker">Service History</div><h2 id="maintVehicleName">Vehicle</h2></div>
+        <div class="maint-summary" id="maintSummary"></div>
+      </div>
+
+      <div class="garage-grid">
+        <div class="panel">
+          <div class="kicker">Log a Service</div>
+          <h3>Add Maintenance Record</h3>
+          <p class="muted" style="font-size:12px">Tap one or more services — a single visit often covers several. Each one you pick resets its own reminder.</p>
+          <div class="type-pills" id="typePills">
+            <button type="button" class="type-pill" data-type="Oil Change">Oil Change</button>
+            <button type="button" class="type-pill" data-type="Tire Rotation">Tire Rotation</button>
+            <button type="button" class="type-pill" data-type="Brake Service">Brake Service</button>
+            <button type="button" class="type-pill" data-type="Tune-Up">Tune-Up</button>
+            <button type="button" class="type-pill" data-type="Battery">Battery</button>
+            <button type="button" class="type-pill" data-type="Air Filter">Air Filter</button>
+            <button type="button" class="type-pill" data-type="Inspection">Inspection</button>
+          </div>
+          <form class="vehicle-form" id="maintForm">
+            <div class="field full"><label for="maintType">Service Type</label><input id="maintType" type="text" placeholder="Oil Change" required>
+              <small class="field-note" id="maintTypeNote"></small></div>
+            <div class="field"><label for="maintDate">Date</label><input id="maintDate" type="date"></div>
+            <div class="field"><label for="maintMileage">Mileage at Service</label><input id="maintMileage" type="number" min="0" placeholder="52000"></div>
+            <div class="field"><label for="maintCost">Cost <span class="opt">optional</span></label><input id="maintCost" type="number" min="0" step="1" placeholder="Leave blank for DIY"></div>
+            <div class="field full"><label for="maintNotes">Notes</label><input id="maintNotes" type="text" placeholder="Synthetic oil, rotated tires too..."></div>
+            <div class="field full"><button class="btn primary add-vehicle" type="submit">Log Service</button></div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="kicker">Service Schedule</div>
+          <p class="muted" style="font-size:12px;margin-top:6px" id="scheduleSource"></p>
+          <p class="muted" style="font-size:12px;margin-top:6px" id="rateNote"></p>
+          <div class="due-list" id="dueList"></div>
+
+          <div class="provenance" id="provenanceBlock">
+            <div class="prov-head">
+              <div>
+                <div class="kicker">Service Record</div>
+                <p class="muted" id="provSummary">No records yet.</p>
+              </div>
+              <button type="button" class="btn" id="printRecordBtn">Print / Save PDF</button>
+            </div>
+            <p class="prov-note">On a car anyone wants, a documented history is worth money. Every service you log here builds the folder that goes with it &mdash; dates, mileage, what was done, what it cost. Print it to PDF for the glovebox, or hand it to a buyer.</p>
+          </div>
+
+          <div class="recall-block" id="recallBlock">
+            <div class="recall-head">
+              <div>
+                <div class="kicker">Safety Recalls</div>
+                <p class="muted" id="recallStatusLine">Not checked yet.</p>
+              </div>
+              <button type="button" class="btn" id="recallCheckBtn">Check NHTSA</button>
+            </div>
+            <div class="recall-list" id="recallList"></div>
+            <p class="recall-foot">Open campaigns from the US National Highway Traffic Safety Administration, matched on year, make and model. Recalls are repaired free of charge by a franchised dealer. This is information only &mdash; an open recall is the manufacturer's failing, not yours, so it never touches your Drive score.</p>
+          </div>
+
+          <div class="disclosure collapsed" id="intervalEditor" style="margin-top:20px">
+            <button type="button" class="disclosure-toggle" id="intervalEditorToggle" data-auto aria-expanded="false" aria-controls="intervalEditorBody">
+              <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">Intervals</span></span>
+              <span class="dt-hint" data-open-text="Hide intervals">Adjust for this vehicle</span>
+            </button>
+            <div class="disclosure-body" id="intervalEditorBody">
+              <label class="duty-row">
+                <span>Duty cycle</span>
+                <select id="dutySelect">
+                  <option value="standard">Standard</option>
+                  <option value="severe">Severe — towing, short trips, dust, heat</option>
+                </select>
+              </label>
+              <p class="muted" style="font-size:11px;margin:6px 0 14px">Severe duty tightens every interval to 70%, the way manufacturers publish a second column for it.</p>
+              <div class="interval-grid" id="intervalGrid"></div>
+              <p class="muted" style="font-size:11px;margin-bottom:0">Blank either box to stop judging that service on that dimension. Blank both to switch it off entirely.</p>
+            </div>
+          </div>
+
+          <div class="kicker" style="margin-top:22px">History <span class="live-tag" id="maintCount">0 records</span></div>
+          <div class="maint-history" id="maintHistory"></div>
+        </div>
+      </div>
+
+      <div class="garage-grid" style="margin-top:22px">
+        <div class="panel">
+          <div class="kicker">Cost of Ownership</div>
+          <h3>What it has actually cost.</h3>
+          <div class="own-table" id="ownershipPanel"></div>
+        </div>
+
+        <div class="panel">
+          <div class="kicker">Value History</div>
+          <h3>Depreciation</h3>
+          <p class="muted" style="font-size:12px">Value is a dated series, not one number you overwrite. Add a fresh estimate whenever you look one up and the curve builds itself.</p>
+          <form class="vehicle-form" id="valuationForm">
+            <div class="field"><label for="valDate">Date</label><input id="valDate" type="date"></div>
+            <div class="field"><label for="valAmount">Estimated Value</label><input id="valAmount" type="number" min="0" step="100" placeholder="48750"></div>
+            <div class="field full"><button class="btn primary add-vehicle" type="submit">Add Valuation</button></div>
+          </form>
+          <div id="valueChart"></div>
+          <div class="val-history" id="valHistory"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printRoot" aria-hidden="true"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+  var formPhotos=[];
+
+  function updateVehiclePreview(){
+    var year=document.getElementById('vehicleYear').value;
+    var make=document.getElementById('vehicleMake').value.trim();
+    var model=document.getElementById('vehicleModel').value.trim();
+    var trim=document.getElementById('vehicleTrim').value.trim();
+    document.getElementById('previewVehicleName').textContent=[year,make,model].filter(Boolean).join(' ') || 'Your Vehicle';
+    document.getElementById('previewVehicleTrim').textContent=trim || 'Year / Make / Model / Trim';
+    document.getElementById('previewMileage').textContent=H.numberFmt(document.getElementById('vehicleMileage').value);
+    document.getElementById('previewValue').textContent=H.money(document.getElementById('vehicleValue').value);
+    document.getElementById('previewPurchase').textContent=H.money(document.getElementById('vehiclePurchase').value);
+    document.getElementById('previewAnnualCost').textContent=H.money(document.getElementById('vehicleAnnualCost').value);
+
+    // Fleet-level: what Drive becomes once this car joins the garage, not
+    // what this car scores in isolation.
+    var draftScore=H.projectedDriveScore({
+      value:document.getElementById('vehicleValue').value,
+      annualCost:document.getElementById('vehicleAnnualCost').value,
+      maintenance:[], intervals:{}, duty:'standard'
+    });
+    document.getElementById('previewDriveScore').textContent=draftScore;
+    document.getElementById('previewDriveBar').style.width=draftScore+'%';
+    H.paintScore('previewDriveBar', draftScore);
+  }
+
+  function resizeImage(file){
+    return new Promise(function(resolve,reject){
+      var img=new Image();
+      var reader=new FileReader();
+      reader.onload=function(e){ img.src=e.target.result; };
+      reader.onerror=reject;
+      img.onload=function(){
+        var maxW=480;
+        var scale=Math.min(1, maxW/img.width);
+        var canvas=document.createElement('canvas');
+        canvas.width=Math.round(img.width*scale);
+        canvas.height=Math.round(img.height*scale);
+        var ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL('image/jpeg',0.72));
+      };
+      img.onerror=reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPhotoGrid(){
+    var grid=document.getElementById('vehiclePhotoGrid');
+    grid.innerHTML='';
+    if(!formPhotos.length){
+      ['Front','Side','Interior'].forEach(function(label){
+        var card=document.createElement('div'); card.className='photo-card';
+        card.innerHTML='<span class="placeholder">'+label+'</span>';
+        grid.appendChild(card);
+      });
+      return;
+    }
+    formPhotos.forEach(function(src){
+      var card=document.createElement('div'); card.className='photo-card';
+      var img=document.createElement('img'); img.src=src; img.alt='Vehicle photo preview';
+      card.appendChild(img); grid.appendChild(card);
+    });
+  }
+
+  function renderStorageMeter(){
+    var state=H.getState();
+    var bytes=H.estimateBytes(state);
+    var mb=bytes/(1024*1024);
+    var pctUsed=H.clamp((bytes/H.STORAGE_LIMIT_BYTES)*100,0,100);
+    var text=document.getElementById('storageMeterText');
+    var bar=document.getElementById('storageMeterBar');
+    text.textContent='Storage: '+mb.toFixed(2)+' MB / 5 MB';
+    bar.style.width=pctUsed+'%';
+    bar.style.background = pctUsed>90 ? 'var(--accent)' : (pctUsed>70 ? 'var(--gold)' : 'var(--green)');
+  }
+
+  var selectedVehicleId=null;
+  /** The vehicle whose Service Schedule panel is open, or null. */
+  function currentVehicle(){
+    if(!selectedVehicleId) return null;
+    return H.getState().vehicles.find(function(x){ return x.id===selectedVehicleId; }) || null;
+  }
+
+  function renderGarageList(){
+    var state=H.getState();
+    var wrap=document.getElementById('vehicleCards');
+    var empty=document.getElementById('emptyGarageNote');
+    var count=document.getElementById('garageCount');
+    var tapHint=document.getElementById('tapHint');
+    wrap.innerHTML='';
+    count.textContent=state.vehicles.length+' vehicle'+(state.vehicles.length===1?'':'s');
+    empty.style.display = state.vehicles.length ? 'none' : 'block';
+    tapHint.style.display = state.vehicles.length ? 'block' : 'none';
+
+    state.vehicles.forEach(function(v){
+      var card=document.createElement('div'); card.className='vehicle-card'+(v.id===selectedVehicleId?' selected':'');
+      var thumb=document.createElement('div'); thumb.className='thumb';
+      if(v.photos && v.photos[0]){
+        thumb.style.backgroundImage="url('"+v.photos[0]+"')";
+      } else {
+        thumb.textContent='No Photo';
+      }
+      var body=document.createElement('div'); body.className='vc-body';
+      var score=H.vehicleScore(v);
+      var records=(v.maintenance||[]).slice().sort(function(a,b){ return new Date(b.date||0) - new Date(a.date||0); });
+      var maxShown=4;
+      var shown=records.slice(0,maxShown);
+      var todayMs=new Date().setHours(0,0,0,0);
+
+      var gridHtml;
+      if(!records.length){
+        gridHtml='<div class="vc-maint-empty">No service records yet</div>';
+      } else {
+        gridHtml='<div class="vc-maint-grid"><div class="vc-maint-row vc-maint-head"><span>Type</span><span>Cost</span><span>Date</span><span>Days Ago</span></div>';
+        shown.forEach(function(r){
+          var costStr = r.cost ? H.money(r.cost) : '—';
+          var dateStr = r.date ? new Date(r.date).toLocaleDateString(undefined,{month:'numeric',day:'numeric',year:'2-digit'}) : '—';
+          var daysAgo = '—';
+          if(r.date){
+            var recordMs=new Date(r.date).setHours(0,0,0,0);
+            daysAgo=Math.round((todayMs-recordMs)/86400000);
+          }
+          gridHtml+='<div class="vc-maint-row"><span class="vc-maint-type">'+esc(r.type||'Service')+'</span><span>'+costStr+'</span><span>'+dateStr+'</span><span>'+daysAgo+'</span></div>';
+        });
+        if(records.length>maxShown){
+          gridHtml+='<div class="vc-maint-more">+'+(records.length-maxShown)+' more</div>';
+        }
+        gridHtml+='</div>';
+      }
+
+      var top=H.topDue(v);
+      var dueHtml='';
+      if(top){
+        var txt = top.status==='overdue'
+          ? top.type+' overdue'
+          : (top.status==='soon' ? top.type+' due soon' : 'Next: '+top.type);
+        var sub = top.remainingMiles!=null
+          ? (top.remainingMiles<=0 ? H.numberFmt(Math.abs(top.remainingMiles))+' mi over'
+                                   : H.numberFmt(top.remainingMiles)+' mi')
+          : (top.remainingDays!=null ? (top.remainingDays<=0 ? Math.abs(top.remainingDays)+'d over' : top.remainingDays+'d') : '');
+        dueHtml='<div class="vc-due status-'+top.status+'"><span>'+txt+'</span><b>'+sub+'</b></div>';
+      }
+      body.innerHTML =
+        '<h4>'+esc([v.year,v.make,v.model].filter(Boolean).join(' '))+'</h4>'+
+        '<div class="vc-meta"><span>'+esc(v.trim||'—')+'</span><span>'+H.numberFmt(v.mileage)+' mi</span></div>'+
+        '<div class="vc-score"><span>Upkeep</span><b>'+score+'</b></div>'+
+        (function(){
+          // True cost per mile, depreciation included. Fuel-and-service apps
+          // leave depreciation out, which is most of what a car costs — and on
+          // something driven a few thousand miles a year it is nearly all of
+          // it. Shown here rather than buried behind a panel because it is the
+          // most arresting number this app knows about a vehicle.
+          var c=H.ownershipCost(v);
+          if(c.perMile==null){
+            return '<div class="vc-cpm locked"><span>Cost / mile</span><b>&mdash;</b></div>';
+          }
+          return '<div class="vc-cpm"><span>Cost / mile</span><b>$'+c.perMile.toFixed(2)+'</b></div>';
+        })()+
+        dueHtml+
+        gridHtml+
+        '<div class="vc-tap">Tap to manage</div>';
+      var remove=document.createElement('button'); remove.className='remove'; remove.setAttribute('aria-label','Remove vehicle'); remove.textContent='✕';
+      remove.addEventListener('click', function(e){
+        e.stopPropagation();
+        state.vehicles = state.vehicles.filter(function(x){ return x.id!==v.id; });
+        if(selectedVehicleId===v.id){ selectedVehicleId=null; document.getElementById('maintenancePanel').style.display='none'; }
+        H.scheduleSave();
+        renderGarageList();
+        renderStorageMeter();
+        if(!state.vehicles.length){ setAddCarOpen(true); }
+        H.showToast('Vehicle removed');
+      });
+      card.addEventListener('click', function(){
+        selectedVehicleId = (selectedVehicleId===v.id) ? null : v.id;
+        renderGarageList();
+        renderMaintenancePanel();
+      });
+      card.appendChild(thumb); card.appendChild(body); card.appendChild(remove);
+      wrap.appendChild(card);
+    });
+
+    // Every mutation on this page funnels through renderGarageList, so this
+    // is the one place the reminders panel has to be refreshed from - adding
+    // a vehicle, logging a service and changing an interval all land here.
+    renderReminders();
+  }
+
+  function parseTypes(raw){
+    var seen={}, out=[];
+    String(raw||'').split(',').forEach(function(part){
+      var t=part.trim();
+      if(t && !seen[t.toLowerCase()]){ seen[t.toLowerCase()]=true; out.push(t); }
+    });
+    return out;
+  }
+  function syncTypeField(){
+    var picked=[];
+    document.querySelectorAll('.type-pill.active').forEach(function(b){ picked.push(b.dataset.type); });
+    // Keep anything typed by hand that isn't one of the pills.
+    var custom=parseTypes(document.getElementById('maintType').value).filter(function(t){
+      return !document.querySelector('.type-pill[data-type="'+t.replace(/"/g,'\\"')+'"]');
+    });
+    document.getElementById('maintType').value=picked.concat(custom).join(', ');
+    updateTypeNote();
+  }
+  function updateTypeNote(){
+    var n=parseTypes(document.getElementById('maintType').value).length;
+    document.getElementById('maintTypeNote').textContent =
+      n>1 ? n+' services — logged as one visit, each resets its own reminder.' : '';
+  }
+
+  function fmtDate(ymd){
+    if(!ymd) return '—';
+    var p=String(ymd).split('-');
+    return new Date(Number(p[0]),Number(p[1])-1,Number(p[2])).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+  }
+
+  /* Which schedule this vehicle's intervals come from. The app ships typical
+     normal-duty figures per marque; anything unlisted uses the generic set.
+     Either way the user can overwrite every number in the Intervals panel. */
+  function renderScheduleSource(v){
+    var el=document.getElementById('scheduleSource');
+    var label=H.makeScheduleLabel(v);
+    var sched=H.makeSchedule(v);
+    if(label){
+      el.innerHTML = 'Using typical <b>'+label+'</b> intervals'+
+        (sched && sched.ev ? ' — electric, so no oil change or tune-up' : '')+
+        '. Confirm against your owner\u2019s manual; every figure is editable below.';
+    } else {
+      el.innerHTML = 'Using the <b>generic</b> schedule — HUSLLYFE has no specific figures for '+
+        ((v.make||'this make').replace(/</g,'&lt;'))+'. Set your own in the Intervals panel below.';
+    }
+  }
+
+  function renderProvenance(v){
+    var records=(v.maintenance||[]).length;
+    var spend=(v.maintenance||[]).reduce(function(a,r){ return a + (Number(r.cost)||0); }, 0);
+    var span='';
+    if(records){
+      var dates=(v.maintenance||[]).map(function(r){ return r.date; }).filter(Boolean).sort();
+      if(dates.length) span=' \u00b7 '+fmtDate(dates[0])+' to '+fmtDate(dates[dates.length-1]);
+    }
+    document.getElementById('provSummary').innerHTML = records
+      ? '<b>'+records+' record'+(records===1?'':'s')+'</b>'+span+(spend>0?' \u00b7 '+H.money(spend)+' recorded':'')
+      : 'No records yet. The first one starts the folder.';
+    document.getElementById('printRecordBtn').disabled = !records;
+  }
+
+  /* Open NHTSA campaigns. Cached on the vehicle, so the last answer survives
+     going offline, and always stamped with when it was fetched. */
+  function renderRecalls(v){
+    var st=H.recallStatus(v);
+    var line=document.getElementById('recallStatusLine');
+    var list=document.getElementById('recallList');
+    var btn=document.getElementById('recallCheckBtn');
+    var block=document.getElementById('recallBlock');
+    list.innerHTML='';
+    block.classList.toggle('has-urgent', !!st.urgent);
+
+    var ready = !!(v.year && v.make && v.model);
+    btn.disabled=!ready;
+    btn.textContent = st.checked ? 'Check again' : 'Check NHTSA';
+
+    if(!ready){
+      line.textContent='Add a year, make and model to check for recalls.';
+      return;
+    }
+    if(!st.checked){
+      line.textContent='Not checked yet. Nothing is fetched until you ask.';
+      return;
+    }
+    var when = st.days===0 ? 'today' : st.days===1 ? 'yesterday' : st.days+' days ago';
+    line.innerHTML = (st.count===0
+        ? '<b>No open recalls</b> for this year, make and model'
+        : '<b>'+st.count+' open recall'+(st.count===1?'':'s')+'</b>')+
+      ' — checked '+when+(st.stale?' <em>(worth checking again)</em>':'')+'.';
+
+    (v.recalls.campaigns||[]).forEach(function(c){
+      var row=document.createElement('div');
+      row.className='recall-row'+((c.parkIt||c.parkOutside)?' urgent':'');
+      var flags='';
+      if(c.parkIt)      flags+='<span class="recall-flag danger">DO NOT DRIVE</span>';
+      if(c.parkOutside) flags+='<span class="recall-flag danger">PARK OUTSIDE</span>';
+      if(c.overTheAir)  flags+='<span class="recall-flag ota">OVER-THE-AIR FIX</span>';
+      row.innerHTML =
+        '<div class="rc-head"><span class="rc-component">'+esc(c.component||'Recall')+'</span>'+
+          '<span class="rc-id">'+esc(c.id||'')+'</span></div>'+
+        (flags?'<div class="rc-flags">'+flags+'</div>':'')+
+        (c.consequence?'<p class="rc-consequence"><b>Risk.</b> '+esc(c.consequence)+'</p>':'')+
+        (c.remedy?'<p class="rc-remedy"><b>Remedy.</b> '+esc(c.remedy)+'</p>':'')+
+        (c.reported?'<div class="rc-date">Reported '+fmtDate(c.reported)+'</div>':'');
+      list.appendChild(row);
+    });
+  }
+  var esc = H.esc;   // shared with app.js so there is one definition, not two
+
+  /* The service record. A complete, dated, printable history of one vehicle,
+     built from the owner's own log. This is the artefact that carries value
+     with the car — on anything collectible a documented history is worth real
+     money, and "no history" is the phrase that costs a seller thousands.
+     Rendered on demand into #printRoot, which only the print stylesheet
+     shows, so nothing about the screen layout has to bend around it. */
+  function renderServiceRecord(v){
+    var root=document.getElementById('printRoot');
+    var records=(v.maintenance||[]).slice().sort(function(a,b){
+      return String(a.date||'') < String(b.date||'') ? 1 : -1;
+    });
+    var spend=records.reduce(function(a,r){ return a + (Number(r.cost)||0); }, 0);
+    var name=[v.year,v.make,v.model,v.trim].filter(Boolean).join(' ')||'Vehicle';
+    var idBits=[];
+    if(v.vin)     idBits.push(['VIN', v.vin]);
+    if(v.mileage) idBits.push(['Odometer', H.numberFmt(v.mileage)+' mi']);
+    if(v.purchaseMileage) idBits.push(['Mileage when bought', H.numberFmt(v.purchaseMileage)+' mi']);
+    if(v.addedOn) idBits.push(['In this record since', fmtDate(v.addedOn)]);
+    var sched=H.makeScheduleLabel(v);
+    if(sched) idBits.push(['Service schedule', sched]);
+
+    var rows = records.length
+      ? records.map(function(r){
+          return '<tr><td>'+(r.date?fmtDate(r.date):'&mdash;')+'</td>'+
+                 '<td>'+esc(r.type||'Service')+'</td>'+
+                 '<td class="num">'+(r.mileage?H.numberFmt(r.mileage):'&mdash;')+'</td>'+
+                 '<td class="num">'+(Number(r.cost)>0?H.money(r.cost):'&mdash;')+'</td>'+
+                 '<td>'+esc(r.notes||'')+'</td></tr>';
+        }).join('')
+      : '<tr><td colspan="5" class="empty">No service records logged.</td></tr>';
+
+    root.innerHTML =
+      '<div class="pr-doc">'+
+        '<div class="pr-top"><div><div class="pr-brand">HUSLLYFE</div>'+
+          '<div class="pr-kind">Service Record</div></div>'+
+          '<div class="pr-date">Generated '+fmtDate(H.todayKey())+'</div></div>'+
+        '<h1 class="pr-title">'+esc(name)+'</h1>'+
+        '<div class="pr-id">'+idBits.map(function(b){
+            return '<div><span>'+b[0]+'</span><b>'+esc(b[1])+'</b></div>';
+          }).join('')+'</div>'+
+        '<table class="pr-table"><thead><tr><th>Date</th><th>Service</th>'+
+          '<th class="num">Odometer</th><th class="num">Cost</th><th>Notes</th></tr></thead>'+
+          '<tbody>'+rows+'</tbody></table>'+
+        '<div class="pr-totals"><span>'+records.length+' record'+(records.length===1?'':'s')+'</span>'+
+          '<span>Recorded spend '+H.money(spend)+'</span></div>'+
+        '<p class="pr-foot">Compiled from the owner\u2019s own maintenance log in HUSLLYFE. '+
+          'Entries are self-reported and are not a substitute for dealer invoices or a title history report. '+
+          'Costs shown are those entered; blank means no figure was recorded, not that no work was done.</p>'+
+      '</div>';
+  }
+
+  /* One row per service, most urgent first. Mileage and date are shown side by
+     side because due is whichever lands first, and the projection turns the
+     mileage number into something you can actually put in a calendar. */
+  function renderDueList(v){
+    var host=document.getElementById('dueList');
+    host.innerHTML='';
+    var list=H.vehicleDueList(v);
+    if(!list.length){ host.innerHTML='<p class="muted" style="font-size:12px">No services configured for this vehicle.</p>'; return; }
+
+    var LABEL={overdue:'OVERDUE',soon:'DUE SOON',ok:'ON SCHEDULE',none:'NOT LOGGED'};
+    list.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='due-row status-'+d.status;
+
+      var head=document.createElement('div'); head.className='dr-head';
+      var name=document.createElement('span'); name.className='dr-type'; name.textContent=d.type;
+      var badge=document.createElement('span'); badge.className='dr-status status-'+d.status; badge.textContent=LABEL[d.status];
+      head.appendChild(name); head.appendChild(badge);
+
+      var meta=document.createElement('div'); meta.className='dr-meta';
+      if(d.status==='none'){
+        var iv=d.interval, bits=[];
+        if(iv.miles)  bits.push(H.numberFmt(iv.miles)+' mi');
+        if(iv.months) bits.push(iv.months+' mo');
+        meta.textContent='Every '+bits.join(' or ')+' — log one to start the countdown.';
+      } else {
+        var parts=[];
+        if(d.remainingMiles!=null){
+          parts.push(d.remainingMiles<=0
+            ? H.numberFmt(Math.abs(d.remainingMiles))+' mi over'
+            : H.numberFmt(d.remainingMiles)+' mi left');
+        }
+        if(d.remainingDays!=null){
+          parts.push(d.remainingDays<=0
+            ? Math.abs(d.remainingDays)+' days over'
+            : d.remainingDays+' days left');
+        }
+        meta.textContent=parts.join('  ·  ');
+      }
+      row.appendChild(head); row.appendChild(meta);
+
+      if(d.projectedOn && d.remainingMiles>0){
+        var proj=document.createElement('div'); proj.className='dr-proj';
+        proj.textContent='At your pace, about '+fmtDate(d.projectedOn)+
+          (d.rate && d.rate.source==='default' ? ' (assuming 12,000 mi/yr)' : '');
+        row.appendChild(proj);
+      }
+      if(d.last){
+        var last=document.createElement('div'); last.className='dr-last';
+        last.textContent='Last: '+fmtDate(d.last.date)+
+          (Number(d.last.mileage)>0 ? ' at '+H.numberFmt(d.last.mileage)+' mi' : '');
+        row.appendChild(last);
+      }
+      host.appendChild(row);
+    });
+  }
+
+  /* Per-vehicle interval overrides. Blank means "don't judge on this axis". */
+  function renderIntervalEditor(v){
+    var grid=document.getElementById('intervalGrid');
+    grid.innerHTML='';
+    document.getElementById('dutySelect').value = v.duty==='severe' ? 'severe' : 'standard';
+
+    var head=document.createElement('div'); head.className='interval-row interval-head';
+    ['Service','Miles','Months'].forEach(function(t){ var c=document.createElement('span'); c.textContent=t; head.appendChild(c); });
+    grid.appendChild(head);
+
+    H.serviceTypesFor(v).forEach(function(type){
+      var iv=H.serviceInterval(v,type);
+      var over=(v.intervals||{})[type]||{};
+      var row=document.createElement('div'); row.className='interval-row';
+      var label=document.createElement('span'); label.className='iv-name'; label.textContent=type;
+      row.appendChild(label);
+
+      ['miles','months'].forEach(function(dim){
+        var input=document.createElement('input');
+        input.type='number'; input.min='0'; input.className='iv-input';
+        input.setAttribute('aria-label',type+' interval in '+dim);
+        input.value = over[dim]!=null ? over[dim] : (iv[dim]||'');
+        if(v.duty==='severe') input.title='Shown at severe-duty scaling (70%).';
+        input.addEventListener('change',function(){
+          var state=H.getState();
+          var veh=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+          if(!veh) return;
+          veh.intervals=veh.intervals||{};
+          veh.intervals[type]=veh.intervals[type]||{};
+          veh.intervals[type][dim] = input.value==='' ? 0 : Math.max(0,Number(input.value)||0);
+          H.scheduleSave();
+          renderDueList(veh);
+          renderGarageList();
+        });
+        row.appendChild(input);
+      });
+      grid.appendChild(row);
+    });
+  }
+
+  function renderOwnership(v){
+    var host=document.getElementById('ownershipPanel');
+    if(!host) return;
+    var c=H.ownershipCost(v);
+    var rows=[];
+    rows.push(['Purchase price', c.purchase>0 ? H.money(c.purchase) : '—']);
+    rows.push(['Current value', H.money(c.value)]);
+    rows.push(['Depreciation', c.depreciation==null ? '—' : H.money(c.depreciation)]);
+    rows.push(['Service to date', H.money(c.service)]);
+    rows.push(['Total cost of ownership', c.total==null ? '—' : H.money(c.total)]);
+    rows.push(['Miles driven', c.milesDriven==null ? '—' : H.numberFmt(c.milesDriven)]);
+    rows.push(['True cost per mile', c.perMile==null ? '—' : '$'+c.perMile.toFixed(2)]);
+
+    host.innerHTML='';
+    rows.forEach(function(r){
+      var row=document.createElement('div'); row.className='own-row';
+      var k=document.createElement('span'); k.textContent=r[0];
+      var val=document.createElement('b'); val.textContent=r[1];
+      row.appendChild(k); row.appendChild(val); host.appendChild(row);
+    });
+
+    var note=document.createElement('p'); note.className='muted'; note.style.fontSize='11px'; note.style.margin='10px 0 0';
+    note.textContent = c.perMile==null
+      ? 'Add the mileage you bought it at, and a purchase price, to get a cost per mile that includes depreciation — the number fuel apps leave out.'
+      : 'Includes depreciation, which fuel-and-service apps omit. That is usually the largest cost of owning anything.';
+    host.appendChild(note);
+
+    renderValueChart(v);
+  }
+
+  /* Depreciation curve. Two points is enough to draw a line; one just shows
+     the marker, so the chart appears the moment there is anything to see. */
+  function renderValHistory(v){
+    var host=document.getElementById('valHistory');
+    host.innerHTML='';
+    var rows=H.valuations(v).slice().reverse();
+    if(!rows.length){
+      host.innerHTML='<p class="muted" style="font-size:11px;margin:10px 0 0">No valuations recorded yet.</p>';
+      return;
+    }
+    rows.forEach(function(r,i){
+      var row=document.createElement('div'); row.className='val-row';
+      var left=document.createElement('span'); left.textContent=fmtDate(r.date);
+      var right=document.createElement('div'); right.className='val-right';
+      var amt=document.createElement('b'); amt.textContent=H.money(r.value);
+      right.appendChild(amt);
+      if(i<rows.length-1){
+        var delta=Number(r.value)-Number(rows[i+1].value);
+        var d=document.createElement('span');
+        d.className='val-delta '+(delta<0?'down':(delta>0?'up':''));
+        d.textContent=(delta>0?'+':'')+H.money(delta);
+        right.appendChild(d);
+      }
+      var del=document.createElement('button');
+      del.className='ledger-remove'; del.type='button';
+      del.setAttribute('aria-label','Remove valuation'); del.textContent='✕';
+      del.addEventListener('click',function(){
+        var state=H.getState();
+        var veh=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+        if(!veh) return;
+        veh.valuations=(veh.valuations||[]).filter(function(x){ return x.id!==r.id; });
+        veh.value=H.currentValue(veh);
+        H.scheduleSave();
+        renderMaintenancePanel();
+        renderGarageList();
+        H.showToast('Valuation removed');
+      });
+      right.appendChild(del);
+      row.appendChild(left); row.appendChild(right);
+      host.appendChild(row);
+    });
+  }
+
+  function renderValueChart(v){
+    var host=document.getElementById('valueChart');
+    if(!host) return;
+    var rows=H.valuations(v);
+    host.innerHTML='';
+    if(rows.length<2){
+      host.innerHTML='<p class="muted" style="font-size:11px;margin:0">Add another valuation later to start the depreciation curve.</p>';
+      return;
+    }
+    var W=100,Hh=38;
+    var vals=rows.map(function(r){ return Number(r.value)||0; });
+    var min=Math.min.apply(null,vals), max=Math.max.apply(null,vals);
+    var span=(max-min)||1;
+    var t0=H.daysBetween(rows[0].date,rows[rows.length-1].date)||1;
+    var pts=rows.map(function(r){
+      var x=(H.daysBetween(rows[0].date,r.date)/t0)*W;
+      var y=Hh-((Number(r.value)-min)/span)*(Hh-6)-3;
+      return x.toFixed(2)+','+y.toFixed(2);
+    }).join(' ');
+
+    var svg='<svg viewBox="0 0 '+W+' '+Hh+'" preserveAspectRatio="none" role="img" aria-label="Value over time">'+
+      '<polyline points="'+pts+'" fill="none" stroke="var(--gold)" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>';
+    var wrap=document.createElement('div'); wrap.className='value-chart'; wrap.innerHTML=svg;
+    var cap=document.createElement('div'); cap.className='vc-caption';
+    cap.textContent=fmtDate(rows[0].date)+' · '+H.money(rows[0].value)+'   →   '+
+                    fmtDate(rows[rows.length-1].date)+' · '+H.money(rows[rows.length-1].value);
+    host.appendChild(wrap); host.appendChild(cap);
+  }
+
+  function renderMaintenancePanel(){
+    var panel=document.getElementById('maintenancePanel');
+    if(!selectedVehicleId){ panel.style.display='none'; return; }
+    var state=H.getState();
+    var v=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+    if(!v){ selectedVehicleId=null; panel.style.display='none'; return; }
+    panel.style.display='block';
+    var dateInput=document.getElementById('maintDate');
+    if(!dateInput.value){ dateInput.valueAsDate = new Date(); }
+
+    document.getElementById('maintVehicleName').textContent=[v.year,v.make,v.model].filter(Boolean).join(' ')||'Vehicle';
+
+    var records=(v.maintenance||[]).slice().sort(function(a,b){
+      return new Date(b.date||0) - new Date(a.date||0);
+    });
+    var totalSpend=records.reduce(function(s,r){ return s+(Number(r.cost)||0); },0);
+    var lastDate=records.length ? records[0].date : null;
+
+    document.getElementById('maintSummary').innerHTML =
+      '<div class="maint-badge">Records<b>'+records.length+'</b></div>'+
+      '<div class="maint-badge">Total Spent<b>'+H.money(totalSpend)+'</b></div>'+
+      '<div class="maint-badge">Last Service<b>'+(lastDate?new Date(lastDate).toLocaleDateString():'—')+'</b></div>';
+
+    var rate=H.mileageRate(v);
+    document.getElementById('rateNote').textContent = rate.source==='fitted'
+      ? 'Driving about '+H.numberFmt(Math.round(rate.perDay*30))+' mi/month, from '+rate.points+' odometer readings over '+rate.spanDays+' days.'
+      : 'Not enough odometer history yet to measure your pace — projections assume 12,000 mi/yr until then.';
+
+    var valDate=document.getElementById('valDate');
+    if(!valDate.value){ valDate.valueAsDate=new Date(); }
+
+    renderScheduleSource(v);
+    renderProvenance(v);
+    renderDueList(v);
+    renderRecalls(v);
+    renderIntervalEditor(v);
+    renderOwnership(v);
+    renderValHistory(v);
+
+    document.getElementById('maintCount').textContent=records.length+' record'+(records.length===1?'':'s');
+    var historyEl=document.getElementById('maintHistory');
+    historyEl.innerHTML='';
+    if(!records.length){
+      historyEl.innerHTML='<div class="maint-empty">No service history yet. Log the first one on the left.</div>';
+    } else {
+      records.forEach(function(r){
+        var row=document.createElement('div'); row.className='maint-row';
+        var left=document.createElement('div'); left.className='mr-left';
+        var dateStr = r.date ? new Date(r.date).toLocaleDateString() : 'No date';
+        left.innerHTML =
+          '<div class="mr-type">'+esc(r.type||'Service')+'</div>'+
+          '<div class="mr-meta">'+dateStr+(r.mileage?' · '+H.numberFmt(r.mileage)+' mi':'')+'</div>'+
+          (r.notes ? '<div class="mr-notes">'+esc(r.notes)+'</div>' : '');
+        var right=document.createElement('div'); right.className='mr-right';
+        var cost=document.createElement('span'); cost.className='mr-cost'; cost.textContent = r.cost ? H.money(r.cost) : '—';
+        var del=document.createElement('button'); del.className='ledger-remove'; del.setAttribute('aria-label','Delete record'); del.textContent='✕';
+        del.addEventListener('click', function(){
+          v.maintenance = (v.maintenance||[]).filter(function(x){ return x.id!==r.id; });
+          H.scheduleSave();
+          renderMaintenancePanel();
+          renderGarageList();
+          H.showToast('Record deleted');
+        });
+        right.appendChild(cost); right.appendChild(del);
+        row.appendChild(left); row.appendChild(right);
+        historyEl.appendChild(row);
+      });
+    }
+  }
+
+  function setAddCarOpen(open, scroll){
+    var wrap=document.getElementById('addCar');
+    var toggle=document.getElementById('addCarToggle');
+    var hint=document.getElementById('addCarHint');
+    wrap.classList.toggle('collapsed', !open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    hint.textContent = open ? 'Create a vehicle profile' : 'Tap to add another vehicle';
+    if(open && scroll){
+      wrap.scrollIntoView({behavior:'smooth', block:'start'});
+      document.getElementById('vehicleYear').focus({preventScroll:true});
+    }
+  }
+
+  function wireEvents(){
+    document.getElementById('addCarToggle').addEventListener('click', function(){
+      var open = document.getElementById('addCar').classList.contains('collapsed');
+      setAddCarOpen(open, open);
+    });
+
+    ['vehicleYear','vehicleMake','vehicleModel','vehicleTrim','vehicleMileage','vehiclePurchase','vehicleValue','vehicleAnnualCost'].forEach(function(id){
+      document.getElementById(id).addEventListener('input', updateVehiclePreview);
+    });
+
+    document.getElementById('vehiclePhotos').addEventListener('change', function(event){
+      var files=[].slice.call(event.target.files).slice(0,4);
+      if(!files.length) return;
+      Promise.all(files.map(resizeImage)).then(function(results){
+        formPhotos=results;
+        renderPhotoGrid();
+      }).catch(function(){
+        H.showToast('Could not process one of those images');
+      });
+    });
+
+    document.getElementById('vehicleForm').addEventListener('submit', function(event){
+      event.preventDefault();
+      var state=H.getState();
+      var vehicle={
+        id: Date.now(),
+        year: document.getElementById('vehicleYear').value,
+        make: document.getElementById('vehicleMake').value.trim(),
+        model: document.getElementById('vehicleModel').value.trim(),
+        trim: document.getElementById('vehicleTrim').value.trim(),
+        mileage: document.getElementById('vehicleMileage').value,
+        purchase: document.getElementById('vehiclePurchase').value,
+        value: document.getElementById('vehicleValue').value,
+        annualCost: document.getElementById('vehicleAnnualCost').value,
+        purchaseMileage: document.getElementById('vehiclePurchaseMileage').value,
+        notes: document.getElementById('vehicleNotes').value.trim(),
+        photos: formPhotos.slice(0,4),
+        maintenance: [],
+        intervals: {},
+        duty: 'standard',
+        valuations: [],
+        vin: H.normalizeVin(document.getElementById('vinInput').value),
+        recalls: null,
+        addedOn: H.todayKey()
+      };
+      // The value typed on the form becomes the first point on the curve.
+      if(Number(vehicle.value) > 0) H.addValuation(vehicle, vehicle.value, H.todayKey());
+      if(!vehicle.make && !vehicle.model){
+        H.showToast('Add at least a make or model first');
+        return;
+      }
+
+      var SAFE_LIMIT = H.STORAGE_LIMIT_BYTES*0.92;
+      var projected = state.vehicles.concat([vehicle]);
+      var withPhotosBytes = H.estimateBytes(Object.assign({}, state, { vehicles: projected }));
+      if(withPhotosBytes > SAFE_LIMIT && vehicle.photos.length){
+        var withoutPhotos = Object.assign({}, vehicle, { photos: [] });
+        var noPhotoBytes = H.estimateBytes(Object.assign({}, state, { vehicles: state.vehicles.concat([withoutPhotos]) }));
+        if(noPhotoBytes <= SAFE_LIMIT){
+          vehicle.photos=[];
+          H.showToast('Storage nearly full — saved without photos. Remove photos from an older vehicle to add new ones.');
+        } else {
+          H.showToast('Storage is full. Remove a vehicle or its photos before adding another.');
+          return;
+        }
+      }
+
+      state.vehicles.push(vehicle);
+      H.scheduleSave();
+      renderGarageList();
+      renderStorageMeter();
+      if(vehicle.photos.length || withPhotosBytes<=SAFE_LIMIT){ H.showToast('Vehicle saved to your Garage'); }
+
+      event.target.reset();
+      document.getElementById('vinInput').value='';
+      setVinNote('Fills in year, make, model and engine from the free NHTSA vehicle database. Checked against the VIN check digit first, so a typo is caught before anything is sent. Nothing about you is transmitted &mdash; only the VIN.');
+      formPhotos=[];
+      renderPhotoGrid();
+      updateVehiclePreview();
+      setAddCarOpen(false);
+      document.querySelector('.garage-list').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    // Pills toggle instead of replace: one visit is often several services,
+    // and each should reset its own reminder.
+    document.querySelectorAll('.type-pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.classList.toggle('active');
+        syncTypeField();
+      });
+    });
+    document.getElementById('maintType').addEventListener('input', function(){
+      var picked=parseTypes(this.value).map(function(t){ return t.toLowerCase(); });
+      document.querySelectorAll('.type-pill').forEach(function(b){
+        b.classList.toggle('active', picked.indexOf(b.dataset.type.toLowerCase())>-1);
+      });
+      updateTypeNote();
+    });
+
+    document.getElementById('dutySelect').addEventListener('change', function(){
+      var state=H.getState();
+      var v=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+      if(!v) return;
+      v.duty=this.value;
+      H.scheduleSave();
+      renderMaintenancePanel();
+      renderGarageList();
+      H.showToast(this.value==='severe' ? 'Severe duty — intervals tightened' : 'Standard duty intervals');
+    });
+
+    document.getElementById('valuationForm').addEventListener('submit', function(event){
+      event.preventDefault();
+      var state=H.getState();
+      var v=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+      if(!v){ H.showToast('Select a vehicle first'); return; }
+      var amount=document.getElementById('valAmount').value;
+      if(amount===''){ H.showToast('Enter an estimated value'); return; }
+      H.addValuation(v, amount, document.getElementById('valDate').value || undefined);
+      H.scheduleSave();
+      renderMaintenancePanel();
+      renderGarageList();
+      H.showToast('Valuation added');
+      event.target.reset();
+      document.getElementById('valDate').valueAsDate=new Date();
+    });
+
+    document.getElementById('maintForm').addEventListener('submit', function(event){
+      event.preventDefault();
+      if(!selectedVehicleId){ H.showToast('Select a vehicle first'); return; }
+      var state=H.getState();
+      var v=state.vehicles.find(function(x){ return x.id===selectedVehicleId; });
+      if(!v){ H.showToast('Select a vehicle first'); return; }
+
+      var types=parseTypes(document.getElementById('maintType').value);
+      if(!types.length){ H.showToast('Enter a service type'); document.getElementById('maintType').focus(); return; }
+
+      var date=document.getElementById('maintDate').value || new Date().toISOString().slice(0,10);
+      var mileage=document.getElementById('maintMileage').value;
+      var costRaw=document.getElementById('maintCost').value;
+      var notes=document.getElementById('maintNotes').value.trim();
+
+      // The cost of the visit belongs to the visit, not to each line item —
+      // splitting it across types would silently inflate total spend.
+      v.maintenance = v.maintenance || [];
+      types.forEach(function(type, i){
+        v.maintenance.push({
+          id: Date.now()+i,
+          type: type,
+          date: date,
+          mileage: mileage,
+          cost: i===0 ? costRaw : '',
+          notes: notes,
+          batch: types.length>1 ? types.join(' + ') : undefined
+        });
+      });
+
+      // Logging a service is also the most reliable odometer reading we get.
+      if(Number(mileage) > (Number(v.mileage)||0)) v.mileage=mileage;
+
+      H.scheduleSave();
+      renderMaintenancePanel();
+      renderGarageList();
+      H.showToast(types.length>1 ? types.length+' services logged' : types[0]+' logged');
+
+      event.target.reset();
+      document.querySelectorAll('.type-pill').forEach(function(b){ b.classList.remove('active'); });
+      updateTypeNote();
+      document.getElementById('maintDate').valueAsDate = new Date();
+    });
+  }
+
+  // ---- VIN lookup + recall check -------------------------------------
+  // Both hit public NHTSA endpoints. Both are optional, both are cached, and
+  // both fail quietly: a blocked or missing network must never stop somebody
+  // typing a car in by hand.
+  function setVinNote(msg, kind){
+    var el=document.getElementById('vinNote');
+    el.innerHTML=msg;
+    el.className='field-note vin-note'+(kind?' '+kind:'');
+  }
+
+  document.getElementById('vinLookupBtn').addEventListener('click', function(){
+    var btn=this;
+    var raw=document.getElementById('vinInput').value;
+    var vin=H.normalizeVin(raw);
+    if(!vin){ setVinNote('Enter a VIN first, or fill the fields in by hand.','warn'); return; }
+
+    btn.disabled=true; btn.textContent='Looking up…';
+    setVinNote('Asking NHTSA…');
+    H.decodeVin(vin).then(function(res){
+      if(!res.ok){
+        setVinNote(res.message+' You can still enter everything by hand.','warn');
+        return;
+      }
+      var v=res.vehicle;
+      function fill(id, val){
+        var el=document.getElementById(id);
+        if(val && !el.value) el.value=val;
+        else if(val) el.value=val;
+      }
+      fill('vehicleYear', v.year);
+      fill('vehicleMake', v.make);
+      fill('vehicleModel', v.model);
+      if(v.trim) fill('vehicleTrim', v.trim);
+
+      var bits=[v.engine, v.body, v.drive].filter(Boolean);
+      var notesEl=document.getElementById('vehicleNotes');
+      var stamp='VIN '+v.vin+(bits.length?' — '+bits.join(' · '):'');
+      if(notesEl.value.indexOf('VIN '+v.vin)===-1){
+        notesEl.value = notesEl.value ? notesEl.value.replace(/\s*$/,'')+'\n'+stamp : stamp;
+      }
+      var sched=H.makeScheduleLabel({make:v.make});
+      setVinNote('Found <b>'+[v.year,v.make,v.model].filter(Boolean).join(' ')+'</b>'+
+        (bits.length?' · '+bits.join(' · '):'')+'.'+
+        (sched?' Service intervals will use the typical <b>'+sched+'</b> schedule.':'')+
+        (res.notes && res.notes.length?'<br>'+res.notes.join(' '):''), 'ok');
+      updateVehiclePreview();
+    }).catch(function(){
+      setVinNote('Could not reach the NHTSA lookup — you may be offline, or a network filter is blocking it. Enter the details by hand; nothing else on this page needs the internet.','warn');
+    }).then(function(){
+      btn.disabled=false; btn.textContent='Look up';
+    });
+  });
+  document.getElementById('vinInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter'){ e.preventDefault(); document.getElementById('vinLookupBtn').click(); }
+  });
+
+  document.getElementById('recallCheckBtn').addEventListener('click', function(){
+    var v=currentVehicle();
+    if(!v) return;
+    var btn=this;
+    btn.disabled=true; btn.textContent='Checking…';
+    document.getElementById('recallStatusLine').textContent='Asking NHTSA…';
+    H.refreshRecalls(v).then(function(){
+      renderRecalls(v);
+      var n=(v.recalls&&v.recalls.count)||0;
+      H.showToast(n ? n+' open recall'+(n===1?'':'s')+' found' : 'No open recalls');
+    }).catch(function(err){
+      document.getElementById('recallStatusLine').textContent =
+        String(err && err.message)==='need_year_make_model'
+          ? 'Add a year, make and model to check for recalls.'
+          : 'Could not reach NHTSA. You may be offline — the last saved answer, if any, is still shown below.';
+      btn.disabled=false; btn.textContent='Check NHTSA';
+    });
+  });
+
+  document.getElementById('printRecordBtn').addEventListener('click', function(){
+    var v=currentVehicle();
+    if(!v) return;
+    renderServiceRecord(v);
+    // Let the DOM settle before handing over to the print dialog.
+    setTimeout(function(){ window.print(); }, 60);
+  });
+
+
+  // -----------------------------------------------------------------
+  // Reminders panel
+  //
+  // The list is rendered from the same reminderItems() the service worker
+  // is handed, so what you see here and what arrives on your lock screen
+  // can never disagree. The list is also the SOURCE OF TRUTH: background
+  // wakes are best-effort and the browser is allowed to skip them, so the
+  // panel has to stand on its own with notifications switched off entirely.
+  // -----------------------------------------------------------------
+  function renderReminders(){
+    var list = document.getElementById('rpList');
+    var headline = document.getElementById('rpHeadline');
+    var note = document.getElementById('rpNote');
+    var enable = document.getElementById('rpEnable');
+    var test = document.getElementById('rpTest');
+    var off = document.getElementById('rpOff');
+    if(!list) return;
+
+    var items = H.reminderItems();
+    var over = items.filter(function(i){ return i.status==='overdue'; }).length;
+    var soon = items.length - over;
+
+    if(!items.length){
+      headline.textContent = (H.getState().vehicles||[]).length
+        ? 'Nothing is due.' : 'Nothing to remind you about yet.';
+    } else if(over && soon){
+      headline.textContent = over + ' overdue, ' + soon + ' due soon.';
+    } else if(over){
+      headline.textContent = over + (over===1 ? ' service is overdue.' : ' services are overdue.');
+    } else {
+      headline.textContent = soon + (soon===1 ? ' service is due soon.' : ' services are due soon.');
+    }
+
+    list.innerHTML = items.map(function(i){
+      return '<div class="rp-item '+i.status+'">'
+        +'<span class="rp-flag">'+(i.status==='overdue'?'Overdue':'Due soon')+'</span>'
+        +'<span><b></b><small></small></span></div>';
+    }).join('');
+    // Text set as textContent rather than interpolated, because a vehicle
+    // make and model are user input and go straight into this string.
+    Array.prototype.forEach.call(list.querySelectorAll('.rp-item'), function(el, n){
+      el.querySelector('b').textContent = items[n].title;
+      el.querySelector('small').textContent = items[n].detail;
+    });
+
+    var sup = H.reminderSupport();
+    var on = sup.permission === 'granted';
+    enable.style.display = on ? 'none' : '';
+    test.style.display = on ? '' : 'none';
+    off.style.display = on ? '' : 'none';
+
+    if(sup.permission === 'denied'){
+      note.innerHTML = '<b>Notifications are blocked for this site.</b> They have to be '
+        + 'switched back on in the browser&rsquo;s own site settings &mdash; a page cannot ask twice. '
+        + 'The list above keeps working either way.';
+    } else if(on){
+      note.innerHTML = sup.periodicSync && sup.installed
+        ? 'Checked in the background about once a day. The browser decides exactly when, '
+          + 'and is allowed to skip it &mdash; so this list, not the notification, is the thing to trust.'
+        : '<b>Install HUSLLYFE to your home screen</b> to get checks while the app is closed. '
+          + 'Until then reminders only fire while it is open.';
+    } else {
+      note.innerHTML = 'Reminders are off. Turning them on lets the Garage tell you when a service '
+        + 'comes due without you opening the app &mdash; nothing is sent anywhere, the check runs on this device.';
+    }
+
+    H.refreshBadge();
+  }
+
+  function wireReminders(){
+    var enable = document.getElementById('rpEnable');
+    var test = document.getElementById('rpTest');
+    var off = document.getElementById('rpOff');
+    if(!enable) return;
+    enable.addEventListener('click', function(){
+      enable.disabled = true;
+      H.enableReminders().then(function(r){
+        enable.disabled = false;
+        H.showToast(r.message);
+        renderReminders();
+      });
+    });
+    test.addEventListener('click', function(){
+      H.testReminder().then(function(r){ H.showToast(r.message); });
+    });
+    off.addEventListener('click', function(){
+      H.disableReminders().then(function(){
+        H.showToast('Background checks off. Browser permission stays until you clear it in site settings.');
+        renderReminders();
+      });
+    });
+  }
+
+  H.wireChrome();
+  wireEvents();
+  wireReminders();
+  H.loadState(function(){
+    H.renderBackupNag();
+    renderPhotoGrid();
+    updateVehiclePreview();
+    renderGarageList();
+    renderStorageMeter();
+    renderReminders();
+    H.publishDigest();
+    setAddCarOpen(!(H.getState().vehicles || []).length);
+  });
+})();
+</script>
+
+</body>
+</html>

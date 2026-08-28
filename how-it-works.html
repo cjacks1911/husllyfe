@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — How The Engines Work</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="What Body, Wealth and Drive each measure, what makes a gauge light up, and how to read the number it gives you.">
+<meta property="og:title" content="HUSLLYFE — How The Engines Work">
+<meta property="og:description" content="What Body, Wealth and Drive each measure, what makes a gauge light up, and how to read the number it gives you.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="how-it-works.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html" class="active" aria-current="page">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1627018549036-9e88bf289218?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / How It Works</div>
+    <h1>How the Engines Work</h1>
+    <p>Three engines, eleven measurements, one score. Here is what each gauge reads, what makes it light up, and why it moves when it moves.</p>
+  </div>
+</div>
+
+<main>
+
+<!-- ============================ the one score ============================ -->
+<section id="the-score" style="border-top:none">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">The HUSLLYFE Score</div><h2>One number.<br>Three engines.</h2></div>
+      <p>Body, Wealth and Drive each produce their own score, and the HUSLLYFE score is the weighted blend. An engine with nothing to measure does not drag you down — its weight is handed to the engines that do have something to measure.</p>
+    </div>
+
+    <div class="engine-split">
+      <a class="split-card" href="body.html">
+        <div class="split-weight">40%</div>
+        <h3>Body</h3>
+        <p>Training, recovery and measurable strength progress. Five inputs, reweighted around the goal you pick.</p>
+        <span class="split-go">Open the Body engine →</span>
+      </a>
+      <a class="split-card" href="wealth.html">
+        <div class="split-weight">40%</div>
+        <h3>Wealth</h3>
+        <p>How much goes in, whether it keeps going in, whether it works once it is there, and what it costs to hold.</p>
+        <span class="split-go">Open the Wealth engine →</span>
+      </a>
+      <a class="split-card" href="drive.html">
+        <div class="split-weight">20%</div>
+        <h3>Drive</h3>
+        <p>How well each machine is kept, and whether the fleet is funded out of surplus rather than out of your future.</p>
+        <span class="split-go">Open the Drive engine →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ reading a gauge ============================ -->
+<section id="reading">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Reading a gauge</div><h2>Every dial on the site<br>reads the same way.</h2></div>
+      <p>One traffic-light scale, shared by every engine, so a 74 means the same thing wherever you see it. There is no separate curve per page and no hidden grading.</p>
+    </div>
+
+    <div class="reading-grid">
+      <div class="panel dial-panel">
+        <svg viewBox="0 0 260 172" class="big-dial" role="img" aria-label="Gauge showing the three score bands: 0 to 60 red, 61 to 89 amber, 90 to 100 green, with a needle at 74">
+          <path d="M30.0,120.0 A100,100 0 0 1 160.9,24.89" fill="none" stroke="#d71920" stroke-width="13"/>
+          <path d="M160.9,24.89 A100,100 0 0 1 224.09,86.13" fill="none" stroke="#dfae2a" stroke-width="13"/>
+          <path d="M224.09,86.13 A100,100 0 0 1 230.0,120.0" fill="none" stroke="#5cc274" stroke-width="13"/>
+          <line x1="130" y1="120" x2="177.92" y2="68.97" stroke="#f4f4f1" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="130" cy="120" r="6" fill="#f4f4f1"/>
+          <text x="130" y="152" text-anchor="middle" fill="#f4f4f1" font-size="26" font-weight="800" font-family="Inter,Arial,sans-serif">74</text>
+          <text x="130" y="168" text-anchor="middle" fill="#6a7075" font-size="9" letter-spacing="1.6" font-family="ui-monospace,monospace">ON TRACK</text>
+          <text x="24" y="140" text-anchor="middle" fill="#6a7075" font-size="11" font-family="ui-monospace,monospace">0</text>
+          <text x="236" y="140" text-anchor="middle" fill="#6a7075" font-size="11" font-family="ui-monospace,monospace">100</text>
+        </svg>
+      </div>
+      <div class="panel">
+        <div class="kicker">The bands</div>
+        <div class="band-list">
+          <div class="band-row"><i style="background:var(--score-low)"></i><b>0 – 60</b><span>Needs work. The gauge is telling you the input behind it is the one to move first.</span></div>
+          <div class="band-row"><i style="background:var(--score-mid)"></i><b>61 – 89</b><span>On track. Real, sustained behaviour, with room left in it.</span></div>
+          <div class="band-row"><i style="background:var(--score-high)"></i><b>90 – 100</b><span>Strong. You are meeting or beating the standard the input is graded against.</span></div>
+          <div class="band-row"><i style="background:var(--score-none)"></i><b>—</b><span>Grey. Not a low score — the app has nothing to measure it <em>against</em> yet, and will not invent a number to fill the gap. Once the bar exists, the gauge starts at 0 and counts up.</span></div>
+        </div>
+        <div class="privacy" style="margin-top:22px"><b>ZERO IS A SCORE. GREY IS NOT.</b><br>A brand-new HUSLLYFE has no training log, no accounts and no vehicles, so every dial starts grey. The moment you set a target — days a week, gross income, a monthly contribution — the gauge behind it starts at <b>0</b> and climbs from there. An untrained week and an empty month are real results, not missing information, and they are scored as such.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ the principle ============================ -->
+<section id="principle">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">The idea underneath</div><h2>You are graded on<br>what you decide.</h2></div>
+      <p>Every input on this site measures something inside your control. That is a deliberate line, and it is what makes the three engines comparable enough to average.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="number">01 / EFFORT</span>
+        <h3>Did you do the thing?</h3>
+        <p>Training you completed. Money you moved. Service you had done. Not how strong you are relative to strangers, not what the market returned, not what your car is worth this month.</p>
+      </article>
+      <article class="card">
+        <span class="number">02 / YOUR BAR</span>
+        <h3>Held to your own number.</h3>
+        <p>Consistency is measured against the days a week <b>you</b> commit to and the monthly contribution <b>you</b> set — not a fixed seven-day week nobody should hit. Raise your commitment and the score gets harder.</p>
+      </article>
+      <article class="card">
+        <span class="number">03 / THE STANDARD</span>
+        <h3>And to a published one.</h3>
+        <p>Alongside your bar sits an absolute one: 150 minutes of cardio a week, two strength days, 15% of gross saved. Two bars separate <em>aiming too low</em> from <em>not hitting the aim</em>.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BODY ============================ -->
+<section id="body-engine">
+  <div class="wrap">
+    <div class="engine-head">
+      <div>
+        <div class="kicker">Engine 01 · 40% of HUSLLYFE</div>
+        <h2>Body</h2>
+        <p class="engine-lede">Five inputs. Three come straight from your training log, one is computed from the lifts you record, and one is yours to set. The weighting shifts with the goal you choose, so a Cardio goal and a Strength goal grade the same log differently.</p>
+      </div>
+      <a class="btn" href="body.html">Open Body →</a>
+    </div>
+
+    <div class="input-table">
+      <div class="it-head"><span>Input</span><span>What it measures</span><span>Graded against</span></div>
+
+      <div class="it-row">
+        <span class="it-name">Consistency <em>Logged</em></span>
+        <span>Days you trained in the last 28.</span>
+        <span class="it-target">The days a week you committed to</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Strength Progress <em>Computed</em></span>
+        <span>How far your best lifts have moved past the starting maxes you recorded.</span>
+        <span class="it-target">Your own baseline — +20% average reaches 100</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Cardio <em>Logged</em></span>
+        <span>Aerobic minutes in the last 14 days, weighted by intensity.</span>
+        <span class="it-target">150 minutes a week</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Strength Days <em>Logged</em></span>
+        <span>Days with a lifting session in the last 28.</span>
+        <span class="it-target">2 days a week</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Recovery <em>Manual</em></span>
+        <span>How recovered you actually feel. Nothing infers this for you.</span>
+        <span class="it-target">Your own read, 0–100</span>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <div class="panel">
+        <div class="kicker">Goal weighting</div>
+        <h3>Pick what you are training for.</h3>
+        <p class="muted">The same five inputs, weighted four different ways. Choosing a goal is not cosmetic — it changes which input carries your Body score.</p>
+        <div class="goal-table">
+          <div class="gt-head"><span></span><span>Cons.</span><span>Str.</span><span>Rec.</span><span>Cardio</span><span>Str. days</span></div>
+          <div class="gt-row"><span>Strength</span><span>0.25</span><span class="hi">0.30</span><span>0.15</span><span>0.10</span><span>0.20</span></div>
+          <div class="gt-row"><span>Longevity</span><span class="hi">0.30</span><span>0.15</span><span>0.25</span><span>0.15</span><span>0.15</span></div>
+          <div class="gt-row"><span>Fat Loss</span><span class="hi">0.30</span><span>0.15</span><span>0.15</span><span>0.25</span><span>0.15</span></div>
+          <div class="gt-row"><span>Cardio</span><span>0.25</span><span>0.10</span><span>0.20</span><span class="hi">0.35</span><span>0.10</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="kicker">Two halves of one guideline</div>
+        <h3>Cardio and strength days<br>never double-count.</h3>
+        <p class="muted">The public guideline has two parts: 150 minutes of aerobic work a week, and two muscle-strengthening days. HUSLLYFE scores both, and deliberately counts different things for each — <b>minutes</b> for cardio, <b>days</b> for strength.</p>
+        <p class="muted">So a lifting session earns a strength day without also inflating your cardio minutes, and a runner and a lifter cannot both light up the same input twice.</p>
+        <div class="formula">CONSISTENCY&nbsp;&nbsp; = days trained / (your days per week &times; 4) &times; 100<br>CARDIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = weighted minutes per week / 150 &times; 100<br>STRENGTH DAYS = lifting days / (2 &times; 4) &times; 100</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-tag">Strength page</div>
+      <p>Strength Progress is not a slider. Record a starting max per movement, then log what you lift; working sets convert to an estimated one-rep max and true singles are stored as tested. Your score is the average gain across every movement that has moved — so it credits the whole climb, not just the last month. <a href="strength.html">Open the Strength page →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ WEALTH ============================ -->
+<section id="wealth-engine-explained">
+  <div class="wrap">
+    <div class="engine-head">
+      <div>
+        <div class="kicker">Engine 02 · 40% of HUSLLYFE</div>
+        <h2>Wealth</h2>
+        <p class="engine-lede">Four inputs, all of them decisions you make rather than outcomes you receive. Your return against a benchmark is still calculated and still shown — in a panel marked <b>reported, not graded</b>, because what the market did is not a measure of what you did.</p>
+      </div>
+      <a class="btn" href="wealth.html">Open Wealth →</a>
+    </div>
+
+    <div class="input-table">
+      <div class="it-head"><span>Input</span><span>What it measures</span><span>Weight</span></div>
+      <div class="it-row">
+        <span class="it-name">Savings Rate <em>Logged</em></span>
+        <span>What you put away over the trailing year, as a share of gross income. Needs your gross income; starts at 0 from there.</span>
+        <span class="it-weight">0.35</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Contribution Consistency <em>Logged</em></span>
+        <span>What you actually put in against what you said you would. Needs a monthly commitment; starts at 0 from there.</span>
+        <span class="it-weight">0.30</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Invested Share <em>Ledger</em></span>
+        <span>Whether your liquid money is working. Cash up to your emergency fund is never charged — only what sits idle beyond it.</span>
+        <span class="it-weight">0.20</span>
+      </div>
+      <div class="it-row">
+        <span class="it-name">Cost Drag <em>Ledger</em></span>
+        <span>The value-weighted expense ratio of what you hold. Invisible on a statement, brutal over thirty years.</span>
+        <span class="it-weight">0.15</span>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <div class="panel">
+        <div class="kicker">The contribution log</div>
+        <h3>A balance says where you<br>ended up. The log says<br>whether you kept showing up.</h3>
+        <p class="muted">Log a deposit whenever you move money — payroll, transfer, bonus. Every figure the two contribution gauges quote comes from the log rather than being inferred from your balance, and a month with nothing in it counts as the zero it is.</p>
+        <div class="formula">SAVINGS RATE = your rate vs the 15% guideline<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fq">is the bar high enough?</span><br><br>CONSISTENCY&nbsp;&nbsp; = contributed vs committed<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fq">are you clearing your own bar?</span></div>
+      </div>
+      <div class="panel">
+        <div class="kicker">The ledger controls</div>
+        <h3>Two taps on each row.</h3>
+        <div class="ledger-key">
+          <div class="key-row"><span class="key-tag cash">CASH</span><span>Marks a row as savings rather than invested. Untapped rows count as invested. Illiquid holdings — a house, a business — stay unflagged and sit outside the measure entirely.</span></div>
+          <div class="key-row"><span class="key-tag er">ER %</span><span>The expense ratio of the fund. Cost Drag needs one on every invested account before it will score, so a cheap fund cannot stand in for an expensive one you have not checked.</span></div>
+        </div>
+        <p class="muted" style="margin-top:18px">Cash below your emergency fund is reported under the gauge as context rather than graded. Holding too much and holding too little are opposite risks, and one meter can only honestly grade one of them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DRIVE ============================ -->
+<section id="drive-engine-explained">
+  <div class="wrap">
+    <div class="engine-head">
+      <div>
+        <div class="kicker">Engine 03 · 20% of HUSLLYFE</div>
+        <h2>Drive</h2>
+        <p class="engine-lede">Two questions, kept deliberately separate: how well is each car looked after, and is the fleet funded? The first is per car and measures maintenance alone. The second is charged once, against what you earn and whether you are still putting money away — never against how much you happen to have accumulated.</p>
+      </div>
+      <a class="btn" href="garage.html">Open the Garage →</a>
+    </div>
+
+    <div class="two-up">
+      <div class="panel">
+        <div class="kicker">Per car</div>
+        <h3>Upkeep.</h3>
+        <p class="muted">Maintenance discipline, and nothing else. What a car costs to run is an affordability question and belongs to the fleet, so it is charged there instead of hiding inside a number called Upkeep.</p>
+        <div class="formula">UPKEEP = 100 &times; maintenance factor<br><br>maintenance factor scales with two things:<br>&nbsp;&nbsp;how current the services you log are<br>&nbsp;&nbsp;how much of the schedule you log at all</div>
+        <p class="muted" style="margin-top:16px">Full marks need a full schedule kept current — not one oil change standing in for the tyres, brakes and battery nobody has recorded.</p>
+      </div>
+      <div class="panel">
+        <div class="kicker">Per fleet</div>
+        <h3>Affordability.</h3>
+        <p class="muted">One question, asked once about the whole fleet: do the cars come out of surplus, or out of your future? What they cost you each year against what you earn — with relief for still saving, because that is direct evidence they are being funded rather than borrowed against.</p>
+        <div class="formula">DRIVE = average(upkeep) &minus; affordability<br><br>cost share = annual running cost / gross income<br>free to 15%, then 2.2 points per point over<br>relieved by how close you are to saving 15%</div>
+        <p class="muted" style="margin-top:16px">Deliberately <b>not</b> measured against net worth. That punishes anyone who earns well and has not finished accumulating — a thirty-two-year-old with one immaculate sports car and a serious savings habit is not overextended, and an engine that says otherwise is measuring age, not judgement.</p>
+        <p class="muted">Charged once on the fleet, so splitting the same money across two cars does not dodge it. And because it belongs to the fleet, each vehicle card shows only <b>Upkeep</b> — how well that machine is kept, nothing about what it cost.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-tag">Service record</div>
+      <p>On a car anyone wants, a documented history is worth money &mdash; and "no history" is the phrase that costs a seller thousands. Every service you log builds the folder that goes with the car: dates, mileage, what was done, what it cost. Print it to PDF for the glovebox, or hand it to a buyer. <a href="garage.html">Start the record &rarr;</a></p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-tag">Cost per mile</div>
+      <p>Every vehicle card shows what that car truly costs to run per mile &mdash; <b>depreciation included</b>, which fuel-and-service apps leave out and which is most of the real answer. On something driven a few thousand miles a year it is nearly all of it. Add a purchase price and the mileage when you bought it to unlock it.</p>
+    </div>
+
+    <div class="callout">
+      <div class="callout-tag">Service schedule</div>
+      <p>Every service carries a mileage interval <em>and</em> a time interval, and whichever arrives first is what makes it due. HUSLLYFE fits your actual driving pace from the odometer readings on your own service records, so a distance interval becomes a projected date you can put in a calendar. <a href="garage.html">Set up your Garage →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ data ============================ -->
+<section id="your-data">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Your data</div><h2>It never leaves<br>this browser.</h2></div>
+      <p>No account, no sign-up, no server and nothing connected to a bank, a broker or a wearable. Everything you enter is stored locally on the device you entered it on.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <span class="number">LOCAL</span>
+        <h3>Stored on your device.</h3>
+        <p>Training sessions, lifts, contributions, balances and vehicles all live in your browser's own storage. Nothing is uploaded and there is no account to create.</p>
+      </article>
+      <article class="card">
+        <span class="number">PROFILES</span>
+        <h3>More than one person, one browser.</h3>
+        <p>Separate profiles keep separate data on a shared machine. This is separation for convenience, not security — anyone at the device can switch between them.</p>
+      </article>
+      <article class="card">
+        <span class="number">BACKUP</span>
+        <h3>Take one. Really.</h3>
+        <p>Browser storage is a cache your browser is free to clear. Download a backup from the profile menu — it is the only real copy, and HUSLLYFE will remind you if it has been a while.</p>
+      </article>
+      <article class="card">
+        <span class="number">INSTALL</span>
+        <h3>It runs without a signal.</h3>
+        <p>Install it to your home screen — an <b>Install app</b> button appears in the footer where the browser offers one, or on iPhone use Share → Add to Home Screen. Every page then loads and scores in a gym basement or a parking garage, because none of it needed the network in the first place.</p>
+      </article>
+      <article class="card">
+        <span class="number">REMINDERS</span>
+        <h3>The Garage tells you first.</h3>
+        <p>It already knows when every service is due. Switch reminders on and it says so without you opening the app — one grouped notification, computed on your device, sent to nobody. Background checks need it installed to your home screen, are Chromium-only, and the browser decides when they run, so the list inside the Garage stays the thing to trust.</p>
+      </article>
+      <article class="card">
+        <span class="number">LIVE</span>
+        <h3>One thing never comes from a cache.</h3>
+        <p>VIN decoding and recall checks are read live from the NHTSA, and are the only part of HUSLLYFE that reaches outside your browser. They are never stored for offline use: a recall answer quietly served from last month would be worse than no answer, so with no signal they simply do not answer.</p>
+      </article>
+    </div>
+    <div class="privacy" style="margin-top:24px"><b>NOT ADVICE.</b><br>HUSLLYFE visualizes progress you record yourself. It does not make medical diagnoses, it is not financial advice, and it is not a substitute for a professional who knows your situation.</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <a href="index.html" style="color:var(--gold);border-bottom:1px solid var(--gold)">Back to the dashboard</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+  // Chrome only — this page reads nothing and writes nothing.
+  window.HUSLLYFE.wireChrome();
+</script>
+
+</body>
+</html>

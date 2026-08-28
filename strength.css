@@ -1,0 +1,103 @@
+/* HUSLLYFE — Strength page. Kept separate for the same reason garage.css is:
+   these rules are specific to lift tracking and would be dead weight on the
+   other five pages. */
+
+.strength-head{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center;margin-bottom:26px}
+.strength-head .score-ring{--ring-size:150px}
+.strength-head h2{margin:6px 0 8px;font-size:38px;line-height:1.05}
+.unit-row{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:11px;
+  text-transform:uppercase;letter-spacing:.12em}
+.unit-toggle{display:flex;border:1px solid var(--line)}
+.unit-toggle button{background:none;border:none;color:var(--muted);font-family:inherit;font-size:11px;
+  text-transform:uppercase;letter-spacing:.1em;padding:7px 14px;cursor:pointer}
+.unit-toggle button.active{background:rgba(215,25,32,.14);color:#fff}
+.unit-toggle button:hover{color:#fff}
+@media(max-width:700px){.strength-head{grid-template-columns:1fr;gap:20px}.strength-head h2{font-size:30px}}
+
+.stale-note{padding:13px 18px;margin-bottom:24px;font-size:12px;line-height:1.6;color:#d8c48a;
+  background:rgba(223,174,42,.08);border:1px solid #4a3d1f}
+
+.strength-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.strength-grid{grid-template-columns:1fr}}
+
+.e1rm-preview{padding:14px 16px;border:1px dashed var(--line);font-size:12px;color:#666;text-align:center}
+.e1rm-preview.live{border-style:solid;color:#999}
+.e1rm-preview.live b{color:var(--gold);font-size:19px;display:block;margin-bottom:3px}
+.e1rm-preview.warn{border-color:#4a3d1f}
+.e1rm-preview.warn b{color:var(--score-mid)}
+.e1rm-preview span{font-size:11px}
+
+/* ---------- Starting maxes ---------- */
+.baseline-list{margin-top:6px}
+.baseline-row{display:grid;grid-template-columns:1.5fr auto 74px 22px;gap:10px;align-items:center;
+  padding:9px 0;border-bottom:1px solid #1b1e20}
+.baseline-row:last-of-type{border-bottom:none}
+.bl-name{font-size:13px;color:#ccc;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.baseline-row.set .bl-name{color:var(--text);font-weight:600}
+.bl-group{font-size:8.5px;color:#666;text-transform:uppercase;letter-spacing:.1em;margin-left:8px}
+.bl-inputs{display:flex;gap:6px}
+.bl-inputs input{width:66px;padding:6px 7px;font-size:12px;text-align:center}
+.bl-est{font-size:12px;color:var(--gold);text-align:right;font-weight:700}
+.baseline-row:not(.set) .bl-est{color:#4a4e51}
+.bl-remove{background:none;border:none;color:#555;font-family:inherit;font-size:11px;cursor:pointer;padding:2px}
+.bl-remove:hover{color:var(--accent)}
+
+.add-movement{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:16px;
+  padding-top:16px;border-top:1px solid var(--line)}
+.add-movement input,.add-movement select{padding:8px 10px;font-size:12px}
+.add-movement .btn{padding:8px 16px;font-size:11px}
+@media(max-width:520px){
+  .baseline-row{grid-template-columns:1fr auto 22px;gap:8px}
+  .bl-est{grid-column:1 / -1;text-align:left}
+  .add-movement{grid-template-columns:1fr}
+}
+
+/* ---------- Movement cards ---------- */
+.movement-section,.history-section{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.movement-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:16px}
+.movement-card{padding:16px;background:#0b0d0e;border:1px solid var(--line);border-top-width:2px}
+.movement-card.gain-up{border-top-color:var(--score-high)}
+.movement-card.gain-flat{border-top-color:var(--score-mid)}
+.movement-card.gain-down{border-top-color:var(--score-low)}
+.movement-card.gain-none{border-top-color:var(--score-none)}
+.mc-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.mc-name{font-size:13px;font-weight:700;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-gain{font-size:14px;font-weight:800;flex-shrink:0}
+.gain-up .mc-gain{color:var(--score-high)}
+.gain-flat .mc-gain{color:var(--score-mid)}
+.gain-down .mc-gain{color:var(--score-low)}
+.gain-none .mc-gain{color:#555;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.mc-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.mc-nums small{display:block;font-size:8.5px;color:#666;text-transform:uppercase;letter-spacing:.1em}
+.mc-nums b{font-size:12px;color:#ddd;display:block;margin-top:3px}
+.mc-spark{margin-top:12px;height:34px;color:#555}
+.gain-up .mc-spark{color:var(--score-high)}
+.gain-down .mc-spark{color:var(--score-low)}
+.mc-spark svg{width:100%;height:34px;display:block}
+.mc-pr{margin-top:10px;font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.06em}
+
+/* ---------- Lift history ---------- */
+.lift-history{margin-top:14px;display:grid;gap:8px}
+.lift-row{padding:13px 15px;background:#0b0d0e;border:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.lr-left{min-width:0}
+.lr-type{font-size:13px;font-weight:700;color:#eee}
+.lr-tag{display:inline-block;margin-left:8px;font-size:8.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;padding:2px 6px;border:1px solid var(--line);color:var(--gold);vertical-align:middle}
+.lr-tag.warn{color:var(--score-mid);border-color:#4a3d1f}
+.lr-meta{font-size:11px;color:#888;margin-top:4px}
+.lr-notes{font-size:11px;color:#777;margin-top:5px;line-height:1.5}
+.lift-row .remove{background:none;border:1px solid var(--line);color:#666;font-family:inherit;
+  font-size:10px;width:24px;height:24px;cursor:pointer;flex-shrink:0}
+.lift-row .remove:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Bodyweight: needed so pull-ups and dips are scored on total system load
+   rather than on the plate alone. */
+.bw-field{display:flex;align-items:center;gap:8px;font-size:11px;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--muted)}
+.bw-field input{width:76px;padding:6px 8px;font-size:12px;text-align:center;text-transform:none;letter-spacing:0}
+.bw-note{font-size:11px;color:#8a7a4e;line-height:1.6;margin:10px 0 0;max-width:560px}
+.movement-card.needs-bw{border-top-color:var(--score-mid)}
+.mc-bwwarn{flex-basis:100%;font-size:9.5px;color:var(--score-mid);text-transform:uppercase;
+  letter-spacing:.06em;line-height:1.5;margin-top:6px}
+.mc-head{flex-wrap:wrap}

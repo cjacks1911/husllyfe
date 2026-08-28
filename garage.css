@@ -1,0 +1,259 @@
+/* HUSLLYFE — garage-only styles.
+   Kept separate on purpose: these override .vehicle-card, which drive.html
+   also renders. Making them global would add a pointer cursor and hover
+   state to drive.html's non-interactive fleet cards. */
+.vehicle-card{cursor:pointer;transition:border-color .25s ease,transform .25s ease}
+.vehicle-card:hover{border-color:#444}
+.vehicle-card.selected{border-color:var(--accent)}
+.vehicle-card .vc-tap{font-size:10px;color:#f5d90a;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:10px;text-align:center}
+.vc-maint-grid{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.vc-maint-row{display:grid;grid-template-columns:1.4fr .8fr 1fr .7fr;gap:6px;font-size:10px;padding:5px 0;border-bottom:1px solid #1b1e20;align-items:center}
+.vc-maint-row:last-of-type{border-bottom:none}
+.vc-maint-head{color:#666;text-transform:uppercase;letter-spacing:.06em;font-size:8.5px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.vc-maint-type{color:#ddd;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vc-maint-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#999}
+.vc-maint-more{font-size:9px;color:#666;text-align:center;padding-top:6px;text-transform:uppercase;letter-spacing:.08em}
+.vc-maint-empty{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:10px;color:#555;text-align:center}
+
+.maintenance-panel{margin-top:40px;padding-top:34px;border-top:1px solid var(--line)}
+.maint-summary{display:flex;gap:10px;flex-wrap:wrap}
+.maint-badge{padding:8px 14px;background:#0b0d0e;border:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#999}
+.maint-badge b{color:var(--gold);font-size:13px;margin-left:6px}
+
+.type-pills{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.type-pill{border:1px solid var(--line);background:none;color:#aaa;font-family:inherit;font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:8px 12px;cursor:pointer}
+.type-pill:hover{border-color:#666;color:#fff}
+.type-pill.active{border-color:var(--accent);color:#fff;background:rgba(215,25,32,.12)}
+
+.due-card{padding:18px;border:1px solid var(--line);background:#0b0d0e}
+.due-card.status-ok{border-color:#2c4430}
+.due-card.status-soon{border-color:#4a3d1f}
+.due-card.status-overdue{border-color:#4a1f1f}
+.due-status{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:800}
+.due-status.status-ok{color:var(--green)}
+.due-status.status-soon{color:var(--gold)}
+.due-status.status-overdue{color:var(--accent)}
+.due-detail{color:#999;font-size:12px;margin-top:8px;line-height:1.5}
+
+.maint-history{margin-top:10px;display:grid;gap:8px}
+.maint-row{padding:14px;background:#0b0d0e;border:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.maint-row .mr-left{min-width:0}
+.maint-row .mr-type{font-size:13px;font-weight:700;color:#eee}
+.maint-row .mr-meta{font-size:11px;color:#888;margin-top:4px}
+.maint-row .mr-notes{font-size:11px;color:#777;margin-top:6px;line-height:1.5}
+.maint-row .mr-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.maint-row .mr-cost{font-size:15px;font-weight:800;color:var(--gold)}
+.maint-empty{color:#555;font-size:12px;padding:10px 0}
+@media(max-width:520px){.maint-row{flex-direction:column}.maint-row .mr-right{align-self:flex-end}}
+
+/* ---------- Service schedule ---------- */
+.due-list{display:grid;gap:8px;margin-top:12px}
+.due-row{padding:12px 14px;border:1px solid var(--line);background:#0b0d0e;border-left-width:3px}
+.due-row.status-ok{border-left-color:var(--score-high)}
+.due-row.status-soon{border-left-color:var(--score-mid)}
+.due-row.status-overdue{border-left-color:var(--score-low)}
+.due-row.status-none{border-left-color:var(--score-none)}
+.dr-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.dr-type{font-size:13px;font-weight:700;color:var(--text)}
+.dr-status{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;flex-shrink:0}
+.dr-status.status-ok{color:var(--score-high)}
+.dr-status.status-soon{color:var(--score-mid)}
+.dr-status.status-overdue{color:var(--score-low)}
+.dr-status.status-none{color:var(--muted)}
+.dr-meta{font-size:11px;color:#999;margin-top:5px}
+.dr-proj{font-size:11px;color:var(--gold);margin-top:4px}
+.dr-last{font-size:10px;color:#666;margin-top:4px}
+
+.vc-due{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;
+  padding:7px 9px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line)}
+.vc-due b{font-size:11px}
+.vc-due.status-ok{border-color:#2c4430;color:var(--score-high)}
+.vc-due.status-soon{border-color:#4a3d1f;color:var(--score-mid)}
+.vc-due.status-overdue{border-color:#4a1f1f;color:var(--score-low)}
+
+/* ---------- Interval editor ---------- */
+.duty-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:#aaa}
+.duty-row select{flex:1;max-width:320px}
+.interval-grid{display:grid;gap:4px}
+.interval-row{display:grid;grid-template-columns:1.6fr .7fr .7fr;gap:8px;align-items:center}
+.interval-head{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#666;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.iv-name{font-size:12px;color:#ccc;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.iv-input{width:100%;padding:7px 8px;font-size:12px}
+
+/* ---------- Cost of ownership + value history ---------- */
+.own-table{margin-top:10px}
+.own-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #1b1e20;font-size:12px;color:#999}
+.own-row:last-of-type{border-bottom:none}
+.own-row b{color:var(--text);font-size:13px}
+.own-row:nth-last-child(2) b,.own-row:last-of-type b{color:var(--gold)}
+
+.value-chart{margin-top:12px;height:52px}
+.value-chart svg{width:100%;height:100%;display:block}
+.vc-caption{font-size:10px;color:#666;margin-top:6px;text-transform:uppercase;letter-spacing:.06em}
+.val-history{margin-top:14px;display:grid;gap:4px;max-height:220px;overflow:auto}
+.val-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:#999;padding:6px 0;border-bottom:1px solid #1b1e20}
+.val-right{display:flex;align-items:center;gap:10px}
+.val-right b{color:var(--text)}
+.val-delta{font-size:10px}
+.val-delta.down{color:var(--score-low)}
+.val-delta.up{color:var(--score-high)}
+
+.field-note{display:block;font-size:10px;color:#666;margin-top:5px;line-height:1.5}
+.opt{font-size:9px;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-left:6px}
+@media(max-width:520px){.interval-row{grid-template-columns:1.3fr .8fr .8fr}}
+
+/* ---------- VIN lookup ---------- */
+.vin-lookup{
+  border:1px dashed var(--line);background:#0b0d0e;padding:16px 18px;margin-top:18px;
+}
+.vin-lookup > label{
+  display:block;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#777;margin-bottom:9px;
+}
+.vin-row{display:flex;gap:10px}
+.vin-row input{
+  flex:1;min-width:0;background:#0a0b0c;color:var(--text);border:1px solid var(--line);
+  padding:12px 13px;font:inherit;outline:none;letter-spacing:.06em;text-transform:uppercase;
+}
+.vin-row input:focus{border-color:#555}
+.vin-row input::placeholder{text-transform:none;letter-spacing:0;color:#5a5f63}
+.vin-row .btn{flex-shrink:0}
+.vin-note{display:block;margin-top:10px;line-height:1.6}
+.vin-note.ok{color:var(--green)}
+.vin-note.warn{color:var(--score-mid)}
+
+/* ---------- safety recalls ---------- */
+.recall-block{margin-top:22px;border-top:1px solid var(--line);padding-top:18px}
+.recall-block.has-urgent{border-top-color:var(--accent)}
+.recall-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.recall-head .muted{font-size:12px;margin:6px 0 0;line-height:1.6}
+.recall-head .muted em{font-style:normal;color:var(--score-mid)}
+.recall-head .btn{flex-shrink:0}
+.recall-head .btn:disabled{opacity:.4;cursor:not-allowed}
+
+.recall-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.recall-row{
+  background:#0b0d0e;border:1px solid var(--line);border-left:2px solid var(--score-mid);
+  padding:14px 16px;
+}
+.recall-row.urgent{border-left-color:var(--accent);background:#120c0d}
+.rc-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.rc-component{font-size:13px;font-weight:700;color:var(--text);line-height:1.4}
+.rc-id{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;color:#6a7075;flex-shrink:0;
+}
+.rc-flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.recall-flag{
+  font-size:8px;letter-spacing:.12em;padding:3px 7px;border:1px solid var(--line);color:var(--muted);
+}
+.recall-flag.danger{color:#fff;background:var(--accent);border-color:var(--accent)}
+.recall-flag.ota{color:var(--green);border-color:#2f5638}
+.rc-consequence,.rc-remedy{
+  font-size:12px;line-height:1.65;color:#9a9fa3;margin:9px 0 0;
+}
+.rc-consequence b,.rc-remedy b{color:#c9cdd0}
+.rc-date{font-size:10px;color:#5f6469;margin-top:9px;letter-spacing:.05em}
+.recall-foot{font-size:10.5px;color:#6a7075;line-height:1.65;margin:14px 0 0}
+
+@media(max-width:560px){
+  .vin-row{flex-direction:column}
+  .recall-head{flex-direction:column}
+}
+
+/* ---------- the service record ---------- */
+.provenance{margin-top:22px;border-top:1px solid var(--line);padding-top:18px}
+.prov-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.prov-head .muted{font-size:12px;margin:6px 0 0;line-height:1.6}
+.prov-head .muted b{color:var(--gold)}
+.prov-head .btn{flex-shrink:0}
+.prov-head .btn:disabled{opacity:.4;cursor:not-allowed}
+.prov-note{font-size:11px;color:#6a7075;line-height:1.7;margin:12px 0 0;max-width:62ch}
+
+/* The printable document lives off-screen until the print stylesheet
+   promotes it. Not display:none — a hidden subtree does not always lay out
+   in time for print() in every browser. */
+#printRoot{position:absolute;left:-10000px;top:0;width:760px}
+
+@media print{
+  /* Print the record and nothing else. */
+  body > *{display:none !important}
+  body > #printRoot{
+    display:block !important;position:static !important;left:auto !important;width:auto !important;
+  }
+  html,body{background:#fff !important;color:#111 !important}
+  @page{margin:16mm}
+  .pr-doc{font-family:Georgia,'Times New Roman',serif;color:#111;font-size:11pt;line-height:1.5}
+  .pr-top{display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:2px solid #111;padding-bottom:8px;margin-bottom:20px}
+  .pr-brand{font-family:Arial,Helvetica,sans-serif;font-weight:900;letter-spacing:.16em;font-size:13pt}
+  .pr-kind{font-family:Arial,Helvetica,sans-serif;font-size:8pt;letter-spacing:.18em;
+    text-transform:uppercase;color:#555;margin-top:3px}
+  .pr-date{font-family:Arial,Helvetica,sans-serif;font-size:8pt;color:#555;letter-spacing:.06em}
+  .pr-title{font-size:22pt;margin:0 0 14px;font-weight:normal;letter-spacing:-.01em}
+  .pr-id{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 28px;margin-bottom:20px;
+    border-bottom:1px solid #bbb;padding-bottom:14px}
+  .pr-id div{display:flex;justify-content:space-between;gap:12px;font-size:9.5pt;
+    border-bottom:1px dotted #ddd;padding:3px 0}
+  .pr-id span{color:#555;font-family:Arial,Helvetica,sans-serif;font-size:8pt;
+    letter-spacing:.1em;text-transform:uppercase}
+  .pr-id b{font-weight:600}
+  .pr-table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  .pr-table th{text-align:left;font-family:Arial,Helvetica,sans-serif;font-size:7.5pt;
+    letter-spacing:.14em;text-transform:uppercase;color:#555;font-weight:600;
+    border-bottom:1.5px solid #111;padding:0 8px 6px 0}
+  .pr-table td{padding:7px 8px 7px 0;border-bottom:1px solid #ddd;vertical-align:top}
+  .pr-table .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .pr-table tr{page-break-inside:avoid}
+  .pr-table .empty{color:#777;font-style:italic;text-align:center;padding:20px 0}
+  .pr-totals{display:flex;justify-content:space-between;margin-top:10px;
+    font-family:Arial,Helvetica,sans-serif;font-size:8.5pt;letter-spacing:.08em;
+    text-transform:uppercase;color:#333;border-top:2px solid #111;padding-top:8px}
+  .pr-foot{font-size:8pt;color:#666;line-height:1.6;margin-top:26px;
+    border-top:1px solid #ddd;padding-top:10px;font-family:Arial,Helvetica,sans-serif}
+}
+@media(max-width:560px){ .prov-head{flex-direction:column} }
+
+/* -------------------------------------------------------------------
+   Reminders panel
+   Sits above the fleet list because "what needs doing" outranks "what
+   I own" every time you open this page.
+   ------------------------------------------------------------------- */
+.reminder-panel{
+  border:1px solid var(--line); background:var(--panel);
+  padding:20px 22px; margin-bottom:26px;
+}
+.reminder-panel .rp-head{
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:16px; flex-wrap:wrap;
+}
+.reminder-panel h3{margin:4px 0 0; font-size:23px; letter-spacing:-.02em}
+.reminder-panel .rp-actions{display:flex; gap:8px; flex-wrap:wrap}
+.reminder-panel .btn.ghost{
+  background:none; border:1px solid var(--line); color:var(--muted);
+}
+.reminder-panel .btn.ghost:hover{color:var(--text); border-color:var(--muted)}
+
+.rp-list{display:grid; gap:2px; margin-top:16px}
+.rp-list:empty{margin-top:0}
+.rp-item{
+  display:grid; grid-template-columns:78px 1fr; gap:14px; align-items:center;
+  background:var(--panel2); border-left:3px solid var(--line); padding:12px 14px;
+}
+.rp-item.overdue{border-left-color:var(--accent)}
+.rp-item.soon{border-left-color:var(--gold)}
+.rp-flag{
+  font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:800;
+}
+.rp-item.overdue .rp-flag{color:var(--accent)}
+.rp-item.soon .rp-flag{color:var(--gold)}
+.rp-item b{display:block; font-size:14.5px; font-weight:600; margin-bottom:2px}
+.rp-item small{color:var(--muted); font-size:12px; font-variant-numeric:tabular-nums}
+
+.rp-note{
+  color:var(--muted); font-size:12px; line-height:1.6; margin:14px 0 0;
+  border-top:1px solid var(--line); padding-top:12px;
+}
+.rp-note b{color:var(--gold); font-weight:600}
+
+@media (max-width:520px){
+  .rp-item{grid-template-columns:1fr; gap:4px}
+}

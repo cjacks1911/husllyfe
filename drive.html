@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Drive</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="The machine is the receipt. Cars, engineering, taste and culture.">
+<meta property="og:title" content="HUSLLYFE — Drive">
+<meta property="og:description" content="The machine is the receipt. Cars, engineering, taste and culture.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html" class="active" aria-current="page">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1627018549036-9e88bf289218?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / Drive</div>
+    <h1>Drive</h1>
+    <p>The machine is the receipt. Cars, engineering, taste and culture — celebrated, but never confused with the work behind them. 20% of your HUSLLYFE score.</p>
+  </div>
+</div>
+
+<main>
+<section id="drive" style="border-top:none">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">The Receipt</div><h2>Cars are culture.</h2></div><p>HUSLLYFE treats automotive culture as the visible expression of progress—engineering, design, ownership and the stories behind the machines.</p></div>
+    <div class="drive">
+      <div class="drive-box" style="background-image:linear-gradient(135deg,rgba(23,25,27,.85),rgba(10,11,12,.92)),url('https://images.unsplash.com/photo-1544567430-993e6cead679?fm=jpg&amp;q=70&amp;w=1200&amp;auto=format&amp;fit=crop');background-size:cover;background-position:center"><span class="tag">Garage</span><h3>Know the machine.</h3><p>Buyer guides, ownership costs, reliability, modifications and the cars worth building around.</p></div>
+      <div class="drive-box" style="background-image:linear-gradient(135deg,rgba(23,25,27,.85),rgba(10,11,12,.92)),url('https://images.unsplash.com/photo-1710880137575-c99017c68d3b?fm=jpg&amp;q=70&amp;w=1200&amp;auto=format&amp;fit=crop');background-size:cover;background-position:center"><span class="tag">Culture</span><h3>Know why it matters.</h3><p>People, style, music, cities, fitness and ambition—the culture surrounding the drive.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="drive-score">
+  <div class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Live from your Garage</div><h2>Your Drive Score.</h2></div>
+      <p>Maintenance discipline per car, and one affordability question for the whole fleet: do the cars come out of surplus, or out of your future? 20% of your HUSLLYFE score. Add or edit vehicles on the <a href="garage.html" style="color:var(--gold);border-bottom:1px solid var(--gold)">Garage page</a>.</p>
+    </div>
+
+    <div class="wealth-dashboard">
+      <div class="panel">
+        <div class="kicker">Fleet Summary</div>
+        <h3 id="fleetHeadline">No vehicles yet</h3>
+        <div class="vehicle-cards" id="fleetCards" style="margin-top:18px"></div>
+        <p class="empty-note" id="fleetEmptyNote">Nothing in the Garage yet. <a href="garage.html" style="color:var(--gold);border-bottom:1px solid var(--gold)">Add your first vehicle →</a></p>
+      </div>
+      <div class="panel">
+        <div class="kicker">Drive Score</div>
+        <div class="score-ring" id="driveScoreRing"><div><b id="driveScoreNum">—</b><span>Drive</span></div></div>
+        <div class="ratio"><div><small id="driveRatioLabel">Cars / Income</small><br><b id="driveRatioNum">—</b></div><div style="text-align:right"><small>Target</small><br><b id="driveRatioTarget">≤15%</b></div></div>
+        <p class="muted" id="affordabilityNote" style="font-size:11.5px;line-height:1.65;margin-top:12px"></p>
+
+        <div class="disclosure collapsed" id="driveMath" style="margin-top:20px">
+          <button type="button" class="disclosure-toggle" id="driveMathToggle" data-auto aria-expanded="false" aria-controls="driveMathBody">
+            <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">How the Drive score is calculated</span></span>
+            <span class="dt-hint" data-open-text="Hide the calculation">Show the maths</span>
+          </button>
+          <div class="disclosure-body" id="driveMathBody">
+            <div class="formula">UPKEEP (per vehicle) = 100 &times; maintenance_factor<br>
+Upkeep is maintenance discipline and nothing else. What a car costs<br>
+to run is an affordability question, and affordability belongs to the<br>
+fleet, not to any one car.<br><br>
+maintenance_factor blends what your records show with how much<br>
+of the schedule they actually cover:<br><br>
+&nbsp;&nbsp;kept&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0.80 + 0.20 &times; (health of the services you DO log)<br>
+&nbsp;&nbsp;coverage = services with history / services on the schedule<br>
+&nbsp;&nbsp;factor&nbsp;&nbsp;&nbsp;= 0.94 + (kept &minus; 0.94) &times; coverage<br><br>
+&nbsp;&nbsp;nothing logged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr; 0.94<br>
+&nbsp;&nbsp;one fresh oil change, nothing else &rarr; 0.95<br>
+&nbsp;&nbsp;whole schedule, all current&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr; 1.00<br>
+&nbsp;&nbsp;whole schedule, all overdue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr; 0.80<br><br>
+DRIVE SCORE = average(upkeep) &minus; affordability<br><br>
+AFFORDABILITY asks whether the cars come out of surplus or out of<br>
+your future. Both halves are decisions you make:<br><br>
+&nbsp;&nbsp;cost_share = annual running cost of the fleet / gross income<br>
+&nbsp;&nbsp;over&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= max(0, cost_share &minus; 15%)<br>
+&nbsp;&nbsp;charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= over &times; 2.2 points per point<br>
+&nbsp;&nbsp;relief&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= how close you are to the 15% savings GUIDELINE<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(not your personal savings target &mdash; raising your own<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bar must not cost you points on your car)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(waives up to 65% of the charge, never all of it)<br><br>
+It is charged ONCE on the whole fleet &mdash; splitting the same money<br>
+across two cars does not dodge it.<br><br>
+WHY NOT NET WORTH. This used to be fleet value against net worth,<br>
+free to 15%. That is the wrong denominator for anyone who earns well<br>
+and has not finished accumulating: a 32-year-old on $220,000, saving<br>
+a quarter of it, lost 39 points for one immaculate sports car, while<br>
+somebody with a cheap car and no savings habit kept a clean 100. Net<br>
+worth is largely an outcome of age and inheritance. What you earn,<br>
+what the cars cost you and whether you keep saving are decisions &mdash;<br>
+and decisions are the only thing this site grades.<br><br>
+If you have not entered a gross income on the Wealth page, or no<br>
+vehicle has an annual running cost, the old net-worth ratio is used<br>
+instead and the panel above says so. No new inputs are demanded of<br>
+anyone who was happy with it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+
+  function renderFleet(){
+    var state=H.getState();
+    var wrap=document.getElementById('fleetCards');
+    var empty=document.getElementById('fleetEmptyNote');
+    var headline=document.getElementById('fleetHeadline');
+    wrap.innerHTML='';
+
+    headline.textContent = state.vehicles.length
+      ? state.vehicles.length + ' vehicle' + (state.vehicles.length===1?'':'s') + ' in the Garage'
+      : 'No vehicles yet';
+    empty.style.display = state.vehicles.length ? 'none' : 'block';
+
+    state.vehicles.forEach(function(v){
+      var card=document.createElement('div'); card.className='vehicle-card';
+      var thumb=document.createElement('div'); thumb.className='thumb';
+      if(v.photos && v.photos[0]){ thumb.style.backgroundImage="url('"+v.photos[0]+"')"; }
+      else { thumb.textContent='No Photo'; }
+      var body=document.createElement('div'); body.className='vc-body';
+      var score=H.vehicleScore(v);
+      body.innerHTML =
+        '<h4>'+H.esc([v.year,v.make,v.model].filter(Boolean).join(' '))+'</h4>'+
+        '<div class="vc-meta"><span>'+H.esc(v.trim||'—')+'</span><span>'+H.money(v.value)+'</span></div>'+
+        '<div class="vc-score"><span>Upkeep</span><b>'+score+'</b></div>'+
+        (function(){
+          // True cost per mile, depreciation included. Fuel-and-service apps
+          // leave depreciation out, which is most of what a car costs — and on
+          // something driven a few thousand miles a year it is nearly all of
+          // it. Shown here rather than buried behind a panel because it is the
+          // most arresting number this app knows about a vehicle.
+          var c=H.ownershipCost(v);
+          if(c.perMile==null){
+            return '<div class="vc-cpm locked"><span>Cost / mile</span><b>&mdash;</b></div>';
+          }
+          return '<div class="vc-cpm"><span>Cost / mile</span><b>$'+c.perMile.toFixed(2)+'</b></div>';
+        })();
+      card.appendChild(thumb); card.appendChild(body);
+      wrap.appendChild(card);
+    });
+
+    H.paintDial('driveScoreRing', H.driveScore());
+
+    // The ratio tile reports whichever question affordability actually
+    // answered, so the number and the label can never disagree.
+    var aff = state.vehicles.length ? H.affordability() : null;
+    var num = document.getElementById('driveRatioNum');
+    var lab = document.getElementById('driveRatioLabel');
+    var tgt = document.getElementById('driveRatioTarget');
+    if(!aff){
+      num.textContent='—'; lab.textContent='Cars / Income'; tgt.textContent='≤15%';
+    } else if(aff.basis==='income'){
+      num.textContent = Math.round(aff.costShare*100)+'%';
+      lab.textContent = 'Cars / Income';
+      tgt.textContent = '≤15%';
+      H.paintScore('driveRatioNum', aff.costShare<=aff.free ? 100 : (aff.penalty>25?40:75));
+    } else {
+      num.textContent = Math.round(aff.ratio*100)+'%';
+      lab.textContent = 'Cars / Net Worth';
+      tgt.textContent = '≤15%';
+    }
+    var note=document.getElementById('affordabilityNote');
+    if(!aff){ note.textContent=''; }
+    else if(aff.basis==='income'){
+      note.innerHTML = H.money(Math.round(aff.annualCost))+' a year to run against '+H.money(aff.income)+' gross'+
+        (aff.penalty===0
+          ? ' — inside the 15% guideline, no charge.'
+          : (aff.savingsRate!==null && aff.savingsRate>=100
+              ? ' — over the guideline, but you are clearing the savings bar, so most of the charge is waived.'
+              : ' — over the guideline, and your savings rate is not covering it.'));
+    } else {
+      note.innerHTML = aff.needs==='income'
+        ? 'Using fleet value against net worth. <a href="wealth.html" style="color:var(--gold);border-bottom:1px solid var(--gold)">Add your gross income</a> and affordability switches to what the cars actually cost you each year — a fairer question if you earn well and are still building.'
+        : 'Using fleet value against net worth. Add an <b>Annual Ownership Cost</b> to a vehicle in the Garage and affordability switches to what the cars actually cost you each year.';
+    }
+  }
+
+  H.wireChrome();
+  H.loadState(function(){
+    H.renderBackupNag();
+    renderFleet();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUSLLYFE — Strength</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#08090a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="HUSLLYFE">
+<meta name="description" content="Record your starting maxes, log every lift, and let the Strength Progress number compute itself.">
+<meta property="og:title" content="HUSLLYFE — Strength">
+<meta property="og:description" content="Record your starting maxes, log every lift, and let the Strength Progress number compute itself.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="strength.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="logo" aria-label="HUSLLYFE — home"><img src="logo.png" alt="HUSLLYFE" width="377" height="84"></a>
+    <nav id="mainNav">
+      <a href="index.html">Dashboard</a>
+      <a href="body.html">Body</a>
+      <a href="strength.html" class="active" aria-current="page">Strength</a>
+      <a href="wealth.html">Wealth</a>
+      <a href="drive.html">Drive</a>
+      <a href="garage.html">Garage</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<div class="page-banner" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?fm=jpg&amp;q=70&amp;w=2000&amp;auto=format&amp;fit=crop')">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index.html">Dashboard</a> / Strength</div>
+    <h1>Strength</h1>
+    <p>Record what you started at, then log what you lift. Strength Progress is measured from the bar, not from a slider.</p>
+  </div>
+</div>
+
+<main>
+<section id="strength" style="border-top:none">
+  <div class="wrap">
+
+    <div class="strength-head">
+      <div class="score-ring" id="strengthRing"><div><b id="strengthNum">—</b><span>Progress</span></div></div>
+      <div>
+        <div class="kicker">Strength Progress</div>
+        <h2 id="strengthHeadline">Set your starting maxes</h2>
+        <p class="muted" id="strengthSummary">Enter a starting max for at least one movement below, then log a lift that beats it. Until then Body scores on its other four inputs rather than guessing at this one.</p>
+        <div class="unit-row">
+          <span class="muted">Units</span>
+          <div class="unit-toggle" id="unitToggle" role="group" aria-label="Weight units">
+            <button type="button" data-unit="lb">lb</button>
+            <button type="button" data-unit="kg">kg</button>
+          </div>
+          <label class="bw-field" for="bodyweight">Bodyweight
+            <input id="bodyweight" type="number" min="0" step="1" placeholder="—">
+          </label>
+        </div>
+        <p class="bw-note" id="bwNote" style="display:none">Weighted pull-ups and dips move your bodyweight plus the plate. Without it, going from +25 to +45 reads as a 75% gain instead of the ~10% it really is — enough to peg Strength Progress at 100 on its own. Those movements are held out of the score until you set it above.</p>
+      </div>
+    </div>
+
+    <div class="stale-note" id="staleNote" style="display:none"></div>
+
+    <div class="strength-grid">
+      <div class="panel">
+        <div class="kicker">Log a Lift</div>
+        <h3>What did you put on the bar?</h3>
+        <form class="vehicle-form" id="liftForm">
+          <div class="field full"><label for="liftMovement">Movement</label>
+            <select id="liftMovement"></select></div>
+          <div class="field"><label for="liftWeight">Weight</label>
+            <input id="liftWeight" type="number" min="0" step="2.5" placeholder="225" required></div>
+          <div class="field"><label for="liftReps">Reps</label>
+            <input id="liftReps" type="number" min="1" max="12" step="1" value="5" required></div>
+          <div class="field"><label for="liftDate">Date</label>
+            <input id="liftDate" type="date"></div>
+          <div class="field">
+            <label for="liftTested">Type</label>
+            <select id="liftTested">
+              <option value="">Working set — estimate my max</option>
+              <option value="1">Tested max — this was a true single</option>
+            </select>
+          </div>
+          <div class="field full"><label for="liftNotes">Notes <span class="opt">optional</span></label>
+            <input id="liftNotes" type="text" placeholder="Felt easy, two in reserve..."></div>
+          <div class="field full">
+            <div class="e1rm-preview" id="e1rmPreview">Estimated max will appear here.</div>
+          </div>
+          <div class="field full"><button class="btn primary add-vehicle" type="submit">Log Lift</button></div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="kicker">Starting Maxes</div>
+        <h3>Where you began</h3>
+        <p class="muted" style="font-size:12px">Progress is measured against these, so set them from something you have actually done. Leave a movement blank to keep it out of the score entirely.</p>
+        <div class="baseline-list" id="baselineList"></div>
+        <form class="add-movement" id="addMovementForm">
+          <input id="newMovementName" type="text" placeholder="Add a movement (e.g. Front Squat)" maxlength="40">
+          <select id="newMovementGroup">
+            <option value="Push">Push</option>
+            <option value="Pull">Pull</option>
+            <option value="Legs">Legs</option>
+            <option value="Other">Other</option>
+          </select>
+          <button class="btn" type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="movement-section">
+      <h3>Movements <span class="live-tag" id="movementCount">0 tracked</span></h3>
+      <div class="movement-cards" id="movementCards"></div>
+      <p class="empty-note" id="emptyMovementNote" style="display:none">No starting maxes recorded yet.</p>
+    </div>
+
+    <div class="history-section">
+      <h3>Lift History <span class="live-tag" id="liftCount">0 lifts</span></h3>
+      <div class="lift-history" id="liftHistory"></div>
+      <p class="empty-note" id="emptyLiftNote">Nothing logged yet.</p>
+    </div>
+
+    <div class="disclosure collapsed math-section" id="strengthMath" style="margin-top:38px">
+      <button type="button" class="disclosure-toggle" id="strengthMathToggle" data-auto aria-expanded="false" aria-controls="strengthMathBody">
+        <span class="dt-main"><span class="dt-icon" aria-hidden="true"></span><span class="dt-label">Strength Algorithm</span></span>
+        <span class="dt-hint" data-open-text="Hide the calculation">Show how the score is calculated</span>
+      </button>
+      <div class="disclosure-body" id="strengthMathBody">
+        <div class="formula">ESTIMATED 1RM (Epley) = weight × (1 + reps / 30)<br>
+A tested single is stored as-is and needs no estimating.<br>
+Accurate to about 10 reps; beyond that Epley runs optimistic, so the<br>
+form caps reps at 12 and flags anything over 10.<br><br>
+GAIN per movement = (best ever since baseline − baseline) / baseline × 100<br>
+STRENGTH PROGRESS = 50 + (average gain across movements × 2.5)<br><br>
+Baseline itself scores 50, so there is headroom in both directions.<br>
++20% average gain reaches 100. Only movements with a starting max AND<br>
+a lift dated after it are counted — entries on or before the baseline<br>
+date are ignored so back-filled history cannot manufacture a gain.<br><br>
+Cumulative rather than recent by design: it credits the whole climb,<br>
+which is fairer to an advanced lifter having a slow year. The cost is<br>
+that it does not decay, so the page flags how long it has been since<br>
+you logged anything instead of letting an old number pass as current.<br><br>
+A movement where the body is the load (weighted pull-ups, dips) is<br>
+held OUT of the average until you set your bodyweight. Scoring the<br>
+plate alone turns +25 → +45 lb into a +80% gain, which at 2.5 points<br>
+per percent pins the whole score at 100 off one movement.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+    <span>HUSLLYFE — Body / Wealth / Drive — Build something worth driving. <a href="privacy.html" style="color:var(--muted);border-bottom:1px solid var(--line)">Privacy</a></span>
+    <button class="reset-btn" id="resetBtn">Reset prototype data</button>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function(){
+  var H = window.HUSLLYFE;
+  function el(id){ return document.getElementById(id); }
+
+  function movementOptions(){
+    var sel = el('liftMovement');
+    var current = sel.value;
+    sel.innerHTML = '';
+    H.liftMovements().forEach(function(m){
+      var o = document.createElement('option');
+      o.value = m.id;
+      o.textContent = m.name + (m.baseline ? '' : '  (no starting max yet)');
+      sel.appendChild(o);
+    });
+    if(current) sel.value = current;
+  }
+
+  function renderE1rmPreview(){
+    var w = Number(el('liftWeight').value) || 0;
+    var r = Number(el('liftReps').value) || 1;
+    var tested = !!el('liftTested').value;
+    var box = el('e1rmPreview');
+    if(w <= 0){ box.textContent = 'Estimated max will appear here.'; box.className='e1rm-preview'; return; }
+    var m = H.liftMovement(el('liftMovement').value);
+    var est = H.e1rm(w, r, tested, H.movementExtraLoad(m));
+    var reliable = H.repsAreReliable(r);
+    box.className = 'e1rm-preview live' + (reliable ? '' : ' warn');
+    box.innerHTML = (tested && r === 1)
+      ? '<b>' + H.weightFmt(est) + '</b> <span>tested max, used as recorded</span>'
+      : '<b>' + H.weightFmt(est) + '</b> <span>estimated max from ' + w + ' × ' + r +
+        (reliable ? '' : ' — above ' + H.REPS_ACCURACY_LIMIT + ' reps this estimate runs high') + '</span>';
+  }
+
+  function renderBaselines(){
+    var wrap = el('baselineList');
+    wrap.innerHTML = '';
+    H.liftMovements().forEach(function(m){
+      var row = document.createElement('div'); row.className = 'baseline-row' + (m.baseline ? ' set' : '');
+
+      var name = document.createElement('div'); name.className = 'bl-name';
+      name.textContent = m.name;
+      var group = document.createElement('span'); group.className = 'bl-group'; group.textContent = m.group;
+      name.appendChild(group);
+
+      var inputs = document.createElement('div'); inputs.className = 'bl-inputs';
+      var w = document.createElement('input'); w.type='number'; w.min='0'; w.step='2.5';
+      w.placeholder='weight'; w.setAttribute('aria-label', m.name + ' starting weight');
+      var r = document.createElement('input'); r.type='number'; r.min='1'; r.max=String(H.MAX_VALID_REPS);
+      r.placeholder='reps'; r.setAttribute('aria-label', m.name + ' starting reps');
+      if(m.baseline){ w.value = m.baseline.weight; r.value = m.baseline.reps; }
+
+      function commit(){
+        var state = H.getState();
+        var wv = Number(w.value) || 0, rv = Number(r.value) || 0;
+        if(wv > 0 && rv > 0){
+          var existing = m.baseline;
+          H.setBaseline(m.id, { weight: wv, reps: rv,
+            date: existing ? existing.date : H.todayKey(), tested: rv === 1 });
+        } else if(!wv && !rv){
+          H.setBaseline(m.id, null);
+        } else { return; }
+        H.scheduleSave(); render();
+      }
+      w.addEventListener('change', commit);
+      r.addEventListener('change', commit);
+      inputs.appendChild(w); inputs.appendChild(r);
+
+      var est = document.createElement('div'); est.className='bl-est';
+      est.textContent = m.baseline
+        ? H.weightFmt(H.e1rm(m.baseline.weight, m.baseline.reps, m.baseline.tested, H.movementExtraLoad(m)))
+        : '—';
+
+      row.appendChild(name); row.appendChild(inputs); row.appendChild(est);
+
+      if(m.custom){
+        var del = document.createElement('button'); del.className='bl-remove'; del.type='button';
+        del.textContent='✕'; del.setAttribute('aria-label','Remove ' + m.name);
+        del.addEventListener('click', function(){
+          if(!confirm('Remove ' + m.name + ' and all its logged lifts?')) return;
+          H.removeMovement(m.id); H.scheduleSave(); render(); H.showToast(m.name + ' removed');
+        });
+        row.appendChild(del);
+      } else {
+        row.appendChild(document.createElement('span'));
+      }
+      wrap.appendChild(row);
+    });
+  }
+
+  function sparkline(points){
+    if(points.length < 2) return '';
+    var w = 150, h = 34, pad = 3;
+    var vals = points.map(function(p){ return p.v; });
+    var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+    var span = (max - min) || 1;
+    var step = (w - pad*2) / (points.length - 1);
+    var d = points.map(function(p,i){
+      var x = pad + i*step;
+      var y = h - pad - ((p.v - min)/span) * (h - pad*2);
+      return (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+    }).join(' ');
+    return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" aria-hidden="true">' +
+           '<path d="'+d+'" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+  }
+
+  function renderMovements(){
+    var wrap = el('movementCards');
+    wrap.innerHTML = '';
+    var list = H.strengthProgressList();
+    el('movementCount').textContent = list.length + ' tracked';
+    el('emptyMovementNote').style.display = list.length ? 'none' : 'block';
+
+    list.forEach(function(p){
+      var card = document.createElement('div'); card.className = 'movement-card';
+      var gain = p.gainPct;
+      var band = !p.measurable ? 'none' : (gain > 0.5 ? 'up' : (gain < -0.5 ? 'down' : 'flat'));
+      card.classList.add('gain-' + band);
+
+      var head = document.createElement('div'); head.className='mc-head';
+      var nm = document.createElement('div'); nm.className='mc-name'; nm.textContent = p.movement.name;
+      var pct = document.createElement('div'); pct.className='mc-gain';
+      pct.textContent = p.measurable
+        ? (gain >= 0 ? '+' : '') + gain.toFixed(1) + '%'
+        : (p.blocked === 'bodyweight' ? 'not scored' : 'no lift yet');
+      head.appendChild(nm); head.appendChild(pct);
+
+      if(p.needsBodyweight){
+        var warn = document.createElement('div'); warn.className='mc-bwwarn';
+        warn.textContent = 'Set your bodyweight to score this movement — the body is most of the load, so the plate alone is not a gain';
+        card.classList.add('needs-bw');
+        head.appendChild(warn);
+      }
+
+      var nums = document.createElement('div'); nums.className='mc-nums';
+      nums.innerHTML =
+        '<div><small>Started</small><b>'+H.weightFmt(p.baseline)+'</b></div>' +
+        '<div><small>Best</small><b>'+H.weightFmt(p.best)+'</b></div>' +
+        '<div><small>Lifts</small><b>'+p.entries+'</b></div>';
+
+      card.appendChild(head); card.appendChild(nums);
+
+      var pts = H.liftEntries(p.movement.id)
+        .filter(function(e){ return e.date > p.baselineDate; })
+        .slice().reverse()
+        .map(function(e){ return { v: H.e1rm(e.weight, e.reps, e.tested, p.extraLoad) }; });
+      pts.unshift({ v: p.baseline });
+      if(pts.length > 1){
+        var spark = document.createElement('div'); spark.className='mc-spark';
+        spark.innerHTML = sparkline(pts);
+        card.appendChild(spark);
+      }
+      if(p.bestEntry){
+        var pr = document.createElement('div'); pr.className='mc-pr';
+        pr.textContent = 'PR ' + p.bestEntry.weight + ' × ' + p.bestEntry.reps +
+          (p.bestEntry.tested ? ' (tested)' : '') + ' · ' + new Date(p.bestEntry.date).toLocaleDateString();
+        card.appendChild(pr);
+      }
+      wrap.appendChild(card);
+    });
+  }
+
+  function renderHistory(){
+    var rows = H.liftEntries();
+    el('liftCount').textContent = rows.length + ' lift' + (rows.length===1?'':'s');
+    el('emptyLiftNote').style.display = rows.length ? 'none' : 'block';
+    var wrap = el('liftHistory');
+    wrap.innerHTML = '';
+    rows.slice(0, 60).forEach(function(e){
+      var m = H.liftMovement(e.movementId);
+      var row = document.createElement('div'); row.className='lift-row';
+      var left = document.createElement('div'); left.className='lr-left';
+      var t = document.createElement('div'); t.className='lr-type';
+      t.textContent = (m ? m.name : 'Movement') + ' — ' + e.weight + ' × ' + e.reps;
+      if(e.tested){ var tag=document.createElement('span'); tag.className='lr-tag'; tag.textContent='Tested'; t.appendChild(tag); }
+      else if(!H.repsAreReliable(e.reps)){ var tg=document.createElement('span'); tg.className='lr-tag warn'; tg.textContent='High reps'; t.appendChild(tg); }
+      var meta = document.createElement('div'); meta.className='lr-meta';
+      var lm = H.liftMovement(e.movementId);
+      meta.textContent = new Date(e.date).toLocaleDateString() + ' · ' +
+        H.weightFmt(H.e1rm(e.weight, e.reps, e.tested, H.movementExtraLoad(lm))) + ' estimated max';
+      left.appendChild(t); left.appendChild(meta);
+      if(e.notes){ var n=document.createElement('div'); n.className='lr-notes'; n.textContent=e.notes; left.appendChild(n); }
+
+      var del = document.createElement('button'); del.className='remove'; del.type='button';
+      del.textContent='✕'; del.setAttribute('aria-label','Delete lift');
+      del.addEventListener('click', function(){
+        var state=H.getState();
+        state.lifts.entries = state.lifts.entries.filter(function(x){ return x.id !== e.id; });
+        H.scheduleSave(); render(); H.showToast('Lift deleted');
+      });
+      row.appendChild(left); row.appendChild(del);
+      wrap.appendChild(row);
+    });
+    if(rows.length > 60){
+      var more=document.createElement('p'); more.className='muted'; more.style.fontSize='12px';
+      more.textContent='Showing the 60 most recent of '+rows.length+' lifts.';
+      wrap.appendChild(more);
+    }
+  }
+
+  function renderScore(){
+    var score = H.strengthProgress();
+    H.paintDial('strengthRing', score);
+    var gain = H.averageGainPct();
+    if(score === null){
+      el('strengthHeadline').textContent = 'Set your starting maxes';
+      el('strengthSummary').textContent = 'Enter a starting max for at least one movement below, then log a lift that beats it. Until then Body scores on its other four inputs rather than guessing at this one.';
+    } else {
+      var moved = H.strengthProgressList().filter(function(p){ return p.measurable; });
+      el('strengthHeadline').textContent = (gain >= 0 ? '+' : '') + gain.toFixed(1) + '% on average';
+      el('strengthSummary').textContent = 'Across ' + moved.length + ' movement' + (moved.length===1?'':'s') +
+        ' with a starting max and a lift beyond it. Baseline scores 50; +20% average gain reaches 100.';
+    }
+    var stale = H.strengthStaleness();
+    var note = el('staleNote');
+    if(stale && stale.stale){
+      note.style.display='block';
+      note.textContent = 'Nothing logged for ' + stale.days + ' days. This score is cumulative, so it holds at ' +
+        (score === null ? '—' : score) + ' on the strength of past lifts rather than current form.';
+    } else { note.style.display='none'; }
+
+    document.querySelectorAll('#unitToggle button').forEach(function(b){
+      b.classList.toggle('active', b.dataset.unit === H.liftUnit());
+    });
+    var bw = H.liftBodyweight();
+    if(document.activeElement !== el('bodyweight')) el('bodyweight').value = bw > 0 ? bw : '';
+    el('bwNote').style.display = H.anyNeedsBodyweight() ? 'block' : 'none';
+  }
+
+  function render(){
+    movementOptions(); renderBaselines(); renderMovements(); renderHistory(); renderScore(); renderE1rmPreview();
+  }
+
+  function wireEvents(){
+    ['liftWeight','liftReps','liftTested'].forEach(function(id){
+      el(id).addEventListener('input', renderE1rmPreview);
+      el(id).addEventListener('change', renderE1rmPreview);
+    });
+
+    el('liftForm').addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var id = el('liftMovement').value;
+      var m = H.liftMovement(id);
+      if(!m){ H.showToast('Pick a movement first'); return; }
+      var w = Number(el('liftWeight').value) || 0;
+      if(w <= 0){ H.showToast('Enter the weight you lifted'); el('liftWeight').focus(); return; }
+      var reps = Number(el('liftReps').value) || 1;
+      var tested = !!el('liftTested').value;
+      if(tested && reps !== 1){ H.showToast('A tested max is a single — set reps to 1'); el('liftReps').focus(); return; }
+
+      var when = el('liftDate').value || H.todayKey();
+      var wasBest = m.baseline ? ((H.movementProgress(m) || {}).best || 0) : 0;
+      var row = H.addLiftEntry(id, { date: when, weight: w, reps: reps,
+                                     tested: tested, notes: el('liftNotes').value });
+      if(!m.baseline){
+        // First lift for this movement doubles as the starting max. fromEntryId
+        // keeps it from also counting as progress beyond itself.
+        H.setBaseline(id, { weight: w, reps: reps, date: when, tested: tested, fromEntryId: row.id });
+        H.showToast(m.name + ' logged — used as your starting max');
+      } else {
+        var now = H.movementProgress(m);
+        H.showToast(now && now.best > wasBest + 0.01
+          ? m.name + ' — new best, ' + H.weightFmt(now.best)
+          : m.name + ' logged');
+      }
+      H.scheduleSave();
+      el('liftWeight').value=''; el('liftNotes').value='';
+      render();
+    });
+
+    el('addMovementForm').addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var name = el('newMovementName').value.trim();
+      if(!name){ return; }
+      var m = H.addMovement(name, el('newMovementGroup').value);
+      if(!m){ return; }
+      H.scheduleSave();
+      el('newMovementName').value='';
+      render();
+      H.showToast(m.name + ' added — give it a starting max');
+    });
+
+    el('bodyweight').addEventListener('change', function(){
+      H.setBodyweight(this.value);
+      H.scheduleSave(); render();
+      H.showToast(H.liftBodyweight() > 0
+        ? 'Bodyweight set — pull-ups and dips now score on total load'
+        : 'Bodyweight cleared');
+    });
+
+    document.querySelectorAll('#unitToggle button').forEach(function(b){
+      b.addEventListener('click', function(){
+        H.setLiftUnit(b.dataset.unit); H.scheduleSave(); render();
+        H.showToast('Weights now shown in ' + H.liftUnit() + '. Existing numbers are not converted.');
+      });
+    });
+  }
+
+  H.wireChrome();
+  wireEvents();
+  H.loadState(function(){
+    H.renderBackupNag();
+    el('liftDate').valueAsDate = new Date();
+    render();
+  });
+})();
+</script>
+
+</body>
+</html>
