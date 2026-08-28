@@ -416,3 +416,21 @@ header .nav > nav{margin-left:auto}
   .action-row{grid-template-columns:auto 1fr;gap:11px}
   .ac-go{display:none}
 }
+
+/* ---------- Marque gate ---------- */
+.gate-overlay{position:fixed;inset:0;z-index:999;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;padding:28px;overflow:auto}
+.gate-card{background:var(--panel);border:1px solid var(--line);padding:40px;max-width:560px;width:100%}
+.gate-card h2{margin:6px 0 14px;font-size:28px;line-height:1.15}
+.gate-card p.muted{font-size:13px;line-height:1.6;margin:0 0 26px}
+.gate-brands{display:grid;gap:12px;margin-bottom:6px}
+.gate-brands .btn{width:100%;text-align:center}
+.gate-decline{background:none;border:none;color:var(--muted);font-family:inherit;font-size:11px;
+  text-transform:uppercase;letter-spacing:.1em;cursor:pointer;padding:16px 0 0;width:100%;text-align:center}
+.gate-decline:hover{color:var(--text)}
+.gate-yesno{display:flex;gap:14px}
+.gate-yesno .btn{flex:1;text-align:center}
+.gate-back{background:none;border:none;color:var(--muted);font-family:inherit;font-size:11px;
+  text-transform:uppercase;letter-spacing:.1em;cursor:pointer;padding:16px 0 0}
+.gate-back:hover{color:var(--text)}
+@media(max-width:600px){.gate-card{padding:28px 22px}.gate-card h2{font-size:22px}}

@@ -2390,6 +2390,10 @@
       manualAssets: Array.isArray(saved.manualAssets) ? saved.manualAssets : [],
       vehicles: Array.isArray(saved.vehicles) ? saved.vehicles : [],
       setup: Object.assign({ done: false }, saved.setup),
+      // Not run through DEFAULTS.gate — there isn't one. A save from before
+      // the gate existed has no `gate` key at all, and undefined here is
+      // exactly right: gatePassed() treats a missing/false gate as "ask".
+      gate: saved.gate,
       lifts: saved.lifts && Array.isArray(saved.lifts.movements) ? saved.lifts : freshLifts()
     };
     // The default movements must exist even in a save made before they did.
@@ -2533,7 +2537,8 @@
       .then(function () {
         try { renderProfileControl(); }
         catch (e) { /* no header on this page — cosmetic only */ }
-        callback(state);
+        if (gatePassed()) { callback(state); }
+        else { renderGate(function () { callback(state); }); }
       });
   }
 
@@ -2725,6 +2730,119 @@
   function skipSetup() {
     state.setup = { done: false, skipped: true };
     return saveState();
+  }
+
+  // ---------------------------------------------------------------------
+  // marque gate
+  //
+  // HUSLLYFE is currently invite-only: three marques, an income floor, an
+  // age ceiling. This runs before everything else, including first run —
+  // loadState() is the one place every page hands control back after
+  // reading storage, so gating it there blocks the whole site (any page
+  // landed on directly, not just the dashboard), not only index.html.
+  // ---------------------------------------------------------------------
+  var GATE_BRANDS = ['Mercedes-Benz', 'BMW', 'Porsche'];
+
+  function gatePassed() {
+    return !!(state.gate && state.gate.passed);
+  }
+  function completeGate(brand) {
+    state.gate = { passed: true, brand: brand, at: new Date().toISOString() };
+    return saveState();
+  }
+
+  /**
+   * Full-screen, un-skippable overlay. Three questions — marque, income,
+   * age — any wrong answer ends at the closed screen. Passing writes
+   * state.gate and persists it, so it is asked once per profile per
+   * browser, same as first run.
+   */
+  function renderGate(onPass) {
+    if (gatePassed()) { onPass(); return; }
+
+    var overlay = document.createElement('div');
+    overlay.className = 'gate-overlay';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.appendChild(overlay);
+
+    var chosenBrand = null;
+
+    function renderStep(html) {
+      overlay.innerHTML = '<div class="gate-card">' + html + '</div>';
+    }
+
+    function renderBrandStep() {
+      var buttons = GATE_BRANDS.map(function (b) {
+        return '<button type="button" class="btn primary gate-brand-btn" data-brand="' + b + '">' + b + '</button>';
+      }).join('');
+      renderStep(
+        '<div class="kicker">Access</div>' +
+        '<h2>HUSLLYFE is currently invite-only.</h2>' +
+        '<p class="muted">Entry is limited to owners of three marques. Which do you drive?</p>' +
+        '<div class="gate-brands">' + buttons + '</div>' +
+        '<button type="button" class="gate-decline" id="gateNoBrand">I don\'t own one of these</button>'
+      );
+      overlay.querySelectorAll('.gate-brand-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          chosenBrand = btn.getAttribute('data-brand');
+          renderIncomeStep();
+        });
+      });
+      document.getElementById('gateNoBrand').addEventListener('click', renderClosed);
+    }
+
+    function renderIncomeStep() {
+      renderStep(
+        '<div class="kicker">Access — step 2 of 3</div>' +
+        '<h2>Do you make more than $120,000 a year?</h2>' +
+        '<p class="muted">' + escapeHtml(chosenBrand) + ' confirmed.</p>' +
+        '<div class="gate-yesno">' +
+          '<button type="button" class="btn primary" id="gateIncomeYes">Yes</button>' +
+          '<button type="button" class="btn" id="gateIncomeNo">No</button>' +
+        '</div>' +
+        '<button type="button" class="gate-back" id="gateBackBrand">← Back</button>'
+      );
+      document.getElementById('gateIncomeYes').addEventListener('click', renderAgeStep);
+      document.getElementById('gateIncomeNo').addEventListener('click', renderClosed);
+      document.getElementById('gateBackBrand').addEventListener('click', renderBrandStep);
+    }
+
+    function renderAgeStep() {
+      renderStep(
+        '<div class="kicker">Access — step 3 of 3</div>' +
+        '<h2>Are you under 45?</h2>' +
+        '<p class="muted">Last question.</p>' +
+        '<div class="gate-yesno">' +
+          '<button type="button" class="btn primary" id="gateAgeYes">Yes</button>' +
+          '<button type="button" class="btn" id="gateAgeNo">No</button>' +
+        '</div>' +
+        '<button type="button" class="gate-back" id="gateBackIncome">← Back</button>'
+      );
+      document.getElementById('gateAgeYes').addEventListener('click', function () {
+        completeGate(chosenBrand).then(function () {
+          document.documentElement.style.overflow = '';
+          overlay.remove();
+          onPass();
+        });
+      });
+      document.getElementById('gateAgeNo').addEventListener('click', renderClosed);
+      document.getElementById('gateBackIncome').addEventListener('click', renderIncomeStep);
+    }
+
+    function renderClosed() {
+      renderStep(
+        '<div class="kicker">Access closed</div>' +
+        '<h2>HUSLLYFE isn\'t open to you right now.</h2>' +
+        '<p class="muted">Entry is currently limited to Mercedes-Benz, BMW and Porsche owners making $120,000+ a year, under 45.</p>' +
+        '<button type="button" class="gate-back" id="gateStartOver">Start over</button>'
+      );
+      document.getElementById('gateStartOver').addEventListener('click', function () {
+        chosenBrand = null;
+        renderBrandStep();
+      });
+    }
+
+    renderBrandStep();
   }
 
   /** A worked example, clearly labelled, that the user can wipe in one click. */
