@@ -2390,10 +2390,6 @@
       manualAssets: Array.isArray(saved.manualAssets) ? saved.manualAssets : [],
       vehicles: Array.isArray(saved.vehicles) ? saved.vehicles : [],
       setup: Object.assign({ done: false }, saved.setup),
-      // Not run through DEFAULTS.gate — there isn't one. A save from before
-      // the gate existed has no `gate` key at all, and undefined here is
-      // exactly right: gatePassed() treats a missing/false gate as "ask".
-      gate: saved.gate,
       lifts: saved.lifts && Array.isArray(saved.lifts.movements) ? saved.lifts : freshLifts()
     };
     // The default movements must exist even in a save made before they did.
@@ -2537,8 +2533,10 @@
       .then(function () {
         try { renderProfileControl(); }
         catch (e) { /* no header on this page — cosmetic only */ }
-        if (gatePassed()) { callback(state); }
-        else { renderGate(function () { callback(state); }); }
+        return checkGateStatus().then(function (status) {
+          if (status.passed) { callback(state); }
+          else { renderGate(function () { callback(state); }); }
+        });
       });
   }
 
@@ -2733,33 +2731,62 @@
   }
 
   // ---------------------------------------------------------------------
-  // marque gate
+  // marque gate — server-enforced
   //
-  // HUSLLYFE is currently invite-only: three marques, an income floor, an
-  // age ceiling. This runs before everything else, including first run —
-  // loadState() is the one place every page hands control back after
-  // reading storage, so gating it there blocks the whole site (any page
-  // landed on directly, not just the dashboard), not only index.html.
+  // The eligibility decision and the token that proves it live in a
+  // Netlify Function (netlify/functions/gate-verify.js and gate-status.js),
+  // not in this file and not in localStorage. Editing state in devtools no
+  // longer does anything here: the signed, HttpOnly cookie the server
+  // issues can't be read or forged from page JS, and can only be produced
+  // by a request the function itself accepts as eligible.
+  //
+  // Honest limit, unchanged from before: brand is checked against a real
+  // list server-side, but income and age are still self-reported booleans
+  // with nothing behind them. This buys tamper-resistance, not truthfulness.
+  //
+  // This runs before everything else, including first run — loadState()
+  // is the one place every page hands control back after reading storage,
+  // so gating it there blocks the whole site (any page landed on directly,
+  // not just the dashboard), not only index.html.
   // ---------------------------------------------------------------------
   var GATE_BRANDS = ['Mercedes-Benz', 'BMW', 'Porsche'];
+  var GATE_STATUS_URL = '/.netlify/functions/gate-status';
+  var GATE_VERIFY_URL = '/.netlify/functions/gate-verify';
 
-  function gatePassed() {
-    return !!(state.gate && state.gate.passed);
+  /**
+   * Asks the server whether this browser already holds a valid gate
+   * cookie. Fails closed: any network error, missing function, or bad
+   * response is treated as "not passed" rather than let through.
+   */
+  function checkGateStatus() {
+    if (typeof fetch !== 'function') return Promise.resolve({ passed: false });
+    return fetch(GATE_STATUS_URL, { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.json() : { passed: false }; })
+      .catch(function () { return { passed: false }; });
   }
-  function completeGate(brand) {
-    state.gate = { passed: true, brand: brand, at: new Date().toISOString() };
-    return saveState();
+
+  /**
+   * Sends the three answers to the server, which makes the actual
+   * eligibility call and — only if it agrees — sets the signed cookie
+   * checkGateStatus() will find from then on.
+   */
+  function submitGateAnswers(brand, income, age) {
+    return fetch(GATE_VERIFY_URL, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ brand: brand, income: !!income, age: !!age })
+    }).then(function (res) { return res.json(); })
+      .catch(function () { return { passed: false, networkError: true }; });
   }
 
   /**
    * Full-screen, un-skippable overlay. Three questions — marque, income,
-   * age — any wrong answer ends at the closed screen. Passing writes
-   * state.gate and persists it, so it is asked once per profile per
-   * browser, same as first run.
+   * age — any wrong answer ends at the closed screen. The final "yes"
+   * hands the answers to the server; only its verdict decides whether the
+   * overlay comes down.
    */
   function renderGate(onPass) {
-    if (gatePassed()) { onPass(); return; }
-
     var overlay = document.createElement('div');
     overlay.className = 'gate-overlay';
     document.documentElement.style.overflow = 'hidden';
@@ -2811,7 +2838,7 @@
       renderStep(
         '<div class="kicker">Access — step 3 of 3</div>' +
         '<h2>Are you under 45?</h2>' +
-        '<p class="muted">Last question.</p>' +
+        '<p class="muted">Last question — checked against the access server, not just this page.</p>' +
         '<div class="gate-yesno">' +
           '<button type="button" class="btn primary" id="gateAgeYes">Yes</button>' +
           '<button type="button" class="btn" id="gateAgeNo">No</button>' +
@@ -2819,14 +2846,33 @@
         '<button type="button" class="gate-back" id="gateBackIncome">← Back</button>'
       );
       document.getElementById('gateAgeYes').addEventListener('click', function () {
-        completeGate(chosenBrand).then(function () {
-          document.documentElement.style.overflow = '';
-          overlay.remove();
-          onPass();
+        var btn = document.getElementById('gateAgeYes');
+        btn.disabled = true;
+        btn.textContent = 'Checking…';
+        submitGateAnswers(chosenBrand, true, true).then(function (result) {
+          if (result && result.passed) {
+            document.documentElement.style.overflow = '';
+            overlay.remove();
+            onPass();
+          } else if (result && result.networkError) {
+            renderError();
+          } else {
+            renderClosed();
+          }
         });
       });
       document.getElementById('gateAgeNo').addEventListener('click', renderClosed);
       document.getElementById('gateBackIncome').addEventListener('click', renderIncomeStep);
+    }
+
+    function renderError() {
+      renderStep(
+        '<div class="kicker">Access</div>' +
+        '<h2>Couldn\'t reach the access server.</h2>' +
+        '<p class="muted">That\'s a connection problem, not a decision — nothing was recorded either way.</p>' +
+        '<button type="button" class="gate-back" id="gateRetry">Try again</button>'
+      );
+      document.getElementById('gateRetry').addEventListener('click', renderAgeStep);
     }
 
     function renderClosed() {
