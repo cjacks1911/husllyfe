@@ -1,0 +1,5 @@
+# Developer docs live in this repo but are not part of the site.
+# Force a 404 so they aren't publicly readable.
+/CLAUDE.md      /404.html  404!
+/STATUS.md      /404.html  404!
+/HANDOFF.md     /404.html  404!
